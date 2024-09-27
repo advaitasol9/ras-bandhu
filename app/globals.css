@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 255, 255, 255; /* White background for light mode */
+
+    --card: 239, 253, 244; /* Light green for cards in light mode */
+
+    --primary-text: 12, 25, 10; /* Dark blue for primary text in light mode */
+    --secondary-text: 97, 103, 120; /* Muted blue-gray for secondary text */
+    --button-text: 255, 255, 255; /* White text for buttons */
+
+    --primary: 23, 163, 74; /* Green for primary buttons/links in light mode */
+    --primary-foreground: 11, 125, 63; /* Darker green for primary button foreground */
+
+    --popover: 255, 255, 255; /* White background for popovers */
+    --input-text: 12, 25, 10; /* Dark blue for popover text in light mode */
+    --input-placeholder: 12, 25, 10; /* Light gray for popover text */
+
+    --muted: 244, 244, 245; /* Light gray for muted elements */
+    --muted-foreground: 97, 103, 120; /* Muted blue-gray for foreground text */
+
+    --accent: 244, 244, 245; /* Light gray for accent elements */
+    --accent-foreground: 23, 37, 57; /* Dark Navy for accent foreground */
+
+    --destructive: 255, 56, 56; /* Red for destructive actions (e.g., delete) */
+    --destructive-foreground: 209, 54, 54; /* Light muted red for destructive action text */
+
+    --edit: 255, 165, 70; /* Orange for light mode */
+    --edit-foreground: 230, 145, 65; /* Darker orange for foreground elements in light mode */
+
+    --border: 205, 210, 235; /* Light blue-gray for borders */
+    --input: 255, 255, 255; /* Light blue-gray for input fields */
+    --ring: 23, 163, 74; /* Dark blue for focus rings (outline) */
+
+    --radius: 0.5rem; /* Border radius */
+  }
+
+  /* Dark Mode Configuration */
+  .dark {
+    --background: 15, 15, 15; /* Very dark gray/black background for dark mode */
+
+    --card: 35, 35, 45; /* Dark slate gray for cards */
+
+    --primary-text: 220, 230, 220; /* Light muted gray-green for primary text */
+    --secondary-text: 150, 160, 150; /* Softer green-gray for secondary text */
+    --button-text: 255, 255, 255; /* White text for buttons */
+
+    --primary: 30, 145, 80; /* Soft green for primary buttons/links */
+    --primary-foreground: 40, 130, 80; /* Darker green for primary button foreground */
+
+    --popover: 30, 30, 40; /* Dark background for popovers */
+    --input-text: 12, 25, 10; /* Light gray for popover text */
+    --input-placeholder: 12, 25, 10; /* Light gray for popover text */
+
+    --muted: 45, 45, 50; /* Dark gray for muted elements */
+    --muted-foreground: 170, 170, 190; /* Lighter muted gray for foreground text */
+
+    --accent: 45, 45, 50; /* Dark gray for accent elements */
+    --accent-foreground: 210, 210, 230; /* Soft blue-gray for accent foreground */
+
+    --destructive: 225, 75, 75; /* Bright red for destructive actions */
+    --destructive-foreground: 209, 54, 54; /* Light muted red for destructive action text */
+
+    --edit: 255, 140, 60; /* Softer orange for dark mode */
+    --edit-foreground: 220, 125, 55; /* Darker orange for foreground elements in dark mode */
+
+    --border: 80, 80, 90; /* Darker blue-gray for borders */
+    --input: 191, 227, 203; /* Darker blue-gray for input fields */
+    --ring: 23, 163, 74; /* Soft blue for focus rings (outline) */
+
+    --radius: 0.5rem; /* Border radius */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border; /* Apply border color */
+  }
+  body {
+    @apply bg-background text-foreground; /* Apply background and text color */
+  }
+}
