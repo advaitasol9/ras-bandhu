@@ -94,7 +94,6 @@ export const UserProvider: FC<{ children: ReactNode }> = ({ children }) => {
         const idTokenResult = await getIdTokenResult(firebaseUser);
         const claims = idTokenResult.claims;
         if (claims) {
-          console.log("claims", JSON.stringify(claims));
           setIsMentor(!!claims.mentor);
         }
 

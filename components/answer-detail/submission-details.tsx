@@ -24,7 +24,7 @@ const SubmissionDetails = ({
           No of Questions: {submissionData.numberOfAnswers}
         </p>
         <p className="text-[rgb(var(--primary-text))]">
-          Contains PYQ: {submissionData.containsPyq ? "Yes" : "No"}
+          Contains PYQ: {submissionData.containsPyq}
         </p>
       </div>
       {isPdf ? (

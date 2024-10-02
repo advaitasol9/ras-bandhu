@@ -6,12 +6,12 @@ import { Evaluation } from "@/lib/types";
 interface Card {
   item: Evaluation;
   index: number;
-  linkTo: string;
+  linkTo: string | null;
 }
 
 const HistoryCard = ({ item, index, linkTo }: Card) => {
   return (
-    <Link key={index} href={linkTo} passHref legacyBehavior>
+    <Link key={index} href={linkTo || ""} passHref legacyBehavior>
       <a className="block bg-[rgb(var(--card))] py-4 px-2 md:px-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200">
         <div className="flex items-center">
           <Avatar className="flex h-9 w-9 items-center justify-center space-y-0 border border-[rgb(var(--border))]">

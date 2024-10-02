@@ -11,6 +11,9 @@ import FeedbackSection from "@/components/answer-detail/feedback-section";
 import MentorInput from "@/components/answer-detail/mentor-input";
 import MentorRoute from "../../mentor-route";
 import { Evaluation } from "@/lib/types";
+import MentorEvaluation from "@/components/answer-detail/mentor-evaluation";
+import Link from "next/link";
+import { FaArrowRight } from "react-icons/fa";
 
 // Main Component
 const MyAnswerDetail = () => {
@@ -98,17 +101,32 @@ const MyAnswerDetail = () => {
   return (
     <MentorRoute>
       <div className="container mx-auto mt-12">
-        <h1 className="text-2xl font-semibold mb-8">Answer Details</h1>
+        <h1 className="text-2xl font-semibold">Answer Details</h1>
+        <Link
+          href={`/user-info?userId=${submissionData.userId}`}
+          className="flex items-center mb-4"
+        >
+          View Previos Submissions{" "}
+          <FaArrowRight className="w-3 h-3 hover:opacity-80 transition ml-1" />
+        </Link>
 
         <SubmissionDetails
           submissionData={submissionData}
           handleDownload={handleDownload}
         />
 
-        <MentorInput
-          submissionData={submissionData}
-          handleDownload={handleDownload}
-        />
+        {submissionData.status == "Pending" ||
+        user?.uid == submissionData.mentorAssigned ? (
+          <MentorInput
+            submissionData={submissionData}
+            handleDownload={handleDownload}
+          />
+        ) : (
+          <MentorEvaluation
+            submissionData={submissionData}
+            handleDownload={handleDownload}
+          />
+        )}
 
         {isEvaluated && (
           <FeedbackSection

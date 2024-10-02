@@ -107,22 +107,26 @@ const MyAnswerDetail = () => {
 
   // Submit feedback along with attachments
   const handleReviewSubmit = async () => {
-    if (!feedback || !id || hasGivenFeedback) return;
+    if (!id || hasGivenFeedback) return;
 
-    try {
-      const imageUrls = await uploadFeedbackImages();
-      const submissionRef = doc(firestore, "DailyEvalRequests", id);
-      await updateDoc(submissionRef, {
-        review: {
-          rating,
-          feedback,
-          feedbackImages: imageUrls,
-        },
-      });
-      setHasGivenFeedback(true);
-      alert("Review submitted!");
-    } catch (error) {
-      console.error("Error submitting review:", error);
+    if (feedback || rating) {
+      try {
+        const imageUrls = await uploadFeedbackImages();
+        const submissionRef = doc(firestore, "DailyEvalRequests", id);
+        await updateDoc(submissionRef, {
+          review: {
+            rating,
+            feedback,
+            feedbackImages: imageUrls,
+          },
+        });
+        setHasGivenFeedback(true);
+        alert("Review submitted!");
+      } catch (error) {
+        console.error("Error submitting review:", error);
+      }
+    } else {
+      return alert("Enter Feedback");
     }
   };
 

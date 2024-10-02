@@ -138,7 +138,7 @@ const MentorInput = ({
           Time remaining:{" "}
           {Math.max(
             0,
-            48 - moment().diff(moment(submissionData.createdAt), "hours")
+            24 - moment().diff(moment(submissionData.createdAt), "hours")
           )}{" "}
           hours
         </p>

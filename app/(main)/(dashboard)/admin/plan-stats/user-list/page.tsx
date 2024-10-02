@@ -10,16 +10,20 @@ import {
   startAfter,
   limit,
 } from "firebase/firestore";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import moment from "moment";
 import { DailyEvaluationSubscription } from "@/lib/types"; // Define the subscription type if you haven't
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/ui/loader";
+import { useSubscriptionPlans } from "@/components/context/subscription-provider";
 
 const PlanList = () => {
+  const router = useRouter();
   const firestore = useFirestore();
   const searchParams = useSearchParams();
+  const { dailyEvaluationPlans } = useSubscriptionPlans();
   const planId = searchParams ? searchParams.get("planId") : "";
+  const plan = dailyEvaluationPlans.find((plan) => plan.id == planId);
 
   const [subscriptions, setSubscriptions] = useState<
     DailyEvaluationSubscription[]
@@ -108,7 +112,7 @@ const PlanList = () => {
   return (
     <div className="container mx-auto mt-8 p-6">
       <h1 className="text-2xl font-semibold mb-4 text-[rgb(var(--primary-text))]">
-        Subscriptions for Plan: {planId}
+        Subscriptions for Plan: {plan?.name}-{plan?.medium}
       </h1>
 
       {/* Toggle between current active and all-time data */}
@@ -141,7 +145,8 @@ const PlanList = () => {
           subscriptions.map((sub) => (
             <div
               key={sub.id}
-              className="p-4 bg-[rgb(var(--card))] rounded-md shadow-md flex flex-col space-y-2"
+              className="p-4 bg-[rgb(var(--card))] rounded-md shadow-md flex flex-col space-y-2 hover:cursor-pointer"
+              onClick={() => router.push(`/user-info?userId=${sub.userId}`)}
             >
               <p className="text-md font-medium text-[rgb(var(--primary-text))]">
                 User ID: {sub.userId}

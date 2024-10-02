@@ -66,10 +66,6 @@ const LoginPage = () => {
   });
 
   const initializeRecaptcha = () => {
-    if (window.recaptchaVerifier) {
-      window.recaptchaVerifier.clear(); // Clear the previous instance
-    }
-
     window.recaptchaVerifier = new RecaptchaVerifier(
       auth,
       "recaptcha-container",
@@ -89,7 +85,8 @@ const LoginPage = () => {
   const handleSendOtp = async (data: z.infer<typeof formSchema>) => {
     try {
       setIsLoading(true);
-      const recaptchaVerifier = initializeRecaptcha();
+      const recaptchaVerifier =
+        window?.recaptchaVerifier || initializeRecaptcha();
       const result = await signInWithPhoneNumber(
         auth,
         `+91${data.phoneNumber}`,

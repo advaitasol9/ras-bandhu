@@ -58,7 +58,7 @@ export function RecentHistory() {
         <CardTitle className="text-center lg:text-start">
           Recent History
         </CardTitle>
-        {!submissions.length && (
+        {!!submissions.length && (
           <CardDescription className="cursor-pointer">
             <Link
               href="/app/daily-evaluations"

@@ -22,6 +22,9 @@ export function UserNav() {
 
   const doLogout = async () => {
     await signOut(getAuth());
+    if (window?.recaptchaVerifier) {
+      window.recaptchaVerifier.clear(); // Clear the previous instance
+    }
     toast({
       title: "Logged out",
       description: "You have been logged out.",

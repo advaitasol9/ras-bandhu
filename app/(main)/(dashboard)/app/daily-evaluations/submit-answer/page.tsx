@@ -20,7 +20,7 @@ const SubmitAnswerForm: React.FC = () => {
   const [selectedSubject, setSelectedSubject] = useState<string>("");
   const [numberOfAnswers, setNumberOfAnswers] = useState<number>(0);
   const [studentComment, setStudentComment] = useState<string>("");
-  const [containsPyq, setContainsPyq] = useState<string>("no");
+  const [containsPyq, setContainsPyq] = useState<string>("");
   const [files, setFiles] = useState<FileObject[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -72,7 +72,7 @@ const SubmitAnswerForm: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!hasActiveSubscription)
+    if (!subscriptionData || !hasActiveSubscription)
       return alert("You don't have an active subscription");
     if (!creditsRemaining) return alert("You have 0 credits left");
     if (creditsRemaining < numberOfAnswers)
@@ -81,9 +81,11 @@ const SubmitAnswerForm: React.FC = () => {
       );
     if (!selectedPaper) return alert("Select paper");
     if (!selectedSubject) return alert("Select subject");
-    if (numberOfAnswers <= 0)
+    if (!numberOfAnswers || numberOfAnswers < 0)
       return alert("Enter valid number of answers you are submitting");
     if (!files.length) return alert("Please select images/pdf to upload");
+    if (!containsPyq)
+      return alert("Please select if question is from Daily Question Bank");
 
     setIsSubmitting(true);
 
@@ -124,6 +126,7 @@ const SubmitAnswerForm: React.FC = () => {
         type: selectedPaper,
         paper: selectedPaper,
         subject: selectedSubject,
+        medium: subscriptionData.subInfo.medium,
         studentComment,
         numberOfAnswers,
         containsPyq,
@@ -306,7 +309,7 @@ const SubmitAnswerForm: React.FC = () => {
 
         <div>
           <label className="block text-sm font-medium text-[rgb(var(--primary-text))]">
-            Contains PYQ (optional)
+            Is this from Daily Question Bank
           </label>
           <div className="mt-2 space-x-6">
             <label className="inline-flex items-center">
