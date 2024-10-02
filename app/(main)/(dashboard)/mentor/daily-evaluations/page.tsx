@@ -115,8 +115,11 @@ const MyEvaluations: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchSubmissions();
     if (!selectedPaper && filterSubject) setFilterSubject("");
+    setCurrentPage(1);
+    setLastVisible(null);
+    setIsLastPage(false);
+    fetchSubmissions();
   }, [
     containsPyQ,
     selectedMedium,
@@ -138,6 +141,7 @@ const MyEvaluations: React.FC = () => {
     setEndDate(undefined);
     setCurrentPage(1);
     setLastVisible(null);
+    setIsLastPage(false);
     fetchSubmissions();
   };
 
