@@ -88,6 +88,9 @@ export const UserProvider: FC<{ children: ReactNode }> = ({ children }) => {
               setUserData(userDocData);
             }
             setLoading(false);
+          },
+          (error) => {
+            console.log("Error fetching users data:", error);
           }
         );
 
@@ -128,6 +131,9 @@ export const UserProvider: FC<{ children: ReactNode }> = ({ children }) => {
           if (docSnapshot.exists()) {
             setSubscriptionData(docSnapshot.data());
           }
+        },
+        (error) => {
+          console.log("Error fetching subscription data:", error);
         }
       );
 
@@ -173,6 +179,7 @@ export const UserProvider: FC<{ children: ReactNode }> = ({ children }) => {
       }}
     >
       {children}
+      <div id="recaptcha-div"></div>
     </UserContext.Provider>
   );
 };

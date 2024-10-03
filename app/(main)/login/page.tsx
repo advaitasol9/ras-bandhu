@@ -10,17 +10,6 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useUser, useAuth } from "reactfire";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { toast } from "@/components/ui/use-toast";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -28,6 +17,11 @@ import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
   ConfirmationResult,
+  EmailAuthProvider,
+  signInWithEmailAndPassword,
+  linkWithCredential,
+  fetchSignInMethodsForEmail,
+  updatePassword,
 } from "firebase/auth";
 import Loader from "@/components/ui/loader";
 
@@ -37,116 +31,259 @@ declare global {
   }
 }
 
-const formSchema = z.object({
-  phoneNumber: z
-    .string()
-    .length(10, { message: "Phone number must be exactly 10 digits" })
-    .regex(/^[0-9]+$/, { message: "Phone number must contain only digits" }),
-  otp: z.string().optional(),
-});
-
 const LoginPage = () => {
   const { data: user } = useUser();
   const router = useRouter();
-
   const auth = useAuth();
+
   const [isLoading, setIsLoading] = useState(false);
-  const [otpSent, setOtpSent] = useState(false);
+  const [stage, setStage] = useState<
+    "PHONE_INPUT" | "PASSWORD_INPUT" | "OTP_VERIFICATION" | "SET_PASSWORD"
+  >("PHONE_INPUT");
   const [confirmationResult, setConfirmationResult] =
     useState<ConfirmationResult | null>(null);
   const [resendDisabled, setResendDisabled] = useState(true);
   const [timer, setTimer] = useState(30); // 30 seconds countdown
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      phoneNumber: "",
-      otp: "",
-    },
-  });
+  // Form fields
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
+
+  // Error messages
+  const [errorMessage, setErrorMessage] = useState("");
 
   const initializeRecaptcha = () => {
-    window.recaptchaVerifier = new RecaptchaVerifier(
-      auth,
-      "recaptcha-container",
-      {
-        size: "invisible",
-        callback: () => {
-          console.log("Recaptcha verified");
-        },
-      }
-    );
-
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-div", {
+      size: "invisible",
+      callback: () => {
+        console.log("Recaptcha verified");
+      },
+    });
     window.recaptchaVerifier.render(); // Render the recaptcha again
-
     return window.recaptchaVerifier;
   };
 
-  const handleSendOtp = async (data: z.infer<typeof formSchema>) => {
+  // Handle Proceed (after entering phone number)
+  const handleProceed = async () => {
     try {
       setIsLoading(true);
-      const recaptchaVerifier =
-        window?.recaptchaVerifier || initializeRecaptcha();
+      setErrorMessage("");
+      if (!phoneNumber.match(/^[0-9]{10}$/)) {
+        setErrorMessage("Please enter a valid 10-digit phone number.");
+        return;
+      }
+      const dummyEmail = `${phoneNumber}@rasbandhu.com`;
+
+      // Check if account exists
+      const signInMethods = await fetchSignInMethodsForEmail(auth, dummyEmail);
+
+      if (signInMethods.length > 0) {
+        // Account exists, prompt for password
+        setStage("PASSWORD_INPUT");
+        toast({
+          title: "Account Found",
+          description: "Please enter your password.",
+        });
+      } else {
+        // Account does not exist, proceed to OTP verification
+        await handleSendOtp();
+      }
+    } catch (error: any) {
+      console.error("Error during proceed:", error);
+      toast({
+        title: "Error",
+        description: error.message || "An error occurred.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Handle sending OTP
+  const handleSendOtp = async () => {
+    try {
+      setIsLoading(true);
+      setErrorMessage("");
+
+      const recaptchaVerifier = window?.recaptchaVerifier
+        ? window.recaptchaVerifier
+        : initializeRecaptcha();
       const result = await signInWithPhoneNumber(
         auth,
-        `+91${data.phoneNumber}`,
+        `+91${phoneNumber}`,
         recaptchaVerifier
       );
       setConfirmationResult(result);
-      setOtpSent(true);
-      setResendDisabled(true); // Disable resend initially
-      setTimer(30); // Reset timer to 30 seconds
+      setStage("OTP_VERIFICATION");
+      setResendDisabled(true);
+      setTimer(30);
 
       toast({
         title: "OTP Sent!",
         description: "Check your phone for the verification code.",
       });
-    } catch (error) {
-      console.log("send otp error", error);
-      toast({ title: "Error Sending OTP", description: "Could not send OTP" });
+    } catch (error: any) {
+      console.error("Error sending OTP:", error);
+      toast({
+        title: "Error Sending OTP",
+        description: error.message || "Could not send OTP.",
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleResendOtp = async () => {
-    const data = form.getValues();
-    await handleSendOtp(data);
-  };
-
-  const handleVerifyOtp = async (data: z.infer<typeof formSchema>) => {
+  // Handle OTP Verification
+  const handleVerifyOtp = async () => {
     try {
       setIsLoading(true);
+      setErrorMessage("");
+      if (!otp.match(/^[0-9]{6}$/)) {
+        setErrorMessage("Please enter a valid 6-digit OTP.");
+        return;
+      }
       if (!confirmationResult) {
-        throw new Error("OTP not sent");
+        throw new Error("OTP not sent.");
       }
 
-      await confirmationResult.confirm(data.otp || "");
+      const result = await confirmationResult.confirm(otp);
+      const currentUser = result.user;
+
+      // After OTP verification, prompt user to set a new password
+      setStage("SET_PASSWORD");
+    } catch (error: any) {
+      console.error("Error verifying OTP:", error);
       toast({
-        title: "Success!",
-        description: "You have been signed in.",
+        title: "Error Verifying OTP",
+        description: error.message || "Invalid OTP.",
       });
-    } catch (error) {
-      toast({ title: "Error Verifying OTP", description: "Invalid OTP" });
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Handle Setting or Updating Password
+  const handleSetPassword = async () => {
+    try {
+      setIsLoading(true);
+      setErrorMessage("");
+
+      if (password.length < 6) {
+        setErrorMessage("Password must be at least 6 characters long.");
+        return;
+      }
+
+      const currentUser = auth.currentUser;
+      if (!currentUser) {
+        throw new Error("No authenticated user found.");
+      }
+
+      const dummyEmail = `${phoneNumber}@rasbandhu.com`;
+
+      // Check if email/password provider is already linked
+      const providerData = currentUser.providerData;
+      const hasPasswordProvider = providerData.some(
+        (provider) => provider.providerId === EmailAuthProvider.PROVIDER_ID
+      );
+
+      if (hasPasswordProvider) {
+        // Email/password provider is already linked, update the password
+        await updatePassword(currentUser, password);
+
+        toast({
+          title: "Success!",
+          description: "Your password has been updated.",
+        });
+      } else {
+        // Email/password provider is not linked, link it
+        // Create email credential
+        const credential = EmailAuthProvider.credential(dummyEmail, password);
+
+        // Link email/password credential to the current user
+        await linkWithCredential(currentUser, credential);
+
+        toast({
+          title: "Success!",
+          description: "Your password has been set.",
+        });
+      }
+
+      // Redirect to the app
+      router.push("/app");
+    } catch (error: any) {
+      console.error("Error setting password:", error);
+
+      // Handle specific error codes if needed
+      if (error.code === "auth/requires-recent-login") {
+        // Prompt the user to re-authenticate
+        toast({
+          title: "Session Expired",
+          description: "Please log in again to update your password.",
+        });
+        // Sign the user out and redirect to the login page
+        await auth.signOut();
+        router.push("/login");
+      } else {
+        toast({
+          title: "Error Setting Password",
+          description: error.message || "Could not set password.",
+        });
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Handle Login with Password
+  const handleLoginWithPassword = async () => {
+    try {
+      setIsLoading(true);
+      setErrorMessage("");
+      if (password.length < 6) {
+        setErrorMessage("Password must be at least 6 characters long.");
+        return;
+      }
+      const dummyEmail = `${phoneNumber}@rasbandhu.com`;
+
+      await signInWithEmailAndPassword(auth, dummyEmail, password);
+
+      toast({
+        title: "Welcome Back!",
+        description: "You have been signed in.",
+      });
+      router.push("/app");
+    } catch (error: any) {
+      console.error("Error logging in:", error);
+      toast({
+        title: "Login Failed",
+        description: error.message || "Invalid credentials.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Handle Resending OTP
+  const handleResendOtp = async () => {
+    await handleSendOtp();
+  };
+
+  // Redirect if user is already authenticated
   useEffect(() => {
-    if (user) {
+    if (user && stage == "PHONE_INPUT") {
       router.push("/app");
     }
-  }, [user]);
+  }, [user, router, stage]);
 
   // Timer for resend button
   useEffect(() => {
-    let countdown: any;
-    if (otpSent && resendDisabled) {
+    let countdown: NodeJS.Timeout | null = null;
+    if (stage === "OTP_VERIFICATION" && resendDisabled) {
       countdown = setInterval(() => {
         setTimer((prev) => {
           if (prev === 1) {
-            clearInterval(countdown);
+            if (countdown) clearInterval(countdown);
             setResendDisabled(false);
             return 0;
           }
@@ -154,110 +291,202 @@ const LoginPage = () => {
         });
       }, 1000);
     }
-    return () => clearInterval(countdown);
-  }, [otpSent, resendDisabled]);
+    return () => {
+      if (countdown) clearInterval(countdown);
+    };
+  }, [stage, resendDisabled]);
+
+  // Render form fields based on the current stage
+  const renderFormFields = () => {
+    switch (stage) {
+      case "PHONE_INPUT":
+        return (
+          <>
+            <div>
+              <label
+                htmlFor="phoneNumber"
+                className="text-[rgb(var(--primary-text))]"
+              >
+                Phone Number
+              </label>
+              <Input
+                type="tel"
+                id="phoneNumber"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                placeholder="Enter 10-digit mobile number"
+                aria-label="Phone Number"
+                className="border border-[rgb(var(--input))] focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] rounded-md"
+              />
+            </div>
+            {errorMessage && (
+              <p className="text-[rgb(var(--destructive))]">{errorMessage}</p>
+            )}
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <Button
+                onClick={handleProceed}
+                disabled={isLoading}
+                className="w-full bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))] transition-colors duration-300"
+              >
+                Proceed
+              </Button>
+            )}
+          </>
+        );
+      case "PASSWORD_INPUT":
+        return (
+          <>
+            <div>
+              <label
+                htmlFor="password"
+                className="text-[rgb(var(--primary-text))]"
+              >
+                Password
+              </label>
+              <Input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                aria-label="Password"
+                className="border border-[rgb(var(--input))] focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] rounded-md"
+              />
+            </div>
+            {errorMessage && (
+              <p className="text-[rgb(var(--destructive))]">{errorMessage}</p>
+            )}
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <Button
+                onClick={handleLoginWithPassword}
+                disabled={isLoading}
+                className="w-full bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))] transition-colors duration-300"
+              >
+                Sign In
+              </Button>
+            )}
+            <div className="text-sm text-center mt-2">
+              <button
+                onClick={async () => {
+                  await handleSendOtp();
+                }}
+                className="text-[rgb(var(--link))] hover:underline"
+              >
+                Forgot Password? Login using OTP
+              </button>
+            </div>
+          </>
+        );
+      case "OTP_VERIFICATION":
+        return (
+          <>
+            <div>
+              <label htmlFor="otp" className="text-[rgb(var(--primary-text))]">
+                Enter OTP
+              </label>
+              <Input
+                type="text"
+                id="otp"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                placeholder="Enter the OTP"
+                aria-label="OTP"
+                className="border border-[rgb(var(--input))] focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] rounded-md"
+              />
+            </div>
+            {errorMessage && (
+              <p className="text-[rgb(var(--destructive))]">{errorMessage}</p>
+            )}
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <Button
+                onClick={handleVerifyOtp}
+                disabled={isLoading}
+                className="w-full bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))] transition-colors duration-300"
+              >
+                Verify OTP
+              </Button>
+            )}
+            <div className="mt-4 flex justify-between items-center">
+              <button
+                disabled={resendDisabled}
+                onClick={handleResendOtp}
+                className={`text-sm font-medium ${
+                  resendDisabled
+                    ? "text-[rgb(var(--muted-foreground))]"
+                    : "text-[rgb(var(--link))] hover:underline"
+                }`}
+              >
+                {resendDisabled
+                  ? `Resend OTP in ${timer}s`
+                  : "Didn't receive OTP? Resend"}
+              </button>
+            </div>
+          </>
+        );
+      case "SET_PASSWORD":
+        return (
+          <>
+            <div>
+              <label
+                htmlFor="newPassword"
+                className="text-[rgb(var(--primary-text))]"
+              >
+                Create New Password
+              </label>
+              <Input
+                type="password"
+                id="newPassword"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Create a new password"
+                aria-label="New Password"
+                className="border border-[rgb(var(--input))] focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] rounded-md"
+              />
+            </div>
+            {errorMessage && (
+              <p className="text-[rgb(var(--destructive))]">{errorMessage}</p>
+            )}
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <Button
+                onClick={handleSetPassword}
+                disabled={isLoading}
+                className="w-full bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))] transition-colors duration-300"
+              >
+                Set Password and Continue
+              </Button>
+            )}
+          </>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="grow flex flex-col items-center justify-center">
       <section className="space-y-4 w-[20rem] md:w-[32rem]">
         <Card className="bg-[rgb(var(--card))] shadow-lg rounded-lg">
           <CardHeader>
-            <CardTitle className="text-[rgb(var(--primary-text))] text-xl font-semibold">
-              {otpSent ? "Verify OTP" : "Sign In with Phone"}
+            <CardTitle className="text-xl font-semibold text-[rgb(var(--primary-text))]">
+              {stage === "PHONE_INPUT" && "Sign In"}
+              {stage === "PASSWORD_INPUT" && "Enter Password"}
+              {stage === "OTP_VERIFICATION" && "Verify OTP"}
+              {stage === "SET_PASSWORD" && "Set New Password"}
             </CardTitle>
-            <CardDescription className="text-[rgb(var(--secondary-text))]">
-              Get started now
+            <CardDescription className="text-[rgb(var(--muted-foreground))]">
+              Please follow the steps to continue
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="space-y-6">
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(
-                  otpSent ? handleVerifyOtp : handleSendOtp
-                )}
-                className="space-y-6"
-              >
-                {!otpSent && (
-                  <FormField
-                    control={form.control}
-                    name="phoneNumber"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-[rgb(var(--primary-text))] font-medium">
-                          Phone Number
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="tel"
-                            {...field}
-                            placeholder="Enter 10 digit mobile number"
-                            className="border border-[rgb(var(--input))] focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] rounded-md"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                )}
-
-                {otpSent && (
-                  <FormField
-                    control={form.control}
-                    name="otp"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-[rgb(var(--primary-text))] font-medium">
-                          Enter OTP
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="text"
-                            {...field}
-                            placeholder="Enter the OTP"
-                            className="border border-[rgb(var(--input))] focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] rounded-md"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                )}
-
-                {isLoading ? (
-                  <Loader />
-                ) : (
-                  <Button
-                    type="submit"
-                    disabled={isLoading}
-                    className="w-full bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))] transition-colors duration-300"
-                  >
-                    {otpSent ? "Verify OTP" : "Send OTP"}
-                  </Button>
-                )}
-              </form>
-            </Form>
-
-            {otpSent && (
-              <div className="mt-4 flex justify-between items-center">
-                <button
-                  disabled={resendDisabled}
-                  onClick={handleResendOtp}
-                  className={`text-sm font-medium ${
-                    resendDisabled
-                      ? "text-[rgb(var(--muted-foreground))]"
-                      : "text-[rgb(var(--primary))] hover:underline"
-                  }`}
-                >
-                  {resendDisabled
-                    ? `Didn't receive OTP? Resend in ${timer}s`
-                    : "Didn't receive OTP? Resend"}
-                </button>
-              </div>
-            )}
-
-            <div id="recaptcha-container"></div>
-          </CardContent>
+          <CardContent className="space-y-6">{renderFormFields()}</CardContent>
         </Card>
       </section>
     </div>

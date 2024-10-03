@@ -21,15 +21,17 @@ export function UserNav() {
   const router = useRouter();
 
   const doLogout = async () => {
-    await signOut(getAuth());
-    if (window?.recaptchaVerifier) {
-      window.recaptchaVerifier.clear(); // Clear the previous instance
+    try {
+      await signOut(getAuth());
+      toast({
+        title: "Logged out",
+        description: "You have been logged out.",
+      });
+    } catch (err) {
+      console.log("err", err);
+    } finally {
+      router.replace("/");
     }
-    toast({
-      title: "Logged out",
-      description: "You have been logged out.",
-    });
-    router.replace("/");
   };
 
   return (
