@@ -24,7 +24,7 @@ const Dashboard: FC = () => {
     if (isMentor) router.replace("/mentor");
     else if (isAdmin) router.replace("/admin");
     else {
-      if (userData && (!userData?.name || !userData?.email))
+      if (userData && (!userData?.name || !userData?.email || !userData?.phone))
         router.replace("/app/profile");
     }
   }, [isMentor, isAdmin, userData]);

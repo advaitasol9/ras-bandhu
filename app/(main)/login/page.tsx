@@ -24,6 +24,8 @@ import {
   updatePassword,
 } from "firebase/auth";
 import Loader from "@/components/ui/loader";
+import { OrSeparator } from "@/components/ui/or-separator";
+import { ProviderLoginButtons } from "@/components/auth/provider-login-buttons";
 
 declare global {
   interface Window {
@@ -374,7 +376,7 @@ const LoginPage = () => {
                 onClick={async () => {
                   await handleSendOtp();
                 }}
-                className="text-[rgb(var(--link))] hover:underline"
+                className="text-[rgb(var(--primary-text))] hover:underline"
               >
                 Forgot Password? Login using OTP
               </button>
@@ -487,6 +489,12 @@ const LoginPage = () => {
           </CardHeader>
 
           <CardContent className="space-y-6">{renderFormFields()}</CardContent>
+          {stage != "SET_PASSWORD" && (
+            <>
+              <OrSeparator />
+              <ProviderLoginButtons />
+            </>
+          )}
         </Card>
       </section>
     </div>

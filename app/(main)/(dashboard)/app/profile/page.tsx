@@ -21,12 +21,14 @@ const ProfilePage: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (userData?.name && name != userData.name) setName(userData.name);
+    if (userData?.phone && phone != userData.phone) setPhone(userData.phone);
     if (userData?.email && email != userData.email) setEmail(userData.email);
     if (userData?.avatarUrl && avatarUrl != userData.avatarUrl)
       setAvatarUrl(userData.avatarUrl);
@@ -39,15 +41,35 @@ const ProfilePage: React.FC = () => {
   const handleSaveClick = async () => {
     if (loading) return;
 
-    if (!name || !email) {
-      toast({ title: "Error", description: "Name and email are required." });
+    if (
+      !name ||
+      (!email && userData.authMethod === "phone") ||
+      (!phone && userData.authMethod === "google.com")
+    ) {
+      toast({
+        title: "Error",
+        description: "Name, email, and phone are required.",
+      });
       return;
     }
 
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-      toast({ title: "Error", description: "Invalid email format." });
-      return;
+    if (userData.authMethod === "phone") {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        toast({ title: "Error", description: "Invalid email format." });
+        return;
+      }
+    }
+
+    if (userData.authMethod === "google.com") {
+      const phonePattern = /^[0-9]{10}$/;
+      if (!phonePattern.test(phone)) {
+        toast({
+          title: "Error",
+          description: "Invalid phone number format. Must be 10 digits.",
+        });
+        return;
+      }
     }
 
     setLoading(true);
@@ -62,16 +84,17 @@ const ProfilePage: React.FC = () => {
       // Update the avatar URL in Firestore
       await updateDoc(userDocRef, {
         name,
-        email,
+        email: email || userData.email,
+        phone: phone || userData.phone,
         avatarUrl: downloadURL,
       });
 
       setAvatarUrl(downloadURL);
     } else {
-      // If no new file is selected, just update the name and phone number
       await updateDoc(userDocRef, {
         name,
-        email,
+        email: email || userData.email,
+        phone: phone || userData.phone,
       });
     }
 
@@ -90,7 +113,8 @@ const ProfilePage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (userData && (!userData?.email || !userData?.name)) setIsEditing(true);
+    if (userData && (!userData?.email || !userData?.name || !userData?.phone))
+      setIsEditing(true);
   }, [userData]);
 
   return (
@@ -147,32 +171,45 @@ const ProfilePage: React.FC = () => {
               </p>
             )}
           </div>
-          {!isEditing && (
+
+          {isEditing && userData?.authMethod == "phone" ? null : (
             <div>
               <p className="text-sm font-medium text-[rgb(var(--muted-foreground))]">
-                Phone Number
+                Phone
               </p>
-              <p className="text-lg font-semibold text-[rgb(var(--primary-text))]">
-                {userData?.phone}
-              </p>
+
+              {isEditing ? (
+                <Input
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="mt-1 bg-[rgb(var(--input))]"
+                />
+              ) : (
+                <p className="text-lg font-semibold text-[rgb(var(--primary-text))]">
+                  {userData?.phone}
+                </p>
+              )}
             </div>
           )}
-          <div>
-            <p className="text-sm font-medium text-[rgb(var(--muted-foreground))]">
-              Email
-            </p>
-            {isEditing ? (
-              <Input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 bg-[rgb(var(--input))]"
-              />
-            ) : (
-              <p className="text-lg font-semibold text-[rgb(var(--primary-text))]">
-                {userData?.email}
+
+          {isEditing && userData?.authMethod == "google.com" ? null : (
+            <div>
+              <p className="text-sm font-medium text-[rgb(var(--muted-foreground))]">
+                Email
               </p>
-            )}
-          </div>
+              {isEditing ? (
+                <Input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="mt-1 bg-[rgb(var(--input))]"
+                />
+              ) : (
+                <p className="text-lg font-semibold text-[rgb(var(--primary-text))]">
+                  {userData?.email}
+                </p>
+              )}
+            </div>
+          )}
         </div>
 
         {loading ? (

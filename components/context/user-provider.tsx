@@ -77,9 +77,9 @@ export const UserProvider: FC<{ children: ReactNode }> = ({ children }) => {
               setUserData(docSnapshot.data());
             } else {
               const userDocData = {
-                name: "",
-                phone: firebaseUser.phoneNumber,
-                email: "",
+                name: firebaseUser?.displayName || "",
+                phone: firebaseUser.phoneNumber || "",
+                email: firebaseUser?.email || "",
                 authMethod:
                   firebaseUser.providerData[0]?.providerId || "unknown",
                 createdAt: moment().toISOString(),
