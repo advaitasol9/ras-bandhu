@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.rasbandhu.com/</loc>
+    <lastmod>2024-10-01</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.rasbandhu.com/daily-evaluation</loc>
+    <lastmod>2024-10-01</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.rasbandhu.com/contact-us</loc>
+    <lastmod>2024-10-01</lastmod>
+    <priority>0.6</priority>
+  </url>
+</urlset>
