@@ -28,7 +28,9 @@ const ProfilePage: React.FC = () => {
 
   useEffect(() => {
     if (userData?.name && name != userData.name) setName(userData.name);
-    if (userData?.phone && phone != userData.phone) setPhone(userData.phone);
+    if (userData?.phone && phone != userData.phone) {
+      setPhone(userData.phone.replace("+91", ""));
+    }
     if (userData?.email && email != userData.email) setEmail(userData.email);
     if (userData?.avatarUrl && avatarUrl != userData.avatarUrl)
       setAvatarUrl(userData.avatarUrl);
@@ -75,6 +77,7 @@ const ProfilePage: React.FC = () => {
     setLoading(true);
     const userDocRef = doc(firestore, "Users", user?.uid || "");
 
+    const formattedPhone = phone ? `+91${phone}` : userData.phone;
     if (selectedFile) {
       // Upload the file to Firebase Storage
       const avatarRef = ref(storage, `avatars/${user?.uid}`);
@@ -85,7 +88,7 @@ const ProfilePage: React.FC = () => {
       await updateDoc(userDocRef, {
         name,
         email: email || userData.email,
-        phone: phone || userData.phone,
+        phone: formattedPhone,
         avatarUrl: downloadURL,
       });
 
@@ -94,7 +97,7 @@ const ProfilePage: React.FC = () => {
       await updateDoc(userDocRef, {
         name,
         email: email || userData.email,
-        phone: phone || userData.phone,
+        phone: formattedPhone,
       });
     }
 
@@ -186,7 +189,7 @@ const ProfilePage: React.FC = () => {
                 />
               ) : (
                 <p className="text-lg font-semibold text-[rgb(var(--primary-text))]">
-                  {userData?.phone}
+                  {userData?.phone?.replace("+91", "")}
                 </p>
               )}
             </div>

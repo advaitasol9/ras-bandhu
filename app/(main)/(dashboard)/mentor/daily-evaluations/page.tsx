@@ -48,7 +48,7 @@ const MyEvaluations: React.FC = () => {
     ? appData?.subjectsByPaper?.[selectedPaper]
     : [];
 
-  const pageSize = 6; // Number of items per page
+  const pageSize = 12; // Number of items per page
 
   const fetchSubmissions = async (loadMore = false) => {
     if (!user) return;

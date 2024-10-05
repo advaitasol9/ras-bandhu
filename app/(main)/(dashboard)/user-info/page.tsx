@@ -12,6 +12,7 @@ import {
   getDocs,
   limit,
   startAfter,
+  orderBy,
 } from "firebase/firestore";
 import HistoryCard from "@/components/demo-dashboard/history-card";
 import { Button } from "@/components/ui/button";
@@ -34,7 +35,7 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false); // Separate loader for fetch more
 
-  const initialLimit = 6; // Initial number of records to fetch
+  const initialLimit = 15; // Initial number of records to fetch
 
   // Fetch user details from 'Users' collection
   const fetchUserDetails = async () => {
@@ -80,6 +81,7 @@ const UserProfile = () => {
       let evalRequestsQuery = query(
         evalRequestsRef,
         where("userId", "==", userId),
+        orderBy("createdAt", "desc"),
         limit(initialLimit)
       );
 
@@ -87,6 +89,7 @@ const UserProfile = () => {
         evalRequestsQuery = query(
           evalRequestsRef,
           where("userId", "==", userId),
+          orderBy("createdAt", "desc"),
           startAfter(lastVisible),
           limit(initialLimit)
         );

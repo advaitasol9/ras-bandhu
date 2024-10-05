@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/card";
 import HistoryCard from "@/components/demo-dashboard/history-card";
 import Link from "next/link";
+import { FaArrowRight, FaSearch } from "react-icons/fa";
 
 type Evaluation = {
   id: string;
@@ -122,26 +123,22 @@ const MentorDashboard = () => {
           <div className="text-sm text-[rgb(var(--primary-text))]">
             Total Evaluated This Month: {totalEvaluatedThisMonth}
           </div>
-          <Link
-            href="/mentor/daily-evaluations?status=Pending"
-            className="flex items-center font-medium text-[rgb(var(--primary-text))]"
-          >
-            View Pending{" "}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-3 w-3 ml-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2"
+          <div className="flex justify-between items-center">
+            <Link
+              href="/mentor/daily-evaluations?status=Pending"
+              className="flex items-center font-medium text-[rgb(var(--primary-text))]"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </Link>
+              View Pending{" "}
+              <FaArrowRight className="w-3 h-3 hover:opacity-80 transition ml-1 text-[rgb(var(--muted-foreground))]" />
+            </Link>
+            <Link
+              href="/search-student"
+              className="flex items-center font-normal md:font-medium text-sm md:text-base text-[rgb(var(--primary))] hover:text-[rgb(var(--primary-foreground))] transition"
+            >
+              Search Student
+              <FaSearch className="w-4 h-4 ml-2 text-[rgb(var(--primary))]" />
+            </Link>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-4">
@@ -154,20 +151,7 @@ const MentorDashboard = () => {
                   className="flex items-center text-[rgb(var(--primary-text))]"
                 >
                   View All{" "}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-3 w-3 ml-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
+                  <FaArrowRight className="w-3 h-3 hover:opacity-80 transition ml-1 text-[rgb(var(--muted-foreground))]" />
                 </Link>
               </CardDescription>
             </CardHeader>
@@ -202,20 +186,7 @@ const MentorDashboard = () => {
                   className="flex items-center text-[rgb(var(--primary-text))]"
                 >
                   View All{" "}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-3 w-3 ml-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
+                  <FaArrowRight className="w-3 h-3 hover:opacity-80 transition ml-1 text-[rgb(var(--muted-foreground))]" />
                 </Link>
               </CardDescription>
             </CardHeader>

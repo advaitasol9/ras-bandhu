@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Avatar } from "@/components/ui/avatar";
 import { Evaluation } from "@/lib/types";
+import { Star } from "lucide-react";
 
 interface Card {
   item: Evaluation;
@@ -41,11 +42,20 @@ const HistoryCard = ({ item, index, linkTo }: Card) => {
           </div>
         </div>
         <div className="mt-4">
-          <p className="text-sm font-medium text-[rgb(var(--primary-text))]">
-            {item.type === "Test"
-              ? "Test"
-              : `No of Questions: ${item.numberOfAnswers}`}
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-medium text-[rgb(var(--primary-text))]">
+              {item.type === "Test"
+                ? "Test"
+                : `No of Questions: ${item.numberOfAnswers}`}
+            </p>
+            {item?.review?.rating && (
+              <div className="flex items-center">
+                {[...Array(item.review.rating)].map((_, index) => (
+                  <Star key={index} className="text-yellow-300" />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </a>
     </Link>
