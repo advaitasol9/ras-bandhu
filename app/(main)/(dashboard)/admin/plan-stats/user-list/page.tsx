@@ -33,7 +33,7 @@ const PlanList = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isLastPage, setIsLastPage] = useState<boolean>(false);
 
-  const pageSize = 5; // Number of items per page
+  const pageSize = 15; // Number of items per page
 
   const fetchSubscriptions = async (loadMore = false) => {
     if (!planId) return;

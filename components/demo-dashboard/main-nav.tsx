@@ -4,12 +4,14 @@ import { cn } from "@/lib/utils";
 interface MainNavProps extends React.HTMLAttributes<HTMLElement> {
   currentTab: string;
   setCurrentTab: (tab: string) => void;
+  showMentorshipCallBtn?: boolean;
 }
 
 export function MainNav({
   className,
   currentTab,
   setCurrentTab,
+  showMentorshipCallBtn = false,
   ...props
 }: MainNavProps) {
   return (
@@ -39,6 +41,19 @@ export function MainNav({
       >
         My-Plan
       </Link>
+      {showMentorshipCallBtn && (
+        <Link
+          href="#"
+          className={`text-sm font-medium transition-colors hover:text-[rgb(var(--primary))] ${
+            currentTab == "mentorshipCall"
+              ? "text-[rgb(var(--primary-text))]"
+              : "text-[rgb(var(--muted-foreground))]"
+          }`}
+          onClick={() => setCurrentTab("mentorshipCall")}
+        >
+          Mentorship-Call
+        </Link>
+      )}
     </nav>
   );
 }

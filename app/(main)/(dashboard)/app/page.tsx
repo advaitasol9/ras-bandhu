@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { useDailyEvaluation } from "@/components/context/daily-eval-provider";
 import { emptyDailyEvaluationSubscription } from "@/lib/types";
 import { UserPlanDetail } from "@/components/plans-static/user-plan-detail";
+import MentorshipCall from "@/components/demo-dashboard/mentorship-call";
 
 const Dashboard: FC = () => {
   const [currentTab, setCurrentTab] = useState("evaluations");
@@ -37,10 +38,14 @@ const Dashboard: FC = () => {
         </h2>
       </div>
       <div className="flex h-16 items-center bg-[rgb(var(--muted))] px-6 rounded-xl w-full">
-        <MainNav currentTab={currentTab} setCurrentTab={setCurrentTab} />
+        <MainNav
+          currentTab={currentTab}
+          setCurrentTab={setCurrentTab}
+          showMentorshipCallBtn={hasActiveSubscription}
+        />
       </div>
       <div className="flex-1 space-y-4 pt-6">
-        {currentTab == "evaluations" ? (
+        {currentTab == "evaluations" && (
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 w-full">
             <CreateNewAns
               hasActiveSubscription={hasActiveSubscription}
@@ -50,25 +55,29 @@ const Dashboard: FC = () => {
             />
             <RecentHistory />
           </div>
-        ) : hasActiveSubscription ? (
-          <UserPlanDetail
-            index={0}
-            subscriptionData={
-              subscriptionData || emptyDailyEvaluationSubscription
-            }
-          />
-        ) : (
-          <div className="flex flex-col items-center w-full">
-            <h1 className="font-medium text-[rgb(var(--primary-text))]">
-              No Active Subscription
-            </h1>
-            <Link href="/daily-evaluation">
-              <Button size="lg" variant="link">
-                View Evaluation Plans &rarr;
-              </Button>
-            </Link>
-          </div>
         )}
+        {currentTab == "myPlans" ? (
+          hasActiveSubscription ? (
+            <UserPlanDetail
+              index={0}
+              subscriptionData={
+                subscriptionData || emptyDailyEvaluationSubscription
+              }
+            />
+          ) : (
+            <div className="flex flex-col items-center w-full">
+              <h1 className="font-medium text-[rgb(var(--primary-text))]">
+                No Active Subscription
+              </h1>
+              <Link href="/daily-evaluation">
+                <Button size="lg" variant="link">
+                  View Evaluation Plans &rarr;
+                </Button>
+              </Link>
+            </div>
+          )
+        ) : null}
+        {currentTab == "mentorshipCall" && <MentorshipCall />}
       </div>
     </div>
   );
