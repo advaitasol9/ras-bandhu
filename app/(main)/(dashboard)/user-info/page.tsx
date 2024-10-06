@@ -128,7 +128,7 @@ const UserProfile = () => {
     }
   }, [userId]);
 
-  if (loading || !userDetails || !subscriptionDetails) {
+  if (loading || !userDetails) {
     return <Loader />;
   }
 
@@ -155,18 +155,26 @@ const UserProfile = () => {
         <h2 className="text-xl font-medium text-[rgb(var(--primary-text))]">
           Subscription Details
         </h2>
-        <p className="text-md text-[rgb(var(--secondary-text))]">
-          Plan Name: {subscriptionDetails.subInfo.name}
-        </p>
-        <p className="text-md text-[rgb(var(--secondary-text))]">
-          Medium: {subscriptionDetails.subInfo.medium}
-        </p>
-        <p className="text-md text-[rgb(var(--secondary-text))]">
-          Subscription Expiry:{" "}
-          {new Date(
-            subscriptionDetails.subscriptionExpiry
-          ).toLocaleDateString()}
-        </p>
+        {subscriptionDetails ? (
+          <div>
+            <p className="text-md text-[rgb(var(--secondary-text))]">
+              Plan Name: {subscriptionDetails.subInfo.name}
+            </p>
+            <p className="text-md text-[rgb(var(--secondary-text))]">
+              Medium: {subscriptionDetails.subInfo.medium}
+            </p>
+            <p className="text-md text-[rgb(var(--secondary-text))]">
+              Subscription Expiry:{" "}
+              {new Date(
+                subscriptionDetails.subscriptionExpiry
+              ).toLocaleDateString()}
+            </p>
+          </div>
+        ) : (
+          <p className="text-md text-[rgb(var(--secondary-text))]">
+            No subscription data found.
+          </p>
+        )}
       </div>
 
       {/* Evaluation Requests */}
