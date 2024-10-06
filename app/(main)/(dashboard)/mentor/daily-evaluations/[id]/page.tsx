@@ -101,7 +101,12 @@ const MyAnswerDetail = () => {
   return (
     <MentorRoute>
       <div className="container mx-auto mt-12">
-        <h1 className="text-2xl font-semibold">Answer Details</h1>
+        <div className="flex items-center">
+          <h1 className="text-2xl font-semibold">Answer Details</h1>
+          <p className="text-[rgb(var(--primary-text))] font-normal ml-2 pt-1">
+            (ID: {submissionData.id})
+          </p>
+        </div>
         <Link
           href={`/user-info?userId=${submissionData.userId}`}
           className="flex items-center mb-4"

@@ -18,13 +18,13 @@ interface FileObject {
 const SubmitAnswerForm: React.FC = () => {
   const [selectedPaper, setSelectedPaper] = useState("");
   const [selectedSubject, setSelectedSubject] = useState<string>("");
-  const [numberOfAnswers, setNumberOfAnswers] = useState<number>(0);
+  const [numberOfAnswers, setNumberOfAnswers] = useState<number>(1);
   const [studentComment, setStudentComment] = useState<string>("");
   const [containsPyq, setContainsPyq] = useState<string>("");
   const [files, setFiles] = useState<FileObject[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const { user, appData } = useUserContext();
+  const { user, appData, userData } = useUserContext();
   const { hasActiveSubscription, subscriptionData } = useDailyEvaluation();
   const papers = Object.keys(appData?.subjectsByPaper || {}).sort();
   const subjects = selectedPaper
@@ -92,14 +92,15 @@ const SubmitAnswerForm: React.FC = () => {
     try {
       const submissionRef = doc(collection(firestore, "DailyEvalRequests"));
       const submissionId = submissionRef.id;
+      const namePrefix = userData.name.replace(" ", "-");
 
       // Upload files to Firebase Storage with correct naming convention
       const fileUploadPromises = files.map(async (fileObj, index) => {
         const fileExtension = fileObj.file.name.split(".").pop();
         const fileName =
           fileObj.type === "application/pdf"
-            ? `${submissionId}.pdf`
-            : `${submissionId}-${String.fromCharCode(
+            ? `${namePrefix}_${submissionId}.pdf`
+            : `${namePrefix}_${submissionId}-${String.fromCharCode(
                 97 + index
               )}.${fileExtension}`;
 
