@@ -11,6 +11,8 @@ import { httpsCallable } from "firebase/functions";
 import { useFunctions } from "reactfire";
 import MediumSelector from "../medium-selector";
 import moment from "moment";
+import Alert from "../ui/alert";
+import { toast } from "../ui/use-toast";
 
 const DailyEvalPlans = () => {
   const { user } = useUserContext();
@@ -27,10 +29,8 @@ const DailyEvalPlans = () => {
   );
 
   const createTrialSubscription = async (planId: string): Promise<void> => {
-    if (!user || !user.uid) {
-      alert("You must be logged in to subscribe.");
-      return;
-    }
+    if (!user || !user.uid)
+      return Alert.alert("Error", "You must be logged in to subscribe.");
 
     try {
       setBuyingPlan(planId);
@@ -43,14 +43,20 @@ const DailyEvalPlans = () => {
       });
 
       if (result?.data?.success) {
-        alert("Your trial subscription is active now");
+        toast({
+          title: "Success",
+          description: "Your trial subscription is active now",
+        });
         router.push("/app");
       } else {
-        alert("Error. Please try again later");
+        Alert.alert("Error", "Please try again later");
       }
     } catch (error) {
       console.error("Error creating trial subscription:", error);
-      alert("Error occurred while creating subscription. Please try again.");
+      Alert.alert(
+        "Error",
+        "Error occurred while creating subscription. Please try again."
+      );
     } finally {
       setBuyingPlan("");
     }

@@ -10,6 +10,7 @@ import { Plan } from "@/lib/types";
 import CheckoutRoute from "../checkout-route";
 import { useUserContext } from "@/components/context/user-provider";
 import Loader from "@/components/ui/loader";
+import Alert from "@/components/ui/alert";
 
 declare global {
   interface Window {
@@ -100,7 +101,7 @@ const CheckoutPage = () => {
             });
 
             if (verificationResult.data.success) {
-              alert("Subscribed successfully");
+              Alert.alert("Success", "Subscribed successfully");
               router.push("/app");
             } else {
               throw new Error("Payment verification failed.");
@@ -108,6 +109,7 @@ const CheckoutPage = () => {
           } catch (error) {
             setPaymentError("Payment verification failed. Please try again.");
             console.error("Payment verification error:", error);
+            Alert.alert("Error", "Payment verification error");
             setIsProcessing(false);
           }
         },

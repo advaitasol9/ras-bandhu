@@ -9,6 +9,7 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plan } from "@/lib/types";
+import { toast } from "@/components/ui/use-toast";
 
 const PlanForm: React.FC = () => {
   const router = useRouter();
@@ -144,7 +145,7 @@ const PlanForm: React.FC = () => {
       } else {
         await setDoc(planRef, { ...planData, discountedPrice, id: planRef.id });
       }
-      alert("Plan saved successfully!");
+      toast({ title: "Success", description: "Plan saved" });
       router.replace("/admin/subscriptions");
     } catch (error) {
       console.error("Error saving plan: ", error);

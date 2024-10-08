@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/context/theme-provider"; // Import t
 import { SubscriptionPlansProvider } from "@/components/context/subscription-provider";
 import { DailyEvaluationProvider } from "@/components/context/daily-eval-provider";
 import { TestEvaluationProvider } from "@/components/context/test-eval-provider";
+import AlertProvider from "@/components/ui/alert-provider";
 
 const font = Work_Sans({ subsets: ["latin"] });
 
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                   <ThemeProvider>
                     <Suspense>{children}</Suspense>
                     <Toaster />
+                    <AlertProvider />
                   </ThemeProvider>
                 </TestEvaluationProvider>
               </DailyEvaluationProvider>

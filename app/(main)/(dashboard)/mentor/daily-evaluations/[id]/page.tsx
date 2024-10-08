@@ -14,6 +14,7 @@ import { Evaluation } from "@/lib/types";
 import MentorEvaluation from "@/components/answer-detail/mentor-evaluation";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
+import { toast } from "@/components/ui/use-toast";
 
 // Main Component
 const MyAnswerDetail = () => {
@@ -86,7 +87,7 @@ const MyAnswerDetail = () => {
         },
       });
       setHasGivenFeedback(true);
-      alert("Review submitted!");
+      toast({ title: "Success", description: "Review submitted!" });
     } catch (error) {
       console.error("Error submitting review:", error);
     }

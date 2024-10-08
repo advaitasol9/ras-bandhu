@@ -8,6 +8,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import { useTestEvaluation } from "@/components/context/test-eval-provider";
+import Alert from "@/components/ui/alert";
 
 interface FileObject {
   type: string;
@@ -38,10 +39,8 @@ const SubmitAnswerForm: React.FC = () => {
     if (!newFile) return;
 
     const isPdf = newFile.type === "application/pdf";
-    if (!isPdf) {
-      alert("Only PDF files are allowed for submission.");
-      return;
-    }
+    if (!isPdf)
+      return Alert.alert("Error", "Only PDF files are allowed for submission.");
 
     setFile({
       type: newFile.type,
@@ -68,11 +67,13 @@ const SubmitAnswerForm: React.FC = () => {
     event.preventDefault();
 
     if (!subscriptionData || !hasActiveSubscription)
-      return alert("You don't have an active subscription");
-    if (!creditsRemaining) return alert("You have 0 credits left");
+      return Alert.alert("Error", "You don't have an active subscription");
+    if (!creditsRemaining)
+      return Alert.alert("Error", "You have 0 credits left");
     if (!selectedSubjects.length)
-      return alert("Please select at least one subject.");
-    if (!file) return alert("Please select a PDF file to upload");
+      return Alert.alert("Error", "Please select at least one subject.");
+    if (!file)
+      return Alert.alert("Error", "Please select a PDF file to upload");
 
     setIsSubmitting(true);
 
@@ -113,7 +114,10 @@ const SubmitAnswerForm: React.FC = () => {
       router.push("/app");
     } catch (error) {
       console.error("Error uploading files and creating document: ", error);
-      alert("There was an error processing your request. Please try again.");
+      Alert.alert(
+        "Error",
+        "There was an error processing your request. Please try again."
+      );
     } finally {
       setIsSubmitting(false);
     }

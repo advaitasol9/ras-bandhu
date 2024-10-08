@@ -10,6 +10,8 @@ import SubmissionDetails from "@/components/answer-detail/test-eval/submission-d
 import MentorEvaluation from "@/components/answer-detail/mentor-evaluation";
 import FeedbackSection from "@/components/answer-detail/feedback-section";
 import { TestEvaluation } from "@/lib/types";
+import { toast } from "@/components/ui/use-toast";
+import Alert from "@/components/ui/alert";
 
 const SubmissionStatus = ({
   submissionData,
@@ -126,12 +128,12 @@ const MyAnswerDetail = () => {
           },
         });
         setHasGivenFeedback(true);
-        alert("Review submitted!");
+        toast({ title: "Success", description: "Review submitted!" });
       } catch (error) {
         console.error("Error submitting review:", error);
       }
     } else {
-      return alert("Enter Feedback");
+      return Alert.alert("Error", "Enter Feedback");
     }
   };
 

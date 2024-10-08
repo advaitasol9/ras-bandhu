@@ -162,3 +162,16 @@ export const tabRouteMapping: { [key: string]: string } = {
   dailyEval: "daily-evaluations",
   testEval: "test-evaluations",
 };
+
+export interface AlertButton {
+  text: string;
+  onPress?: () => void;
+}
+
+export interface AlertData {
+  title: string;
+  message: string;
+  buttons?: AlertButton[]; // Make buttons optional
+}
+
+export type AlertListener = (data: AlertData) => void;

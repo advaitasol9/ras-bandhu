@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import moment from "moment";
 import { Evaluation } from "@/lib/types";
+import Alert from "@/components/ui/alert";
+import { toast } from "@/components/ui/use-toast";
 
 const MentorInput = ({
   submissionData,
@@ -56,19 +58,18 @@ const MentorInput = ({
     ) {
       setEvaluationFile(e.target.files[0]);
     } else {
-      alert("Only PDF files are allowed.");
+      Alert.alert("Error", "Only PDF files are allowed.");
     }
   };
 
   const handleSubmit = async () => {
-    if (!mentorComments || !evaluationFile) {
-      alert("Please provide comments and upload the evaluation PDF.");
-      return;
-    }
+    if (!mentorComments || !evaluationFile)
+      return Alert.alert(
+        "Error",
+        "Please provide comments and upload the evaluation PDF."
+      );
 
-    if (!isDocumentValid) {
-      return alert("Upload a valid PDF.");
-    }
+    if (!isDocumentValid) return Alert.alert("Error", "Upload a valid PDF.");
 
     setIsSubmitting(true);
 
@@ -94,7 +95,10 @@ const MentorInput = ({
         status: "Evaluated",
       });
 
-      alert("Evaluation submitted successfully!");
+      toast({
+        title: "Success",
+        description: "Evaluation submitted successfully!",
+      });
     } catch (error) {
       console.error("Error submitting evaluation:", error);
     } finally {
@@ -103,10 +107,8 @@ const MentorInput = ({
   };
 
   const handleReject = async () => {
-    if (!rejectReason) {
-      alert("Please provide a reason for rejection.");
-      return;
-    }
+    if (!rejectReason)
+      return Alert.alert("Error", "Please provide a reason for rejection.");
 
     try {
       const submissionRef = doc(
@@ -120,7 +122,10 @@ const MentorInput = ({
         rejectedAt: moment().toISOString(),
       });
 
-      alert("Submission rejected successfully.");
+      toast({
+        title: "Success",
+        description: "Submission rejected.",
+      });
       setShowRejectReason(false);
       setRejectReason("");
     } catch (error) {

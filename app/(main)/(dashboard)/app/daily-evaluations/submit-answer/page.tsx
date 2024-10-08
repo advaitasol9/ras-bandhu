@@ -8,6 +8,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import { useDailyEvaluation } from "@/components/context/daily-eval-provider";
+import Alert from "@/components/ui/alert";
 
 interface FileObject {
   type: string;
@@ -42,22 +43,22 @@ const SubmitAnswerForm: React.FC = () => {
     const isPdf = newFile.type === "application/pdf";
 
     // Prevent adding more files if a PDF is already uploaded
-    if (isPdf && files.length > 0) {
-      alert("You cannot upload a PDF when images are already selected.");
-      return;
-    }
+    if (isPdf && files.length > 0)
+      return Alert.alert(
+        "Error",
+        "You cannot upload a PDF when images are already selected."
+      );
 
     // Prevent adding more images if a PDF is already uploaded
-    if (!isPdf && files.some((file) => file.type === "application/pdf")) {
-      alert("You cannot upload images when a PDF is already selected.");
-      return;
-    }
+    if (!isPdf && files.some((file) => file.type === "application/pdf"))
+      return Alert.alert(
+        "Error",
+        "You cannot upload images when a PDF is already selected."
+      );
 
     // Restrict to only one PDF
-    if (isPdf && files.some((file) => file.type === "application/pdf")) {
-      alert("Only one PDF can be uploaded.");
-      return;
-    }
+    if (isPdf && files.some((file) => file.type === "application/pdf"))
+      return Alert.alert("Error", "Only one PDF can be uploaded.");
 
     setFiles([
       ...files,
@@ -73,19 +74,35 @@ const SubmitAnswerForm: React.FC = () => {
     event.preventDefault();
 
     if (!subscriptionData || !hasActiveSubscription)
-      return alert("You don't have an active subscription");
-    if (!creditsRemaining) return alert("You have 0 credits left");
+      return Alert.alert("Error", "You don't have an active subscription");
+
+    if (!creditsRemaining)
+      return Alert.alert("Error", "You have 0 credits left");
+
     if (creditsRemaining < numberOfAnswers)
-      return alert(
+      return Alert.alert(
+        "Error",
         `You can submit a maximum of ${creditsRemaining} questions.`
       );
-    if (!selectedPaper) return alert("Select paper");
-    if (!selectedSubject) return alert("Select subject");
+
+    if (!selectedPaper) return Alert.alert("Error", "Select paper");
+
+    if (!selectedSubject) return Alert.alert("Error", "Select subject");
+
     if (!numberOfAnswers || numberOfAnswers < 0)
-      return alert("Enter valid number of answers you are submitting");
-    if (!files.length) return alert("Please select images/pdf to upload");
+      return Alert.alert(
+        "Error",
+        "Enter valid number of answers you are submitting"
+      );
+
+    if (!files.length)
+      return Alert.alert("Error", "Please select images/pdf to upload");
+
     if (!containsPyq)
-      return alert("Please select if question is from Daily Question Bank");
+      return Alert.alert(
+        "Error",
+        "Please select if the question is from Daily Question Bank"
+      );
 
     setIsSubmitting(true);
 
@@ -94,7 +111,6 @@ const SubmitAnswerForm: React.FC = () => {
       const submissionId = submissionRef.id;
       const namePrefix = userData.name.replace(" ", "-");
 
-      // Upload files to Firebase Storage with correct naming convention
       const fileUploadPromises = files.map(async (fileObj, index) => {
         const fileExtension = fileObj.file.name.split(".").pop();
         const fileName =
@@ -118,10 +134,8 @@ const SubmitAnswerForm: React.FC = () => {
         };
       });
 
-      // Wait for all file uploads to complete and get their URLs
       const uploadedFiles = await Promise.all(fileUploadPromises);
 
-      // Now create the document in Firestore with all data including the uploaded files
       await setDoc(submissionRef, {
         userId: user?.uid,
         type: selectedPaper,
@@ -144,7 +158,10 @@ const SubmitAnswerForm: React.FC = () => {
       router.push("/app");
     } catch (error) {
       console.error("Error uploading files and creating document: ", error);
-      alert("There was an error processing your request. Please try again.");
+      Alert.alert(
+        "Error",
+        "There was an error processing your request. Please try again."
+      );
     } finally {
       setIsSubmitting(false);
     }
