@@ -14,10 +14,10 @@ import {
 } from "firebase/firestore";
 import { useUserContext } from "@/components/context/user-provider";
 import HistoryCard from "@/components/user-dashboard/history-card";
-import { Evaluation } from "@/lib/types";
+import { TestEvaluation } from "@/lib/types";
 
 const MyAnswers: React.FC = () => {
-  const [submissions, setSubmissions] = useState<Evaluation[]>([]);
+  const [submissions, setSubmissions] = useState<TestEvaluation[]>([]);
   const [selectedPaper, setSelectedPaper] = useState<string>("");
   const [filterSubject, setFilterSubject] = useState<string>("");
   const [filterStatus, setFilterStatus] = useState<string>("");
@@ -40,7 +40,7 @@ const MyAnswers: React.FC = () => {
   const fetchSubmissions = async (loadMore = false) => {
     if (!user) return;
     let q = query(
-      collection(firestore, "DailyEvalRequests"),
+      collection(firestore, "TestEvalRequests"),
       where("userId", "==", user.uid),
       orderBy("createdAt", "desc"),
       limit(pageSize)
@@ -51,7 +51,7 @@ const MyAnswers: React.FC = () => {
     }
 
     if (selectedPaper && filterSubject) {
-      q = query(q, where("subject", "==", filterSubject));
+      q = query(q, where("subjects", "array-contains", filterSubject));
     }
 
     if (filterStatus) {
@@ -62,10 +62,10 @@ const MyAnswers: React.FC = () => {
       q = query(q, startAfter(lastVisible));
     }
     const querySnapshot = await getDocs(q);
-    const newSubmissions: Evaluation[] = querySnapshot.docs.map((doc) => ({
+    const newSubmissions: TestEvaluation[] = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
-    })) as Evaluation[];
+    })) as TestEvaluation[];
 
     setSubmissions(
       loadMore ? [...submissions, ...newSubmissions] : newSubmissions
@@ -169,7 +169,7 @@ const MyAnswers: React.FC = () => {
             <HistoryCard
               item={item}
               index={index}
-              linkTo={`/app/daily-evaluations/${item.id}`}
+              linkTo={`/app/test-evaluations/${item.id}`}
               key={`card${index}`}
             />
           ))}

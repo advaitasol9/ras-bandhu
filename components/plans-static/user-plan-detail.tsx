@@ -1,10 +1,13 @@
 import React from "react";
-import { DailyEvaluationSubscription } from "@/lib/types";
+import {
+  DailyEvaluationSubscription,
+  TestEvaluationSubscription,
+} from "@/lib/types";
 import moment from "moment";
 import { FaCheck } from "react-icons/fa";
 
 type PlanDetailProps = {
-  subscriptionData: DailyEvaluationSubscription;
+  subscriptionData: DailyEvaluationSubscription | TestEvaluationSubscription;
   index: number;
 };
 

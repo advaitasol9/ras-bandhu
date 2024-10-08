@@ -51,7 +51,7 @@ export const SubscriptionPlansProvider: React.FC<{
       setDailyEvaluationPlans(
         dailyEvaluation.sort((a, b) => a.price - b.price)
       );
-      setTestEvaluationPlans(testEvaluation);
+      setTestEvaluationPlans(testEvaluation.sort((a, b) => a.price - b.price));
       setTestSeriesPlans(testSeries);
     } catch (error) {
       console.error("Error fetching subscription plans: ", error);

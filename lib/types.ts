@@ -1,7 +1,9 @@
 export type Evaluation = {
   id: string;
   userId: string;
+  paper?: string;
   subject: string;
+  subjects?: string[];
   createdAt: string;
   type: string;
   numberOfAnswers: number;
@@ -93,9 +95,70 @@ export const emptyDailyEvaluationSubscription = {
   subInfo: emptyUserSubInfo,
 };
 
+export interface TestEvaluationSubscription {
+  id?: string;
+  subscriptionPlan: string;
+  creditsRemaining: number;
+  subscriptionExpiry: string;
+  lastCreditUsed: string | null;
+  userId: string;
+  subInfo: UserSubInfo;
+  createdAt: string;
+}
+
+export const emptyTestEvaluationSubscription = {
+  creditsRemaining: 0,
+  lastCreditReset: "",
+  subscriptionExpiry: "",
+  subscriptionPlan: "",
+  userId: "",
+  subInfo: emptyUserSubInfo,
+};
+
+export type TestEvaluation = {
+  id: string;
+  userId: string;
+  paper: string;
+  subject?: string;
+  subjects: string[];
+  createdAt: string;
+  type: string;
+  numberOfAnswers: number;
+  containsPyq?: boolean;
+  studentComment?: string;
+  status: "Pending" | "Assigned" | "Evaluated" | "Rejected";
+  file: { url: string; type: string };
+  mentorAssigned?: string;
+  mentorComments?: string;
+  mentorEvaluationUrl?: string;
+  rejectReason?: string;
+  review?: {
+    rating: number;
+    feedback: string;
+    feedbackImages: string[];
+  };
+  assignedAt?: string;
+  evaluatedAt?: string;
+};
+
 export type User = {
   id: string;
   name?: string;
   email?: string;
   phone?: string;
+};
+
+export const tabSubCollectionMapping: { [key: string]: string } = {
+  dailyEval: "DailyEvalSubscriptions",
+  testEval: "TestEvalSubscriptions",
+};
+
+export const tabEvalReqCollectionMapping: { [key: string]: string } = {
+  dailyEval: "DailyEvalRequests",
+  testEval: "TestEvalRequests",
+};
+
+export const tabRouteMapping: { [key: string]: string } = {
+  dailyEval: "daily-evaluations",
+  testEval: "test-evaluations",
 };

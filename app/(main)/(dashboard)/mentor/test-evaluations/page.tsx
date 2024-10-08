@@ -28,7 +28,6 @@ const MyEvaluations: React.FC = () => {
 
   const [submissions, setSubmissions] = useState<Evaluation[]>([]);
   const [selectedMedium, setSelectedMedium] = useState<string>("");
-  const [containsPyQ, setContainsPyQ] = useState<string>("");
   const [selectedPaper, setSelectedPaper] = useState<string>("");
   const [filterSubject, setFilterSubject] = useState<string>("");
   const [filterStatus, setFilterStatus] = useState<string>(status || "Pending");
@@ -53,14 +52,10 @@ const MyEvaluations: React.FC = () => {
   const fetchSubmissions = async (loadMore = false) => {
     if (!user) return;
     let q = query(
-      collection(firestore, "DailyEvalRequests"),
+      collection(firestore, "TestEvalRequests"),
       orderBy("createdAt", "desc"),
       limit(pageSize)
     );
-
-    if (containsPyQ) {
-      q = query(q, where("containsPyq", "==", containsPyQ));
-    }
 
     if (selectedMedium) {
       q = query(q, where("medium", "==", selectedMedium));
@@ -71,7 +66,7 @@ const MyEvaluations: React.FC = () => {
     }
 
     if (selectedPaper && filterSubject) {
-      q = query(q, where("subject", "==", filterSubject));
+      q = query(q, where("subjects", "array-contains", filterSubject));
     }
 
     if (filterStatus) {
@@ -121,7 +116,6 @@ const MyEvaluations: React.FC = () => {
     setIsLastPage(false);
     fetchSubmissions();
   }, [
-    containsPyQ,
     selectedMedium,
     selectedPaper,
     filterSubject,
@@ -132,7 +126,6 @@ const MyEvaluations: React.FC = () => {
   ]);
 
   const handleClearFilters = () => {
-    setContainsPyQ("");
     setSelectedMedium("");
     setSelectedPaper("");
     setFilterSubject("");
@@ -158,22 +151,6 @@ const MyEvaluations: React.FC = () => {
         </h1>
 
         <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 mb-6">
-          <div className="w-full md:w-auto">
-            <select
-              id="pyqFilter"
-              value={containsPyQ}
-              onChange={(e) => setContainsPyQ(e.target.value)}
-              className="w-full px-3 py-2 border border-[rgb(var(--input))] rounded-md shadow-sm focus:outline-none focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] sm:text-sm"
-            >
-              <option value="">DQB</option>
-              {["yes", "no"].map((val: string, ind: number) => (
-                <option value={val} key={`pyq${ind}`}>
-                  {val}
-                </option>
-              ))}
-            </select>
-          </div>
-
           <div className="w-full md:w-auto">
             <select
               id="mediumFilter"
@@ -282,7 +259,7 @@ const MyEvaluations: React.FC = () => {
                 key={index}
                 item={item}
                 index={index}
-                linkTo={`/mentor/daily-evaluations/${item.id}`}
+                linkTo={`/mentor/test-evaluations/${item.id}`}
               />
             ))}
           </div>

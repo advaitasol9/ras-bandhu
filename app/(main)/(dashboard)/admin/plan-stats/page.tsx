@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -16,21 +16,25 @@ import {
 import { Plan } from "@/lib/types";
 import { useSubscriptionPlans } from "@/components/context/subscription-provider";
 import { useRouter } from "next/navigation";
+import ParentTab from "@/components/parent-tab";
 
 const SubscriptionStats = () => {
-  const { dailyEvaluationPlans } = useSubscriptionPlans();
-  const [currentMetric, setCurrentMetric] = useState("revenue");
-  const [selectedMedium, setSelectedMedium] = useState("All");
-
+  const { dailyEvaluationPlans, testEvaluationPlans } = useSubscriptionPlans();
   const router = useRouter();
 
-  // Filter plans by selected medium
-  const filteredPlans = dailyEvaluationPlans.filter((plan: Plan) => {
+  const [currentMetric, setCurrentMetric] = useState("revenue");
+  const [selectedMedium, setSelectedMedium] = useState("All");
+  const [currentTab, setCurrentTab] = useState<string | null>(null);
+
+  var plansToShow: Plan[] = [];
+  if (currentTab == "dailyEval") plansToShow = dailyEvaluationPlans;
+  if (currentTab == "testEval") plansToShow = testEvaluationPlans;
+
+  const filteredPlans = plansToShow.filter((plan: Plan) => {
     if (selectedMedium === "All") return true;
     return plan.medium === selectedMedium.toLowerCase();
   });
 
-  // Extracting relevant data
   const chartData = filteredPlans.map((plan: Plan) => ({
     name: `${plan.name}-${plan.medium.charAt(0).toUpperCase()}`,
     medium: plan.medium.charAt(0).toUpperCase() + plan.medium.slice(1),
@@ -49,10 +53,11 @@ const SubscriptionStats = () => {
   };
 
   const handleBarClick = (data: any) => {
-    router.push(`/admin/plan-stats/user-list?planId=${data.planId}`);
+    router.push(
+      `/admin/plan-stats/user-list?planId=${data.planId}&parent=${currentTab}`
+    );
   };
 
-  // Custom tick function to rotate the text
   const CustomTick = (props: any) => {
     const { x, y, payload } = props;
 
@@ -72,7 +77,6 @@ const SubscriptionStats = () => {
     );
   };
 
-  // Helper function to style buttons dynamically
   const getButtonStyles = (isActive: boolean) =>
     `px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
       isActive
@@ -80,88 +84,110 @@ const SubscriptionStats = () => {
         : "bg-[rgb(var(--muted))] text-[rgb(var(--primary-text))]"
     }`;
 
+  useEffect(() => {
+    const savedTab = localStorage.getItem("admin-dashboard-tab");
+    if (savedTab) {
+      setCurrentTab(savedTab);
+    } else {
+      setCurrentTab("dailyEval");
+    }
+  }, []);
+
+  const handleTabChange = (tab: string) => {
+    setCurrentTab(tab);
+    localStorage.setItem("admin-dashboard-tab", tab);
+  };
+
+  if (!currentTab) {
+    return null;
+  }
+
   return (
-    <div
-      className={`mt-4 mx-auto p-6 bg-[rgb(var(--card))] rounded-lg shadow-lg w-full ${
-        filteredPlans.length <= 2
-          ? "max-w-md"
-          : filteredPlans.length <= 4
-          ? "max-w-lg"
-          : "max-w-3xl"
-      }`}
-    >
-      <h2 className="text-xl font-bold text-[rgb(var(--primary-text))] mb-6 text-center">
-        Subscription Plans Statistics
-      </h2>
-
-      {/* Medium Selector Buttons */}
-      <div className="flex justify-center mb-6 space-x-4">
-        {["All", "English", "Hindi"].map((medium) => (
-          <button
-            key={medium}
-            className={getButtonStyles(selectedMedium === medium)}
-            onClick={() => handleMediumChange(medium)}
-          >
-            {medium}
-          </button>
-        ))}
+    <div>
+      <div className="flex justify-center">
+        <ParentTab currentTab={currentTab} handleTabChange={handleTabChange} />
       </div>
+      <div
+        className={`mt-4 mx-auto p-6 bg-[rgb(var(--card))] rounded-lg shadow-lg w-full ${
+          filteredPlans.length <= 2
+            ? "max-w-md"
+            : filteredPlans.length <= 4
+            ? "max-w-lg"
+            : "max-w-3xl"
+        }`}
+      >
+        <h2 className="text-xl font-bold text-[rgb(var(--primary-text))] mb-6 text-center">
+          Subscription Plans Statistics
+        </h2>
 
-      {/* Metric Selector Buttons */}
-      <div className="flex justify-center mb-6 space-x-4">
-        {["revenue", "admissions", "seatsLeft"].map((metric) => (
-          <button
-            key={metric}
-            className={getButtonStyles(currentMetric === metric)}
-            onClick={() => handleMetricChange(metric)}
-          >
-            {metric.charAt(0).toUpperCase() + metric.slice(1)}
-          </button>
-        ))}
-      </div>
+        <div className="flex justify-center mb-6 space-x-4">
+          {["All", "English", "Hindi"].map((medium) => (
+            <button
+              key={medium}
+              className={getButtonStyles(selectedMedium === medium)}
+              onClick={() => handleMediumChange(medium)}
+            >
+              {medium}
+            </button>
+          ))}
+        </div>
 
-      {/* Responsive Container for Bar Chart */}
-      <div className="w-full h-96">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={chartData}
-            margin={{
-              top: 20,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-            onClick={(event) => {
-              if (event && event.activePayload) {
-                const clickedData = event.activePayload[0].payload;
-                handleBarClick(clickedData);
-              }
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              dataKey="name"
-              tick={<CustomTick />}
-              height={80}
-              interval={0}
-            />
-            <YAxis>
-              <LabelList dataKey={currentMetric} position="insideLeft" />
-            </YAxis>
-            <Tooltip />
-            <Legend />
-            <Bar dataKey={currentMetric} fill="rgb(var(--primary))">
-              <LabelList dataKey={currentMetric} position="top" />
-              {chartData.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  cursor="pointer"
-                  onClick={() => handleBarClick(entry)}
-                />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+        {/* Metric Selector Buttons */}
+        <div className="flex justify-center mb-6 space-x-4">
+          {["revenue", "admissions", "seatsLeft"].map((metric) => (
+            <button
+              key={metric}
+              className={getButtonStyles(currentMetric === metric)}
+              onClick={() => handleMetricChange(metric)}
+            >
+              {metric.charAt(0).toUpperCase() + metric.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        {/* Responsive Container for Bar Chart */}
+        <div className="w-full h-96">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={chartData}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+              onClick={(event) => {
+                if (event && event.activePayload) {
+                  const clickedData = event.activePayload[0].payload;
+                  handleBarClick(clickedData);
+                }
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                dataKey="name"
+                tick={<CustomTick />}
+                height={80}
+                interval={0}
+              />
+              <YAxis>
+                <LabelList dataKey={currentMetric} position="insideLeft" />
+              </YAxis>
+              <Tooltip />
+              <Legend />
+              <Bar dataKey={currentMetric} fill="rgb(var(--primary))">
+                <LabelList dataKey={currentMetric} position="top" />
+                {chartData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    cursor="pointer"
+                    onClick={() => handleBarClick(entry)}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );

@@ -13,16 +13,14 @@ const AdminSubscriptions: React.FC = () => {
   const router = useRouter();
 
   const [subscriptions, setSubscriptions] = useState<Plan[]>([]);
-  const [selectedType, setSelectedType] = useState("all");
+  const [selectedType, setSelectedType] = useState("dailyEvaluation");
   const [selectedMedium, setSelectedMedium] = useState("all");
 
   useEffect(() => {
     const fetchSubscriptions = async () => {
       let q = query(collection(firestore, "SubscriptionPlans"));
 
-      if (selectedType !== "all") {
-        q = query(q, where("parentSection", "==", selectedType));
-      }
+      q = query(q, where("parentSection", "==", selectedType));
 
       if (selectedMedium !== "all") {
         q = query(q, where("medium", "==", selectedMedium));
@@ -62,7 +60,6 @@ const AdminSubscriptions: React.FC = () => {
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
           >
-            <option value="all">All Types</option>
             <option value="dailyEvaluation">Daily Evaluation</option>
             <option value="testEvaluation">Test Evaluation</option>
             <option value="testSeries">Test Series</option>
@@ -90,6 +87,13 @@ const AdminSubscriptions: React.FC = () => {
         </div>
       </div>
 
+      <Button
+        className="mb-8 bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]"
+        onClick={() => router.push("/admin/subscriptions/add-new")}
+      >
+        Add New
+      </Button>
+
       {/* Render the filtered subscriptions */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {subscriptions.length > 0 ? (
@@ -108,13 +112,6 @@ const AdminSubscriptions: React.FC = () => {
           </p>
         )}
       </div>
-
-      <Button
-        className="mt-8 bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]"
-        onClick={() => router.push("/admin/subscriptions/add-new")}
-      >
-        Add New
-      </Button>
     </div>
   );
 };

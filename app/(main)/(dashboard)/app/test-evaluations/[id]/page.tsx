@@ -6,15 +6,15 @@ import { useFirestore, useStorage } from "reactfire";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useUserContext } from "@/components/context/user-provider";
-import SubmissionDetails from "@/components/answer-detail/daily-eval/submission-details";
+import SubmissionDetails from "@/components/answer-detail/test-eval/submission-details";
 import MentorEvaluation from "@/components/answer-detail/mentor-evaluation";
 import FeedbackSection from "@/components/answer-detail/feedback-section";
-import { Evaluation } from "@/lib/types";
+import { TestEvaluation } from "@/lib/types";
 
 const SubmissionStatus = ({
   submissionData,
 }: {
-  submissionData: Evaluation;
+  submissionData: TestEvaluation;
 }) => {
   const statusColors: Record<string, string> = {
     Pending: "text-[rgb(var(--edit))]",
@@ -54,7 +54,9 @@ const MyAnswerDetail = () => {
   const storage = useStorage();
   const { user } = useUserContext();
 
-  const [submissionData, setSubmissionData] = useState<Evaluation | null>(null);
+  const [submissionData, setSubmissionData] = useState<TestEvaluation | null>(
+    null
+  );
   const [loading, setLoading] = useState(true);
   const [rating, setRating] = useState(0);
   const [feedback, setFeedback] = useState("");
@@ -64,12 +66,15 @@ const MyAnswerDetail = () => {
   // Fetch submission data on load
   useEffect(() => {
     if (!id || !user) return;
-    const submissionRef = doc(firestore, "DailyEvalRequests", id);
+    const submissionRef = doc(firestore, "TestEvalRequests", id);
 
     const unsubscribe = onSnapshot(submissionRef, async (docSnapshot) => {
       if (docSnapshot.exists()) {
-        const data = docSnapshot.data() as Evaluation;
-        setSubmissionData({ ...data, id });
+        const data = docSnapshot.data() as TestEvaluation;
+        setSubmissionData({
+          ...data,
+          id,
+        });
         if (data.review) {
           setHasGivenFeedback(true);
           setRating(data.review.rating);
@@ -96,7 +101,7 @@ const MyAnswerDetail = () => {
     for (const file of selectedFiles) {
       const fileRef = ref(
         storage,
-        `daily-eval-requests/${id}/feedback/${file.name}`
+        `test-eval-requests/${id}/feedback/${file.name}`
       );
       const snapshot = await uploadBytes(fileRef, file);
       const downloadUrl = await getDownloadURL(snapshot.ref);
@@ -112,7 +117,7 @@ const MyAnswerDetail = () => {
     if (feedback || rating) {
       try {
         const imageUrls = await uploadFeedbackImages();
-        const submissionRef = doc(firestore, "DailyEvalRequests", id);
+        const submissionRef = doc(firestore, "TestEvalRequests", id);
         await updateDoc(submissionRef, {
           review: {
             rating,
@@ -133,7 +138,7 @@ const MyAnswerDetail = () => {
   if (loading) return <div className="text-center">Loading...</div>;
 
   if (!submissionData)
-    return <div className="text=center">No submission data found</div>;
+    return <div className="text-center">No submission data found</div>;
 
   const isEvaluated = submissionData.status === "Evaluated";
 

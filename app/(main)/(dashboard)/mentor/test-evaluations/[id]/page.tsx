@@ -6,14 +6,14 @@ import { useFirestore, useStorage } from "reactfire";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useUserContext } from "@/components/context/user-provider";
-import SubmissionDetails from "@/components/answer-detail/daily-eval/submission-details";
+import SubmissionDetails from "@/components/answer-detail/test-eval/submission-details";
 import FeedbackSection from "@/components/answer-detail/feedback-section";
-import MentorInput from "@/components/answer-detail/daily-eval/mentor-input";
+import MentorInput from "@/components/answer-detail/test-eval/mentor-input";
 import MentorRoute from "../../mentor-route";
-import { Evaluation } from "@/lib/types";
 import MentorEvaluation from "@/components/answer-detail/mentor-evaluation";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
+import { TestEvaluation } from "@/lib/types";
 
 // Main Component
 const MyAnswerDetail = () => {
@@ -23,7 +23,9 @@ const MyAnswerDetail = () => {
   const storage = useStorage();
   const { user } = useUserContext();
 
-  const [submissionData, setSubmissionData] = useState<Evaluation | null>(null);
+  const [submissionData, setSubmissionData] = useState<TestEvaluation | null>(
+    null
+  );
   const [loading, setLoading] = useState(true);
   const [rating, setRating] = useState(0);
   const [feedback, setFeedback] = useState("");
@@ -33,11 +35,11 @@ const MyAnswerDetail = () => {
   // Fetch submission data on load
   useEffect(() => {
     if (!id || !user) return;
-    const submissionRef = doc(firestore, "DailyEvalRequests", id);
+    const submissionRef = doc(firestore, "TestEvalRequests", id);
 
     const unsubscribe = onSnapshot(submissionRef, async (docSnapshot) => {
       if (docSnapshot.exists()) {
-        const data = docSnapshot.data() as Evaluation;
+        const data = docSnapshot.data() as TestEvaluation;
         setSubmissionData({ ...data, id });
         if (data.review) {
           setHasGivenFeedback(true);
@@ -77,7 +79,7 @@ const MyAnswerDetail = () => {
 
     try {
       const imageUrls = await uploadFeedbackImages();
-      const submissionRef = doc(firestore, "DailyEvalRequests", id);
+      const submissionRef = doc(firestore, "TestEvalRequests", id);
       await updateDoc(submissionRef, {
         review: {
           rating,

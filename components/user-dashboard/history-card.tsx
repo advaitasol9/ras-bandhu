@@ -1,14 +1,21 @@
 import React from "react";
 import Link from "next/link";
 import { Avatar } from "@/components/ui/avatar";
-import { Evaluation } from "@/lib/types";
+import { Evaluation, TestEvaluation } from "@/lib/types";
 import { Star } from "lucide-react";
 
 interface Card {
-  item: Evaluation;
+  item: Evaluation | TestEvaluation;
   index: number;
   linkTo: string | null;
 }
+
+const paperMapping: { [key: string]: string } = {
+  Paper1: "P1",
+  Paper2: "P2",
+  Paper3: "P3",
+  Paper4: "P4",
+};
 
 const HistoryCard = ({ item, index, linkTo }: Card) => {
   return (
@@ -16,7 +23,11 @@ const HistoryCard = ({ item, index, linkTo }: Card) => {
       <a className="block bg-[rgb(var(--card))] py-4 px-2 md:px-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200">
         <div className="flex items-center">
           <Avatar className="flex h-9 w-9 items-center justify-center space-y-0 border border-[rgb(var(--border))]">
-            <p className="text-[rgb(var(--primary-text))]">{item.subject}</p>
+            <p className="text-[rgb(var(--primary-text))]">
+              {typeof item?.subject === "string"
+                ? item.subject
+                : paperMapping[item?.paper || ""] || "Unknown"}
+            </p>
           </Avatar>
           <div className="ml-4 space-y-1">
             <p className="text-sm font-medium leading-none text-[rgb(var(--primary-text))]">
@@ -44,8 +55,8 @@ const HistoryCard = ({ item, index, linkTo }: Card) => {
         <div className="mt-4">
           <div className="flex items-center justify-between">
             <p className="text-sm font-medium text-[rgb(var(--primary-text))]">
-              {item.type === "Test"
-                ? "Test"
+              {item.type === "test"
+                ? `Subjects: ${item.subjects?.join(", ")}`
                 : `No of Questions: ${item.numberOfAnswers}`}
             </p>
             {item?.review?.rating && (

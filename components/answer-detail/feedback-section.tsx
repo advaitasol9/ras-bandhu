@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Star } from "lucide-react";
-import { Evaluation } from "@/lib/types";
+import { Evaluation, TestEvaluation } from "@/lib/types";
 
 // FeedbackSection Component
 const FeedbackSection = ({
@@ -17,7 +17,7 @@ const FeedbackSection = ({
   isMentor,
   handleDownload,
 }: {
-  submissionData: Evaluation;
+  submissionData: Evaluation | TestEvaluation;
   rating: number;
   setRating: (val: number) => void;
   feedback: string;

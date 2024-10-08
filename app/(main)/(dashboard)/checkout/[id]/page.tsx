@@ -84,7 +84,7 @@ const CheckoutPage = () => {
         amount,
         currency,
         name: "RAS Bandhu",
-        description: `Purchase of ${planData.name}`,
+        description: `Purchase of ${planData.parentSection}-${planData.name}-${planData.medium}`,
         order_id: orderId,
         handler: async (response: any) => {
           // On successful payment, verify payment on backend

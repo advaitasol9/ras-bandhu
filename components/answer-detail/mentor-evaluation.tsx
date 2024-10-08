@@ -1,12 +1,12 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Evaluation } from "@/lib/types";
+import { Evaluation, TestEvaluation } from "@/lib/types";
 
 const MentorEvaluation = ({
   submissionData,
   handleDownload,
 }: {
-  submissionData: Evaluation;
+  submissionData: Evaluation | TestEvaluation;
   handleDownload: (url: string) => void;
 }) =>
   submissionData.status === "Evaluated" ? (

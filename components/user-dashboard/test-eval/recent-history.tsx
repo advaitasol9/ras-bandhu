@@ -18,7 +18,7 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import Link from "next/link";
-import HistoryCard from "./history-card";
+import HistoryCard from "../history-card";
 import { Evaluation } from "@/lib/types";
 import { FaArrowRight } from "react-icons/fa";
 
@@ -32,7 +32,7 @@ export function RecentHistory() {
       if (!user) return;
 
       const q = query(
-        collection(firestore, "DailyEvalRequests"),
+        collection(firestore, "TestEvalRequests"),
         where("userId", "==", user.uid),
         orderBy("createdAt", "desc"),
         limit(2)
@@ -61,7 +61,7 @@ export function RecentHistory() {
         {!!submissions.length && (
           <CardDescription className="cursor-pointer">
             <Link
-              href="/app/daily-evaluations"
+              href="/app/test-evaluations"
               className="flex items-center justify-center lg:justify-start"
             >
               View All{" "}
@@ -78,7 +78,7 @@ export function RecentHistory() {
                 key={index}
                 item={item}
                 index={index}
-                linkTo={`/app/daily-evaluations/${item.id}`}
+                linkTo={`/app/test-evaluations/${item.id}`}
               />
             ))
           ) : (

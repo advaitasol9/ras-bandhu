@@ -1,85 +1,50 @@
 "use client";
 
 import { FC, useEffect, useState } from "react";
-import { MainNav } from "@/components/demo-dashboard/main-nav";
-import { RecentHistory } from "@/components/demo-dashboard/recent-history";
-
-import Link from "next/link";
-import { useUserContext } from "@/components/context/user-provider";
-import { Button } from "@/components/ui/button";
-import CreateNewAns from "@/components/demo-dashboard/create-new-ans";
-import { useRouter } from "next/navigation";
-import { useDailyEvaluation } from "@/components/context/daily-eval-provider";
-import { emptyDailyEvaluationSubscription } from "@/lib/types";
-import { UserPlanDetail } from "@/components/plans-static/user-plan-detail";
-import MentorshipCall from "@/components/demo-dashboard/mentorship-call";
+import DailyEvalDashboard from "@/components/user-dashboard/daily-eval/daily-eval-dashboard";
+import TestEvalDashboard from "@/components/user-dashboard/test-eval/test-eval-dashboard";
+import UserRoute from "./user-route";
+import ParentTab from "@/components/parent-tab";
 
 const Dashboard: FC = () => {
-  const [currentTab, setCurrentTab] = useState("evaluations");
-
-  const { subscriptionData, hasActiveSubscription } = useDailyEvaluation();
-  const { isMentor, isAdmin, userData } = useUserContext();
-  const router = useRouter();
+  const [currentTab, setCurrentTab] = useState<string | null>(null);
 
   useEffect(() => {
-    if (isMentor) router.replace("/mentor");
-    else if (isAdmin) router.replace("/admin");
-    else {
-      if (userData && (!userData?.name || !userData?.email || !userData?.phone))
-        router.replace("/app/profile");
+    const savedTab = localStorage.getItem("user-dashboard-tab");
+    if (savedTab) {
+      setCurrentTab(savedTab);
+    } else {
+      setCurrentTab("dailyEval");
     }
-  }, [isMentor, isAdmin, userData]);
+  }, []);
+
+  const handleTabChange = (tab: string) => {
+    setCurrentTab(tab);
+    localStorage.setItem("user-dashboard-tab", tab);
+  };
+
+  if (!currentTab) {
+    return null;
+  }
 
   return (
-    <div className="flex flex-col w-full">
-      <div className="flex items-end justify-between mb-6">
-        <h2 className="text-3xl leading-5 font-bold tracking-tight text-[rgb(var(--primary-text))]">
-          Dashboard
-        </h2>
-      </div>
-      <div className="flex h-16 items-center bg-[rgb(var(--muted))] px-6 rounded-xl w-full">
-        <MainNav
-          currentTab={currentTab}
-          setCurrentTab={setCurrentTab}
-          showMentorshipCallBtn={hasActiveSubscription}
-        />
-      </div>
-      <div className="flex-1 space-y-4 pt-6">
-        {currentTab == "evaluations" && (
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 w-full">
-            <CreateNewAns
-              hasActiveSubscription={hasActiveSubscription}
-              subscriptionData={
-                subscriptionData || emptyDailyEvaluationSubscription
-              }
-            />
-            <RecentHistory />
-          </div>
-        )}
-        {currentTab == "myPlans" ? (
-          hasActiveSubscription ? (
-            <UserPlanDetail
-              index={0}
-              subscriptionData={
-                subscriptionData || emptyDailyEvaluationSubscription
-              }
-            />
+    <UserRoute>
+      <div className="flex flex-col w-full space-y-6">
+        <div className="flex items-end justify-between">
+          <h2 className="text-3xl font-bold tracking-tight text-[rgb(var(--primary-text))]">
+            Dashboard
+          </h2>
+        </div>
+        <ParentTab currentTab={currentTab} handleTabChange={handleTabChange} />
+        <div>
+          {currentTab === "dailyEval" ? (
+            <DailyEvalDashboard />
           ) : (
-            <div className="flex flex-col items-center w-full">
-              <h1 className="font-medium text-[rgb(var(--primary-text))]">
-                No Active Subscription
-              </h1>
-              <Link href="/daily-evaluation">
-                <Button size="lg" variant="link">
-                  View Evaluation Plans &rarr;
-                </Button>
-              </Link>
-            </div>
-          )
-        ) : null}
-        {currentTab == "mentorshipCall" && <MentorshipCall />}
+            <TestEvalDashboard />
+          )}
+        </div>
       </div>
-    </div>
+    </UserRoute>
   );
 };
 

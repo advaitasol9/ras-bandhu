@@ -12,7 +12,10 @@ import {
 } from "firebase/firestore";
 import { useRouter, useSearchParams } from "next/navigation";
 import moment from "moment";
-import { DailyEvaluationSubscription } from "@/lib/types"; // Define the subscription type if you haven't
+import {
+  DailyEvaluationSubscription,
+  tabSubCollectionMapping,
+} from "@/lib/types"; // Define the subscription type if you haven't
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/ui/loader";
 import { useSubscriptionPlans } from "@/components/context/subscription-provider";
@@ -21,9 +24,13 @@ const PlanList = () => {
   const router = useRouter();
   const firestore = useFirestore();
   const searchParams = useSearchParams();
-  const { dailyEvaluationPlans } = useSubscriptionPlans();
+  const { dailyEvaluationPlans, testEvaluationPlans } = useSubscriptionPlans();
+
+  const parent = searchParams ? searchParams.get("parent") : "";
   const planId = searchParams ? searchParams.get("planId") : "";
-  const plan = dailyEvaluationPlans.find((plan) => plan.id == planId);
+  const plan = dailyEvaluationPlans
+    .concat(testEvaluationPlans)
+    .find((plan) => plan.id == planId);
 
   const [subscriptions, setSubscriptions] = useState<
     DailyEvaluationSubscription[]
@@ -36,12 +43,16 @@ const PlanList = () => {
   const pageSize = 15; // Number of items per page
 
   const fetchSubscriptions = async (loadMore = false) => {
-    if (!planId) return;
+    if (!planId || !parent || !["dailyEval", "testEval"].includes(parent))
+      return;
 
     setLoading(true);
 
     // Reference to subscriptions collection
-    const subscriptionsRef = collection(firestore, "DailyEvalSubscriptions");
+    const subscriptionsRef = collection(
+      firestore,
+      tabSubCollectionMapping[parent]
+    );
 
     let subscriptionsQuery = query(
       subscriptionsRef,
@@ -146,7 +157,9 @@ const PlanList = () => {
             <div
               key={sub.id}
               className="p-4 bg-[rgb(var(--card))] rounded-md shadow-md flex flex-col space-y-2 hover:cursor-pointer"
-              onClick={() => router.push(`/user-info?userId=${sub.userId}`)}
+              onClick={() =>
+                router.push(`/user-info?userId=${sub.userId}&parent=${parent}`)
+              }
             >
               <p className="text-md font-medium text-[rgb(var(--primary-text))]">
                 User ID: {sub.userId}

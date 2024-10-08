@@ -10,6 +10,8 @@ import { useUser } from "reactfire";
 import { useUserContext } from "../context/user-provider";
 import { useThemeContext } from "../context/theme-provider";
 import { BsSun, BsMoon } from "react-icons/bs";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 const DarkModeToggleButton = ({ isDarkMode, toggleDarkMode }: any) => {
   return (
@@ -36,6 +38,10 @@ export const NavBar: FC = () => {
   const { data, hasEmitted } = useUser();
   const { isMentor } = useUserContext();
   const { isDarkMode, toggleDarkMode } = useThemeContext();
+  const pathname = usePathname();
+
+  // Check if the link is active
+  const isActive = (path: string) => pathname === path;
 
   return (
     <>
@@ -56,17 +62,34 @@ export const NavBar: FC = () => {
                 />
               </div>
             </Link>
-            <div className="hidden md:flex justify-between grow">
+            <div className="hidden lg:flex justify-between grow">
               <div>
                 <Link
                   href="/daily-evaluation"
-                  className={buttonVariants({ variant: "link" })}
+                  className={cn(
+                    buttonVariants({ variant: "link" }),
+                    isActive("/daily-evaluation")
+                      ? "text-primary underline" // Highlight active link
+                      : ""
+                  )}
                 >
                   Daily Evaluation
                 </Link>
                 <Link
+                  href="/test-evaluation"
+                  className={cn(
+                    buttonVariants({ variant: "link" }),
+                    isActive("/test-evaluation") ? "text-primary underline" : ""
+                  )}
+                >
+                  Test Evaluation
+                </Link>
+                <Link
                   href="/contact-us"
-                  className={buttonVariants({ variant: "link" })}
+                  className={cn(
+                    buttonVariants({ variant: "link" }),
+                    isActive("/contact-us") ? "text-primary underline" : ""
+                  )}
                 >
                   Contact Us
                 </Link>
@@ -79,7 +102,7 @@ export const NavBar: FC = () => {
                 <NavbarUserLinks />
               </div>
             </div>
-            <div className="grow md:hidden flex justify-end items-center">
+            <div className="grow lg:hidden flex justify-end items-center">
               <DarkModeToggleButton
                 isDarkMode={isDarkMode}
                 toggleDarkMode={toggleDarkMode}

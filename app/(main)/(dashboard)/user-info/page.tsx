@@ -14,11 +14,20 @@ import {
   startAfter,
   orderBy,
 } from "firebase/firestore";
-import HistoryCard from "@/components/demo-dashboard/history-card";
+import HistoryCard from "@/components/user-dashboard/history-card";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/ui/loader";
-import { DailyEvaluationSubscription, Evaluation, User } from "@/lib/types";
+import {
+  DailyEvaluationSubscription,
+  Evaluation,
+  TestEvaluationSubscription,
+  User,
+  tabEvalReqCollectionMapping,
+  tabRouteMapping,
+  tabSubCollectionMapping,
+} from "@/lib/types";
 import { useUserContext } from "@/components/context/user-provider";
+import ParentTab from "@/components/parent-tab";
 
 const UserProfile = () => {
   const firestore = useFirestore();
@@ -26,10 +35,13 @@ const UserProfile = () => {
   const { isAdmin } = useUserContext();
   const pathname = usePathname();
   const userId = searchParams ? searchParams.get("userId") : null;
+  const parent = searchParams ? searchParams.get("parent") : "";
 
+  const [selectedTab, setSelectedTab] = useState<string>(parent || "dailyEval");
   const [userDetails, setUserDetails] = useState<User | null>(null);
-  const [subscriptionDetails, setSubscriptionDetails] =
-    useState<DailyEvaluationSubscription | null>(null);
+  const [subscriptionDetails, setSubscriptionDetails] = useState<
+    DailyEvaluationSubscription | TestEvaluationSubscription | null
+  >(null);
   const [evalRequests, setEvalRequests] = useState<Evaluation[]>([]);
   const [lastVisible, setLastVisible] = useState<any>(null); // For pagination
   const [loading, setLoading] = useState(false);
@@ -55,7 +67,7 @@ const UserProfile = () => {
     try {
       const subscriptionDocRef = doc(
         firestore,
-        "DailyEvalSubscriptions",
+        tabSubCollectionMapping[selectedTab],
         userId || ""
       );
       const subscriptionSnapshot = await getDoc(subscriptionDocRef);
@@ -77,7 +89,10 @@ const UserProfile = () => {
       if (!loadMore) setLoading(true);
       else setLoadingMore(true);
 
-      const evalRequestsRef = collection(firestore, "DailyEvalRequests");
+      const evalRequestsRef = collection(
+        firestore,
+        tabEvalReqCollectionMapping[selectedTab]
+      );
       let evalRequestsQuery = query(
         evalRequestsRef,
         where("userId", "==", userId),
@@ -121,21 +136,29 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
+    setSubscriptionDetails(null);
+    setEvalRequests([]);
     if (userId) {
       fetchUserDetails();
       fetchSubscriptionDetails();
       fetchEvalRequests();
     }
-  }, [userId]);
+  }, [userId, selectedTab]);
 
   if (loading || !userDetails) {
     return <Loader />;
   }
 
   return (
-    <div className="container mx-auto mt-8 p-6">
+    <div className="container mx-auto p-6">
+      <div className="flex justify-center">
+        <ParentTab
+          currentTab={selectedTab}
+          handleTabChange={(val) => setSelectedTab(val)}
+        />
+      </div>
       {/* User Details */}
-      <div className="mb-8">
+      <div className="my-8">
         <h2 className="text-xl font-medium text-[rgb(var(--primary-text))]">
           User Details
         </h2>
@@ -190,8 +213,8 @@ const UserProfile = () => {
                 index={index}
                 linkTo={
                   isAdmin
-                    ? `${pathname}?userId=${userId}`
-                    : `/mentor/daily-evaluations/${item.id}`
+                    ? `${pathname}?userId=${userId}&parent=${parent}`
+                    : `/mentor/${tabRouteMapping[selectedTab || ""]}/${item.id}`
                 }
                 key={`card${index}`}
               />

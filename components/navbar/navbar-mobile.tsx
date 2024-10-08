@@ -29,6 +29,12 @@ export const NavbarMobile = () => {
                 Daily Evaluation
               </NavigationMenuLink>
               <NavigationMenuLink
+                href="/test-evaluation"
+                className={buttonVariants({ variant: "link" })}
+              >
+                Test Evaluation
+              </NavigationMenuLink>
+              <NavigationMenuLink
                 href="/contact-us"
                 className={buttonVariants({ variant: "link" })}
               >

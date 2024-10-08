@@ -3,7 +3,11 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { DailyEvaluationSubscription, Plan } from "@/lib/types";
+import {
+  DailyEvaluationSubscription,
+  Plan,
+  TestEvaluationSubscription,
+} from "@/lib/types";
 import { useUserContext } from "../context/user-provider";
 import moment from "moment";
 import Loader from "../ui/loader";
@@ -13,7 +17,7 @@ import PlanBasicDetails from "./plan-basic-details";
 type PlanDetailProps = {
   plan: Plan;
   index: number;
-  userSub?: DailyEvaluationSubscription | null;
+  userSub?: DailyEvaluationSubscription | TestEvaluationSubscription | null;
   createTrialSubscription: (planId: string) => Promise<void>;
   onSubscribe: (planId: string) => Promise<void>;
   buyingPlan?: string;
