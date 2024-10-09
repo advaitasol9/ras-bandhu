@@ -40,7 +40,7 @@ const AdminSubscriptions: React.FC = () => {
 
   return (
     <div className="container mx-auto mt-12">
-      <h1 className="text-2xl font-semibold mb-8 text-[rgb(var(--primary-text))]">
+      <h1 className="text-2xl font-semibold mb-8 text-primary-text">
         Subscription Plans
       </h1>
 
@@ -48,15 +48,12 @@ const AdminSubscriptions: React.FC = () => {
       <div className="flex space-x-4 mb-8">
         {/* Type Dropdown */}
         <div>
-          <label
-            htmlFor="typeFilter"
-            className="block mb-2 text-[rgb(var(--primary-text))]"
-          >
+          <label htmlFor="typeFilter" className="block mb-2 text-primary-text">
             Type
           </label>
           <select
             id="typeFilter"
-            className="px-3 py-2 border border-[rgb(var(--primary))] rounded-md bg-[rgb(var(--background))] text-[rgb(var(--primary-text))]"
+            className="px-3 py-2 border border-primary rounded-md bg-background text-primary-text"
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
           >
@@ -70,13 +67,13 @@ const AdminSubscriptions: React.FC = () => {
         <div>
           <label
             htmlFor="mediumFilter"
-            className="block mb-2 text-[rgb(var(--primary-text))]"
+            className="block mb-2 text-primary-text"
           >
             Medium
           </label>
           <select
             id="mediumFilter"
-            className="px-3 py-2 border border-[rgb(var(--primary))] rounded-md bg-[rgb(var(--background))] text-[rgb(var(--primary-text))]"
+            className="px-3 py-2 border border-primary rounded-md bg-background text-primary-text"
             value={selectedMedium}
             onChange={(e) => setSelectedMedium(e.target.value)}
           >
@@ -88,7 +85,7 @@ const AdminSubscriptions: React.FC = () => {
       </div>
 
       <Button
-        className="mb-8 bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]"
+        className="mb-8 bg-primary text-button-text hover:bg-primary-foreground"
         onClick={() => router.push("/admin/subscriptions/add-new")}
       >
         Add New
@@ -107,9 +104,7 @@ const AdminSubscriptions: React.FC = () => {
             />
           ))
         ) : (
-          <p className="text-[rgb(var(--primary-text))]">
-            No subscription plans available.
-          </p>
+          <p className="text-primary-text">No subscription plans available.</p>
         )}
       </div>
     </div>

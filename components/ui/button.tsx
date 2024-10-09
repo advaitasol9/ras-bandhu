@@ -10,15 +10,13 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          "bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]",
+        default: "bg-primary text-button-text hover:bg-primary-foreground",
         destructive:
-          "bg-[rgb(var(--destructive))] text-[rgb(var(--destructive-foreground))] hover:bg-[rgb(var(--destructive))]/90",
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
-          "border border-[rgb(var(--border))] bg-[rgb(var(--background))] hover:bg-[rgb(var(--accent))] hover:text-[rgb(var(--accent-foreground))]",
-        ghost:
-          "hover:bg-[rgb(var(--accent))] hover:text-[rgb(var(--accent-foreground))]",
-        link: "text-[rgb(var(--primary-text))] font-medium underline-offset-4 hover:underline",
+          "border border-edge bg-background hover:bg-accent hover:text-accent-foreground",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary-text font-medium underline-offset-4 hover:underline",
         teal: "bg-teal-700 hover:opacity-90 text-white",
       },
       size: {

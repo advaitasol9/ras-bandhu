@@ -43,7 +43,7 @@ export const PlanDetail: React.FC<PlanDetailProps> = ({
         <Link href="/login" className="mt-5">
           <Button
             size="lg"
-            className="bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]"
+            className="bg-primary text-button-text hover:bg-primary-foreground"
           >
             Start Now
           </Button>
@@ -58,7 +58,7 @@ export const PlanDetail: React.FC<PlanDetailProps> = ({
         >
           <Button
             size="lg"
-            className="mt-5 bg-[rgb(var(--edit))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--edit-foreground))]"
+            className="mt-5 bg-edit text-button-text hover:bg-edit-foreground"
           >
             Edit
           </Button>
@@ -88,7 +88,7 @@ export const PlanDetail: React.FC<PlanDetailProps> = ({
         ) : (
           <Button
             size="lg"
-            className={`mt-5 bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]`}
+            className={`mt-5 bg-primary text-button-text hover:bg-primary-foreground`}
             onClick={() => createTrialSubscription(plan.id)}
           >
             Subscribe
@@ -107,7 +107,7 @@ export const PlanDetail: React.FC<PlanDetailProps> = ({
     return (
       <Button
         size="lg"
-        className={`mt-5 bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]`}
+        className={`mt-5 bg-primary text-button-text hover:bg-primary-foreground`}
         onClick={() => onSubscribe(plan.id)}
       >
         Subscribe
@@ -118,7 +118,7 @@ export const PlanDetail: React.FC<PlanDetailProps> = ({
   return (
     <div
       key={index}
-      className="flex flex-col items-center bg-[rgb(var(--card))] shadow-md border border-[rgb(var(--border))] p-8 rounded-xl w-full max-w-lg"
+      className="flex flex-col items-center bg-card shadow-md border border-edge p-8 rounded-xl w-full max-w-lg"
     >
       <PlanBasicDetails plan={plan} />
       {userSub?.subscriptionPlan === plan.id ? (
@@ -126,7 +126,7 @@ export const PlanDetail: React.FC<PlanDetailProps> = ({
           <h1 className={isExpired ? "text-destructive" : "text-primary"}>
             {isExpired ? "Plan Expired" : "Current Plan"}
           </h1>
-          <p className="font-light text-[rgb(var(--muted-foreground))]">
+          <p className="font-light text-muted-foreground">
             {isExpired
               ? `Expired on - ${expiryDate.format("ll")}`
               : `Valid till - ${expiryDate.format("ll")}`}

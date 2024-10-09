@@ -53,7 +53,7 @@ export function RecentHistory() {
   }, [firestore, user]);
 
   return (
-    <Card className="col-span-4 bg-[rgb(var(--background))] text-[rgb(var(--primary-text))]">
+    <Card className="col-span-4 bg-background text-primary-text">
       <CardHeader>
         <CardTitle className="text-center lg:text-start">
           Recent History
@@ -82,7 +82,7 @@ export function RecentHistory() {
               />
             ))
           ) : (
-            <h1 className="text-[rgb(var(--primary-text))] text-center lg:text-start">
+            <h1 className="text-primary-text text-center lg:text-start">
               No Previous History
             </h1>
           )}

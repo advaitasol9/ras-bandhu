@@ -14,7 +14,7 @@ const Intro = () => {
             Your Trusted Guide to RAS Success
           </Badge>
           <Badge
-            className="space-x-4 font-normal text-xs text-[rgb(var(--primary-text))]"
+            className="space-x-4 font-normal text-xs text-primary-text"
             variant="outline"
           >
             <p>
@@ -30,7 +30,7 @@ const Intro = () => {
         </div>
 
         {/* Main Content Section */}
-        <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-6 bg-[rgb(var(--card))] rounded-xl shadow-lg px-2 py-4 md:p-6 lg:py-8 lg:px-6">
+        <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-6 bg-card rounded-xl shadow-lg px-2 py-4 md:p-6 lg:py-8 lg:px-6">
           {/* Left Image */}
           <div className="w-full lg:w-1/2 flex justify-center lg:justify-start">
             <Image
@@ -44,10 +44,10 @@ const Intro = () => {
 
           {/* Right Content */}
           <div className="flex flex-col items-center lg:items-start space-y-4 lg:space-y-5 text-center lg:text-left">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-[rgb(var(--primary-text))]">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-primary-text">
               Preparing for RAS Mains?
             </h1>
-            <p className="text-lg sm:text-xl lg:text-2xl text-[rgb(var(--secondary-text))] max-w-2xl leading-relaxed">
+            <p className="text-lg sm:text-xl lg:text-2xl text-secondary-text max-w-2xl leading-relaxed">
               Get expert insights on your answers, evaluated by experienced
               faculty who have been through the interview process.
             </p>
@@ -55,7 +55,7 @@ const Intro = () => {
               <Link href="/login">
                 <Button
                   size="xl"
-                  className="bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]"
+                  className="bg-primary text-button-text hover:bg-primary-foreground"
                 >
                   Get Started Today
                 </Button>

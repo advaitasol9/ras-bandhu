@@ -9,6 +9,7 @@ import moment from "moment";
 import { useRouter } from "next/navigation";
 import { useDailyEvaluation } from "@/components/context/daily-eval-provider";
 import Alert from "@/components/ui/alert";
+import { toast } from "@/components/ui/use-toast";
 
 interface FileObject {
   type: string;
@@ -150,6 +151,12 @@ const SubmitAnswerForm: React.FC = () => {
         createdAt: moment().toISOString(),
       });
 
+      toast({
+        title: "Success",
+        description: "Questions submitted",
+        variant: "success",
+      });
+
       // Reset form fields
       setFiles([]);
       setSelectedSubject("");
@@ -169,17 +176,17 @@ const SubmitAnswerForm: React.FC = () => {
 
   return (
     <div className="mt-12">
-      <h1 className="text-2xl font-semibold mb-8 text-[rgb(var(--primary-text))]">
+      <h1 className="text-2xl font-semibold mb-8 text-primary-text">
         Submit Answer
       </h1>
       <form
         onSubmit={handleSubmit}
-        className="bg-[rgb(var(--card))] p-8 rounded-lg shadow-lg space-y-6"
+        className="bg-card p-8 rounded-lg shadow-lg space-y-6"
       >
         <div>
           <label
             htmlFor="paper"
-            className="block text-sm font-medium text-[rgb(var(--primary-text))]"
+            className="block text-sm font-medium text-primary-text"
           >
             Paper
           </label>
@@ -187,7 +194,7 @@ const SubmitAnswerForm: React.FC = () => {
             id="paper"
             value={selectedPaper}
             onChange={(e) => setSelectedPaper(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 border border-[rgb(var(--input))] rounded-md shadow-sm focus:outline-none focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] sm:text-sm"
+            className="mt-1 block w-full px-3 py-2 border border-input rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
           >
             <option value="">Select Paper</option>
             {papers.map((paper: string, ind: number) => (
@@ -202,7 +209,7 @@ const SubmitAnswerForm: React.FC = () => {
           <div>
             <label
               htmlFor="subject"
-              className="block text-sm font-medium text-[rgb(var(--primary-text))]"
+              className="block text-sm font-medium text-primary-text"
             >
               Subject
             </label>
@@ -210,7 +217,7 @@ const SubmitAnswerForm: React.FC = () => {
               id="subject"
               value={selectedSubject}
               onChange={(e) => setSelectedSubject(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-[rgb(var(--input))] rounded-md shadow-sm focus:outline-none focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-input rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
             >
               <option value="">Select Subject</option>
               {subjects.map((subject: any, ind: number) => (
@@ -225,7 +232,7 @@ const SubmitAnswerForm: React.FC = () => {
         <div>
           <label
             htmlFor="numberOfAnswers"
-            className="block text-sm font-medium text-[rgb(var(--primary-text))]"
+            className="block text-sm font-medium text-primary-text"
           >
             No. of answers submitted
           </label>
@@ -234,19 +241,19 @@ const SubmitAnswerForm: React.FC = () => {
             id="numberOfAnswers"
             value={numberOfAnswers}
             onChange={(e) => setNumberOfAnswers(parseInt(e.target.value))}
-            className="mt-1 block w-full px-3 py-2 border border-[rgb(var(--input))] rounded-md shadow-sm focus:outline-none focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] sm:text-sm bg-[rgb(var(--input))]"
+            className="w-full border border-input rounded-md p-2"
           />
         </div>
 
         <div>
           <label
             htmlFor="studentComment"
-            className="block text-sm font-medium text-[rgb(var(--primary-text))]"
+            className="block text-sm font-medium text-primary-text"
           >
             Comment
           </label>
           <textarea
-            className="w-full border border-[rgb(var(--input))] rounded-md p-2 mb-4"
+            className="w-full border border-input rounded-md p-2 mb-4"
             placeholder="Enter comment"
             value={studentComment}
             onChange={(e) => setStudentComment(e.target.value)}
@@ -255,7 +262,7 @@ const SubmitAnswerForm: React.FC = () => {
         </div>
 
         {/* File Upload */}
-        <div className="border-dashed border-2 border-[rgb(var(--input))] rounded-lg p-4">
+        <div className="border-dashed border-2 border-edge rounded-lg p-4">
           {files.some((file) => file.type === "application/pdf") ? null : (
             <label htmlFor="fileUpload" className="cursor-pointer">
               <input
@@ -266,7 +273,7 @@ const SubmitAnswerForm: React.FC = () => {
                 accept="image/*,.pdf"
               />
               <div className="flex flex-col items-center">
-                <div className="bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] p-4 rounded-full">
+                <div className="bg-primary text-button-text p-4 rounded-full">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6"
@@ -282,7 +289,7 @@ const SubmitAnswerForm: React.FC = () => {
                     />
                   </svg>
                 </div>
-                <p className="mt-2 text-sm text-[rgb(var(--muted-foreground))]">
+                <p className="mt-2 text-sm text-muted-foreground">
                   Add Image/PDF
                 </p>
               </div>
@@ -293,7 +300,7 @@ const SubmitAnswerForm: React.FC = () => {
             {files.map((file, index) => (
               <div
                 key={index}
-                className="relative border border-[rgb(var(--input))] rounded-lg"
+                className="relative border border-edge rounded-lg"
               >
                 {file.type === "application/pdf" ? (
                   <div className="flex flex-col items-center p-4 border rounded-lg">
@@ -302,9 +309,7 @@ const SubmitAnswerForm: React.FC = () => {
                       alt="PDF Icon"
                       className="w-16 h-16 mb-2"
                     />
-                    <p className="text-xs text-[rgb(var(--muted-foreground))]">
-                      {file.name}
-                    </p>
+                    <p className="text-xs text-muted-foreground">{file.name}</p>
                   </div>
                 ) : (
                   <img
@@ -316,7 +321,7 @@ const SubmitAnswerForm: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => removeFile(index)}
-                  className="absolute top-0 right-0 bg-[rgb(var(--destructive))] text-[rgb(var(--button-text))] rounded-full px-1"
+                  className="absolute top-0 right-0 bg-destructive text-button-text rounded-full px-1"
                 >
                   &times;
                 </button>
@@ -326,7 +331,7 @@ const SubmitAnswerForm: React.FC = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-[rgb(var(--primary-text))]">
+          <label className="block text-sm font-medium text-primary-text">
             Is this from Daily Question Bank
           </label>
           <div className="mt-2 space-x-6">
@@ -337,9 +342,9 @@ const SubmitAnswerForm: React.FC = () => {
                 value="yes"
                 checked={containsPyq === "yes"}
                 onChange={(e) => setContainsPyq(e.target.value)}
-                className="form-radio focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] text-[rgb(var(--primary))]"
+                className="form-radio focus:ring-primary focus:border-primary text-primary"
               />
-              <span className="ml-2 text-[rgb(var(--primary-text))]">Yes</span>
+              <span className="ml-2 text-primary-text">Yes</span>
             </label>
             <label className="inline-flex items-center">
               <input
@@ -348,9 +353,9 @@ const SubmitAnswerForm: React.FC = () => {
                 value="no"
                 checked={containsPyq === "no"}
                 onChange={(e) => setContainsPyq(e.target.value)}
-                className="form-radio focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] text-[rgb(var(--primary))]"
+                className="form-radio focus:ring-primary focus:border-primary text-primary"
               />
-              <span className="ml-2 text-[rgb(var(--primary-text))]">No</span>
+              <span className="ml-2 text-primary-text">No</span>
             </label>
           </div>
         </div>
@@ -359,14 +364,14 @@ const SubmitAnswerForm: React.FC = () => {
           <Button
             size="lg"
             type="submit"
-            className="w-full bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]"
+            className="w-full bg-primary text-button-text hover:bg-primary-foreground"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Submitting..." : "Submit Answer"}
           </Button>
         </div>
 
-        <div className="mt-4 p-4 border-t border-[rgb(var(--input))] text-sm text-[rgb(var(--muted-foreground))]">
+        <div className="mt-4 p-4 border-t border-input text-sm text-muted-foreground">
           <p>
             <strong>Note:</strong>
           </p>

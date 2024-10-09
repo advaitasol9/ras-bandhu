@@ -2,21 +2,21 @@ import React from "react";
 
 const PrivacyPolicy = () => {
   return (
-    <div className="container mx-auto mt-8 max-w-4xl p-6 bg-[rgb(var(--background))] rounded-lg shadow-lg">
-      <h1 className="text-3xl font-semibold mb-6 text-[rgb(var(--primary-text))]">
+    <div className="container mx-auto mt-8 max-w-4xl p-6 bg-background rounded-lg shadow-lg">
+      <h1 className="text-3xl font-semibold mb-6 text-primary-text">
         Privacy Policy
       </h1>
 
-      <p className="mb-4 text-[rgb(var(--primary-text))]">
+      <p className="mb-4 text-primary-text">
         At RAS Bandhu, we value your privacy and are committed to safeguarding
         your personal information. This Privacy Policy outlines how we collect,
         use, and protect your data.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-4 text-[rgb(var(--primary-text))]">
+      <h2 className="text-2xl font-semibold mb-4 text-primary-text">
         Information We Collect
       </h2>
-      <ul className="list-disc ml-6 mb-4 text-[rgb(var(--primary-text))]">
+      <ul className="list-disc ml-6 mb-4 text-primary-text">
         <li>
           <strong>Account Information:</strong> Your name, email, and phone
           number when creating an account.
@@ -35,10 +35,10 @@ const PrivacyPolicy = () => {
         </li>
       </ul>
 
-      <h2 className="text-2xl font-semibold mb-4 text-[rgb(var(--primary-text))]">
+      <h2 className="text-2xl font-semibold mb-4 text-primary-text">
         How We Use Your Information
       </h2>
-      <ul className="list-disc ml-6 mb-4 text-[rgb(var(--primary-text))]">
+      <ul className="list-disc ml-6 mb-4 text-primary-text">
         <li>To manage your account and process transactions.</li>
         <li>To improve your user experience and provide support.</li>
         <li>
@@ -47,10 +47,10 @@ const PrivacyPolicy = () => {
         </li>
       </ul>
 
-      <h2 className="text-2xl font-semibold mb-4 text-[rgb(var(--primary-text))]">
+      <h2 className="text-2xl font-semibold mb-4 text-primary-text">
         How We Share Your Information
       </h2>
-      <ul className="list-disc ml-6 mb-4 text-[rgb(var(--primary-text))]">
+      <ul className="list-disc ml-6 mb-4 text-primary-text">
         <li>
           <strong>Service Providers:</strong> Third-party vendors for payment
           processing, hosting, etc.
@@ -65,36 +65,34 @@ const PrivacyPolicy = () => {
         </li>
       </ul>
 
-      <h2 className="text-2xl font-semibold mb-4 text-[rgb(var(--primary-text))]">
+      <h2 className="text-2xl font-semibold mb-4 text-primary-text">
         Your Data Protection Rights
       </h2>
-      <ul className="list-disc ml-6 mb-4 text-[rgb(var(--primary-text))]">
+      <ul className="list-disc ml-6 mb-4 text-primary-text">
         <li>Access and correct your data.</li>
         <li>Request deletion or restrict processing.</li>
       </ul>
 
-      <p className="mb-4 text-[rgb(var(--primary-text))]">
+      <p className="mb-4 text-primary-text">
         Contact us at info@rasbandhu.com to exercise your rights.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-4 text-[rgb(var(--primary-text))]">
+      <h2 className="text-2xl font-semibold mb-4 text-primary-text">
         Data Security & Retention
       </h2>
-      <p className="mb-4 text-[rgb(var(--primary-text))]">
+      <p className="mb-4 text-primary-text">
         We take reasonable measures to protect your data. We retain it as long
         as necessary to provide services or comply with legal requirements.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-4 text-[rgb(var(--primary-text))]">
+      <h2 className="text-2xl font-semibold mb-4 text-primary-text">
         Changes to This Privacy Policy
       </h2>
-      <p className="mb-4 text-[rgb(var(--primary-text))]">
+      <p className="mb-4 text-primary-text">
         We may update this policy to reflect changes.
       </p>
 
-      <p className="text-sm text-[rgb(var(--muted-foreground))]">
-        Last updated: 23/09/2024
-      </p>
+      <p className="text-sm text-muted-foreground">Last updated: 23/09/2024</p>
     </div>
   );
 };

@@ -153,7 +153,7 @@ const MyEvaluations: React.FC = () => {
   return (
     <MentorRoute>
       <div className="px-4 py-4 md:px-12 md:py-8">
-        <h1 className="text-2xl font-semibold mb-8 text-[rgb(var(--primary-text))]">
+        <h1 className="text-2xl font-semibold mb-8 text-primary-text">
           My Evaluations
         </h1>
 
@@ -163,7 +163,7 @@ const MyEvaluations: React.FC = () => {
               id="pyqFilter"
               value={containsPyQ}
               onChange={(e) => setContainsPyQ(e.target.value)}
-              className="w-full px-3 py-2 border border-[rgb(var(--input))] rounded-md shadow-sm focus:outline-none focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] sm:text-sm"
+              className="w-full px-3 py-2 border border-input rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
             >
               <option value="">DQB</option>
               {["yes", "no"].map((val: string, ind: number) => (
@@ -179,7 +179,7 @@ const MyEvaluations: React.FC = () => {
               id="mediumFilter"
               value={selectedMedium}
               onChange={(e) => setSelectedMedium(e.target.value)}
-              className="w-full px-3 py-2 border border-[rgb(var(--input))] rounded-md shadow-sm focus:outline-none focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] sm:text-sm"
+              className="w-full px-3 py-2 border border-input rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
             >
               <option value="">All Medium</option>
               {["english", "hindi"].map((med: string, ind: number) => (
@@ -196,7 +196,7 @@ const MyEvaluations: React.FC = () => {
               id="paperFilter"
               value={selectedPaper}
               onChange={(e) => setSelectedPaper(e.target.value)}
-              className="w-full px-3 py-2 border border-[rgb(var(--input))] rounded-md shadow-sm focus:outline-none focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] sm:text-sm"
+              className="w-full px-3 py-2 border border-input rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
             >
               <option value="">All Paper</option>
               {papers.map((paper: string, ind: number) => (
@@ -214,7 +214,7 @@ const MyEvaluations: React.FC = () => {
                 id="subjectFilter"
                 value={filterSubject}
                 onChange={(e) => setFilterSubject(e.target.value)}
-                className="w-full px-3 py-2 border border-[rgb(var(--input))] rounded-md shadow-sm focus:outline-none focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] sm:text-sm"
+                className="w-full px-3 py-2 border border-input rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
               >
                 <option value="">Subject</option>
                 {subjects.map((subject: any, ind: number) => (
@@ -232,7 +232,7 @@ const MyEvaluations: React.FC = () => {
               id="statusFilter"
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="w-full px-3 py-2 border border-[rgb(var(--input))] rounded-md shadow-sm focus:outline-none focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] sm:text-sm"
+              className="w-full px-3 py-2 border border-input rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
             >
               <option value="Evaluated">Evaluated</option>
               <option value="Assigned">Assigned</option>
@@ -250,7 +250,7 @@ const MyEvaluations: React.FC = () => {
               startDate={startDate}
               endDate={endDate}
               placeholderText="Start Date"
-              className="px-3 py-2 border border-[rgb(var(--input))] rounded-md shadow-sm focus:outline-none focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] sm:text-sm"
+              className="px-3 py-2 border border-input rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
             />
             <DatePicker
               selected={endDate}
@@ -260,7 +260,7 @@ const MyEvaluations: React.FC = () => {
               endDate={endDate}
               minDate={startDate}
               placeholderText="End Date"
-              className="px-3 py-2 border border-[rgb(var(--input))] rounded-md shadow-sm focus:outline-none focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] sm:text-sm"
+              className="px-3 py-2 border border-input rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
             />
           </div>
 
@@ -268,7 +268,7 @@ const MyEvaluations: React.FC = () => {
           <Button
             size="sm"
             onClick={handleClearFilters}
-            className="bg-[rgb(var(--muted))] text-[rgb(var(--primary-text))] w-full md:w-auto"
+            className="bg-muted text-primary-text w-full md:w-auto"
           >
             Clear
           </Button>
@@ -287,7 +287,7 @@ const MyEvaluations: React.FC = () => {
             ))}
           </div>
         ) : (
-          <h1 className="text-[rgb(var(--primary-text))]">No Data Found</h1>
+          <h1 className="text-primary-text">No Data Found</h1>
         )}
 
         {/* Load More Button */}
@@ -296,7 +296,7 @@ const MyEvaluations: React.FC = () => {
             <Button
               size="sm"
               onClick={loadMoreSubmissions}
-              className="bg-[rgb(var(--muted))] text-[rgb(var(--primary-text))] ml-2"
+              className="bg-muted text-primary-text ml-2"
             >
               Load More
             </Button>

@@ -122,19 +122,19 @@ const PlanList = () => {
 
   return (
     <div className="container mx-auto mt-8 p-6">
-      <h1 className="text-2xl font-semibold mb-4 text-[rgb(var(--primary-text))]">
+      <h1 className="text-2xl font-semibold mb-4 text-primary-text">
         Subscriptions for Plan: {plan?.name}-{plan?.medium}
       </h1>
 
       {/* Toggle between current active and all-time data */}
       <div className="flex justify-between items-center mb-6">
-        <p className="text-md font-medium text-[rgb(var(--primary-text))]">
+        <p className="text-md font-medium text-primary-text">
           {activeOnly
             ? "Showing active subscriptions"
             : "Showing all subscriptions"}
         </p>
         <div className="flex items-center space-x-2">
-          <span className="text-[rgb(var(--primary-text))]">
+          <span className="text-primary-text">
             {activeOnly ? "Active" : "All-time"}
           </span>
           <label className="relative inline-flex items-center cursor-pointer">
@@ -144,8 +144,8 @@ const PlanList = () => {
               onChange={handleToggle}
               className="sr-only peer"
             />
-            <div className="w-11 h-6 bg-[rgb(var(--muted))] rounded-full peer peer-checked:bg-[rgb(var(--primary))] peer-focus:ring-4 peer-focus:ring-[rgb(var(--primary-foreground))] transition-all duration-300"></div>
-            <div className="absolute left-1 top-1 w-4 h-4 bg-[rgb(var(--background))] rounded-full transition-all peer-checked:translate-x-5"></div>
+            <div className="w-11 h-6 bg-muted rounded-full peer peer-checked:bg-primary peer-focus:ring-4 peer-focus:ring-primary-foreground transition-all duration-300"></div>
+            <div className="absolute left-1 top-1 w-4 h-4 bg-background rounded-full transition-all peer-checked:translate-x-5"></div>
           </label>
         </div>
       </div>
@@ -156,33 +156,31 @@ const PlanList = () => {
           subscriptions.map((sub) => (
             <div
               key={sub.id}
-              className="p-4 bg-[rgb(var(--card))] rounded-md shadow-md flex flex-col space-y-2 hover:cursor-pointer"
+              className="p-4 bg-card rounded-md shadow-md flex flex-col space-y-2 hover:cursor-pointer"
               onClick={() =>
                 router.push(`/user-info?userId=${sub.userId}&parent=${parent}`)
               }
             >
-              <p className="text-md font-medium text-[rgb(var(--primary-text))]">
+              <p className="text-md font-medium text-primary-text">
                 User ID: {sub.userId}
               </p>
-              <p className="text-sm text-[rgb(var(--secondary-text))]">
+              <p className="text-sm text-secondary-text">
                 Phone: {sub.userInfo?.phone || "N/A"}
               </p>
-              <p className="text-sm text-[rgb(var(--secondary-text))]">
+              <p className="text-sm text-secondary-text">
                 Name: {sub.userInfo?.name || "N/A"}
               </p>
-              <p className="text-sm text-[rgb(var(--secondary-text))]">
+              <p className="text-sm text-secondary-text">
                 Email: {sub.userInfo?.email || "N/A"}
               </p>
-              <p className="text-sm text-[rgb(var(--secondary-text))]">
+              <p className="text-sm text-secondary-text">
                 Subscription Expiry:{" "}
                 {moment(sub.subscriptionExpiry).format("DD/MM/YYYY")}
               </p>
             </div>
           ))
         ) : (
-          <p className="text-md text-[rgb(var(--primary-text))]">
-            No subscriptions found.
-          </p>
+          <p className="text-md text-primary-text">No subscriptions found.</p>
         )}
       </div>
 
@@ -192,7 +190,7 @@ const PlanList = () => {
           <Button
             size="sm"
             onClick={loadMore}
-            className="bg-[rgb(var(--muted))] text-[rgb(var(--primary-text))] ml-2"
+            className="bg-muted text-primary-text ml-2"
           >
             Load More
           </Button>

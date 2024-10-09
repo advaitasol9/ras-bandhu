@@ -98,6 +98,7 @@ const MentorInput = ({
       toast({
         title: "Success",
         description: "Evaluation submitted successfully!",
+        variant: "success",
       });
     } catch (error) {
       console.error("Error submitting evaluation:", error);
@@ -134,12 +135,12 @@ const MentorInput = ({
   };
 
   return (
-    <div className="container mx-auto my-8 bg-[rgb(var(--muted))] p-6 rounded-lg">
-      <h1 className="text-2xl font-semibold text-[rgb(var(--primary-text))]">
+    <div className="container mx-auto my-8 bg-muted p-6 rounded-lg">
+      <h1 className="text-2xl font-semibold text-primary-text">
         Submit or Edit Evaluation
       </h1>
       {submissionData.status !== "Evaluated" && (
-        <p className="text-md text-[rgb(var(--primary-text))] mt-1">
+        <p className="text-md text-primary-text mt-1">
           Time remaining:{" "}
           {Math.max(
             0,
@@ -153,7 +154,7 @@ const MentorInput = ({
       {submissionData.status === "Pending" && (
         <Button
           onClick={handleAssignToMentor}
-          className="my-4 bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]"
+          className="my-4 bg-primary text-button-text hover:bg-primary-foreground"
         >
           Assign to Me
         </Button>
@@ -161,7 +162,7 @@ const MentorInput = ({
 
       {(submissionData.status === "Assigned" ||
         submissionData.status === "Evaluated") && (
-        <div className="bg-[rgb(var(--muted-foreground))]/10 p-4 rounded-md">
+        <div className="bg-muted-foreground/10 p-4 rounded-md">
           {!!submissionData?.mentorEvaluationUrl && (
             <div className="flex flex-col items-center mb-8">
               <div className="flex flex-col items-center">
@@ -172,7 +173,7 @@ const MentorInput = ({
                   height={100}
                 />
                 <Button
-                  className="mt-4 bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]"
+                  className="mt-4 bg-primary text-button-text hover:bg-primary-foreground"
                   onClick={() =>
                     handleDownload(submissionData?.mentorEvaluationUrl || "")
                   }
@@ -185,7 +186,7 @@ const MentorInput = ({
 
           {/* Mentor Comments */}
           <textarea
-            className="w-full border border-[rgb(var(--input))] rounded-md p-2 mb-4"
+            className="w-full border border-input rounded-md p-2 mb-4"
             placeholder="Enter mentor comments"
             value={mentorComments}
             onChange={(e) => setMentorComments(e.target.value)}
@@ -196,7 +197,7 @@ const MentorInput = ({
           <div className="mb-4">
             <label
               htmlFor="fileUpload"
-              className="block mb-2 text-[rgb(var(--primary-text))]"
+              className="block mb-2 text-primary-text"
             >
               Upload Evaluated PDF
             </label>
@@ -205,10 +206,10 @@ const MentorInput = ({
               id="fileUpload"
               accept="application/pdf"
               onChange={handleFileChange}
-              className="text-[rgb(var(--primary-text))]"
+              className="text-primary-text"
             />
             {!isDocumentValid && (
-              <p className="text-sm text-[rgb(var(--destructive))] mt-1">
+              <p className="text-sm text-destructive mt-1">
                 Please verify that you have uploaded the correct PDF. The name
                 on the document does not match the document ID.
               </p>
@@ -218,7 +219,7 @@ const MentorInput = ({
           <Button
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]"
+            className="bg-primary text-button-text hover:bg-primary-foreground"
           >
             {isSubmitting ? "Submitting..." : "Submit Evaluation"}
           </Button>
@@ -226,7 +227,7 @@ const MentorInput = ({
       )}
 
       {submissionData.status === "Evaluated" && (
-        <div className="p-4 bg-[rgb(var(--green))]/10 rounded-md mt-4 text-[rgb(var(--primary-text))]">
+        <div className="p-4 bg-[rgb(var(--green))]/10 rounded-md mt-4 text-primary-text">
           <p>
             This submission has been evaluated. You can still edit your comments
             or replace the PDF.
@@ -241,14 +242,14 @@ const MentorInput = ({
             {!showRejectReason ? (
               <Button
                 onClick={() => setShowRejectReason(true)}
-                className="bg-[rgb(var(--destructive))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--destructive-foreground))]"
+                className="bg-destructive text-button-text hover:bg-destructive-foreground"
               >
                 Reject
               </Button>
             ) : (
               <div>
                 <textarea
-                  className="w-full border border-[rgb(var(--input))] rounded-md p-2 mb-4"
+                  className="w-full border border-input rounded-md p-2 mb-4"
                   placeholder="Enter reason for rejection"
                   value={rejectReason}
                   onChange={(e) => setRejectReason(e.target.value)}
@@ -256,13 +257,13 @@ const MentorInput = ({
                 />
                 <Button
                   onClick={handleReject}
-                  className="bg-[rgb(var(--destructive))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--destructive-foreground))] mb-2"
+                  className="bg-destructive text-button-text hover:bg-destructive-foreground mb-2"
                 >
                   Submit Rejection
                 </Button>
                 <Button
                   onClick={() => setShowRejectReason(false)}
-                  className="bg-[rgb(var(--muted))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--muted-foreground))]"
+                  className="bg-muted text-button-text hover:bg-muted-foreground"
                 >
                   Cancel
                 </Button>
@@ -273,7 +274,7 @@ const MentorInput = ({
 
       {/* Rejection Status */}
       {submissionData.status === "Rejected" && (
-        <div className="p-4 rounded-md mt-4 text-[rgb(var(--destructive))]">
+        <div className="p-4 rounded-md mt-4 text-destructive">
           <p>
             This submission was rejected. Reason:{" "}
             <span className="font-semibold">{submissionData.rejectReason}</span>

@@ -101,7 +101,10 @@ const CheckoutPage = () => {
             });
 
             if (verificationResult.data.success) {
-              Alert.alert("Success", "Subscribed successfully");
+              Alert.alert(
+                "Success",
+                "Subscription successful. It may take a few seconds to reflect."
+              );
               router.push("/app");
             } else {
               throw new Error("Payment verification failed.");
@@ -156,23 +159,20 @@ const CheckoutPage = () => {
 
   return (
     <CheckoutRoute>
-      <div className="container mx-auto mt-8 max-w-4xl bg-[rgb(var(--card))] p-8 py-16 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-semibold text-[rgb(var(--primary-text))] text-center mb-16">
+      <div className="container mx-auto mt-8 max-w-4xl bg-card p-8 py-16 rounded-lg shadow-lg">
+        <h1 className="text-2xl font-semibold text-primary-text text-center mb-16">
           Checkout
         </h1>
 
         <div className="flex flex-col lg:flex-row justify-between gap-8">
           {/* Left Section: Plan Info */}
           <div className="flex-1">
-            <h2 className="text-xl font-semibold text-[rgb(var(--primary-text))] mb-4">
+            <h2 className="text-xl font-semibold text-primary-text mb-4">
               {parentSectionName} - {planData.name}
             </h2>
             <div className="mb-6">
               {planData.features.map((feature, index) => (
-                <p
-                  key={index}
-                  className="text-sm text-[rgb(var(--muted-foreground))] mb-2"
-                >
+                <p key={index} className="text-sm text-muted-foreground mb-2">
                   {feature}
                 </p>
               ))}
@@ -184,22 +184,22 @@ const CheckoutPage = () => {
             <div className="mb-6 space-y-2">
               {planData.discountedPrice !== planData.price ? (
                 <>
-                  <p className="text-sm line-through text-[rgb(var(--destructive))]">
+                  <p className="text-sm line-through text-destructive">
                     Original Price: ₹ {planData.price}
                   </p>
-                  <p className="text-sm font-semibold text-[rgb(var(--primary-text))]">
+                  <p className="text-sm font-semibold text-primary-text">
                     Discounted Price: ₹ {planData.discountedPrice}
                   </p>
-                  <p className="text-sm font-semibold text-[rgb(var(--primary-text))]">
+                  <p className="text-sm font-semibold text-primary-text">
                     (Inclusive of GST)
                   </p>
                 </>
               ) : (
                 <>
-                  <p className="text-sm font-semibold text-[rgb(var(--primary-text))]">
+                  <p className="text-sm font-semibold text-primary-text">
                     Price: ₹ {planData.price}
                   </p>
-                  <p className="text-sm font-semibold text-[rgb(var(--primary-text))]">
+                  <p className="text-sm font-semibold text-primary-text">
                     (Inclusive of GST)
                   </p>
                 </>
@@ -212,7 +212,7 @@ const CheckoutPage = () => {
             ) : (
               <Button
                 onClick={handlePayment}
-                className="w-full bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]"
+                className="w-full bg-primary text-button-text hover:bg-primary-foreground"
                 disabled={isProcessing} // Disable button while processing
               >
                 {`PAY (₹${planData.discountedPrice || planData.price})`}

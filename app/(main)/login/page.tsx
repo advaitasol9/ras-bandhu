@@ -305,10 +305,7 @@ const LoginPage = () => {
         return (
           <>
             <div>
-              <label
-                htmlFor="phoneNumber"
-                className="text-[rgb(var(--primary-text))]"
-              >
+              <label htmlFor="phoneNumber" className="text-primary-text">
                 Phone Number
               </label>
               <Input
@@ -318,19 +315,17 @@ const LoginPage = () => {
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 placeholder="Enter 10-digit mobile number"
                 aria-label="Phone Number"
-                className="border border-[rgb(var(--input))] focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] rounded-md"
+                className="border border-input focus:ring-primary focus:border-primary rounded-md"
               />
             </div>
-            {errorMessage && (
-              <p className="text-[rgb(var(--destructive))]">{errorMessage}</p>
-            )}
+            {errorMessage && <p className="text-destructive">{errorMessage}</p>}
             {isLoading ? (
               <Loader />
             ) : (
               <Button
                 onClick={handleProceed}
                 disabled={isLoading}
-                className="w-full bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))] transition-colors duration-300"
+                className="w-full bg-primary text-button-text hover:bg-primary-foreground transition-colors duration-300"
               >
                 Proceed
               </Button>
@@ -341,10 +336,7 @@ const LoginPage = () => {
         return (
           <>
             <div>
-              <label
-                htmlFor="password"
-                className="text-[rgb(var(--primary-text))]"
-              >
+              <label htmlFor="password" className="text-primary-text">
                 Password
               </label>
               <Input
@@ -354,19 +346,17 @@ const LoginPage = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
                 aria-label="Password"
-                className="border border-[rgb(var(--input))] focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] rounded-md"
+                className="border border-input focus:ring-primary focus:border-primary rounded-md"
               />
             </div>
-            {errorMessage && (
-              <p className="text-[rgb(var(--destructive))]">{errorMessage}</p>
-            )}
+            {errorMessage && <p className="text-destructive">{errorMessage}</p>}
             {isLoading ? (
               <Loader />
             ) : (
               <Button
                 onClick={handleLoginWithPassword}
                 disabled={isLoading}
-                className="w-full bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))] transition-colors duration-300"
+                className="w-full bg-primary text-button-text hover:bg-primary-foreground transition-colors duration-300"
               >
                 Sign In
               </Button>
@@ -376,7 +366,7 @@ const LoginPage = () => {
                 onClick={async () => {
                   await handleSendOtp();
                 }}
-                className="text-[rgb(var(--primary-text))] hover:underline"
+                className="text-primary-text hover:underline"
               >
                 Forgot Password? Login using OTP
               </button>
@@ -387,7 +377,7 @@ const LoginPage = () => {
         return (
           <>
             <div>
-              <label htmlFor="otp" className="text-[rgb(var(--primary-text))]">
+              <label htmlFor="otp" className="text-primary-text">
                 Enter OTP
               </label>
               <Input
@@ -397,19 +387,17 @@ const LoginPage = () => {
                 onChange={(e) => setOtp(e.target.value)}
                 placeholder="Enter the OTP"
                 aria-label="OTP"
-                className="border border-[rgb(var(--input))] focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] rounded-md"
+                className="border border-input focus:ring-primary focus:border-primary rounded-md"
               />
             </div>
-            {errorMessage && (
-              <p className="text-[rgb(var(--destructive))]">{errorMessage}</p>
-            )}
+            {errorMessage && <p className="text-destructive">{errorMessage}</p>}
             {isLoading ? (
               <Loader />
             ) : (
               <Button
                 onClick={handleVerifyOtp}
                 disabled={isLoading}
-                className="w-full bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))] transition-colors duration-300"
+                className="w-full bg-primary text-button-text hover:bg-primary-foreground transition-colors duration-300"
               >
                 Verify OTP
               </Button>
@@ -420,7 +408,7 @@ const LoginPage = () => {
                 onClick={handleResendOtp}
                 className={`text-sm font-medium ${
                   resendDisabled
-                    ? "text-[rgb(var(--muted-foreground))]"
+                    ? "text-muted-foreground"
                     : "text-[rgb(var(--link))] hover:underline"
                 }`}
               >
@@ -435,10 +423,7 @@ const LoginPage = () => {
         return (
           <>
             <div>
-              <label
-                htmlFor="newPassword"
-                className="text-[rgb(var(--primary-text))]"
-              >
+              <label htmlFor="newPassword" className="text-primary-text">
                 Create New Password
               </label>
               <Input
@@ -448,19 +433,17 @@ const LoginPage = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Create a new password"
                 aria-label="New Password"
-                className="border border-[rgb(var(--input))] focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] rounded-md"
+                className="border border-input focus:ring-primary focus:border-primary rounded-md"
               />
             </div>
-            {errorMessage && (
-              <p className="text-[rgb(var(--destructive))]">{errorMessage}</p>
-            )}
+            {errorMessage && <p className="text-destructive">{errorMessage}</p>}
             {isLoading ? (
               <Loader />
             ) : (
               <Button
                 onClick={handleSetPassword}
                 disabled={isLoading}
-                className="w-full bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))] transition-colors duration-300"
+                className="w-full bg-primary text-button-text hover:bg-primary-foreground transition-colors duration-300"
               >
                 Set Password and Continue
               </Button>
@@ -475,15 +458,15 @@ const LoginPage = () => {
   return (
     <div className="grow flex flex-col items-center justify-center">
       <section className="space-y-4 w-[20rem] md:w-[32rem]">
-        <Card className="bg-[rgb(var(--card))] shadow-lg rounded-lg">
+        <Card className="bg-card shadow-lg rounded-lg">
           <CardHeader>
-            <CardTitle className="text-xl font-semibold text-[rgb(var(--primary-text))]">
+            <CardTitle className="text-xl font-semibold text-primary-text">
               {stage === "PHONE_INPUT" && "Sign In"}
               {stage === "PASSWORD_INPUT" && "Enter Password"}
               {stage === "OTP_VERIFICATION" && "Verify OTP"}
               {stage === "SET_PASSWORD" && "Set New Password"}
             </CardTitle>
-            <CardDescription className="text-[rgb(var(--muted-foreground))]">
+            <CardDescription className="text-muted-foreground">
               Please follow the steps to continue
             </CardDescription>
           </CardHeader>

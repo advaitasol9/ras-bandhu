@@ -79,9 +79,7 @@ const SubscriptionStats = () => {
 
   const getButtonStyles = (isActive: boolean) =>
     `px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
-      isActive
-        ? "bg-[rgb(var(--primary))] text-white"
-        : "bg-[rgb(var(--muted))] text-[rgb(var(--primary-text))]"
+      isActive ? "bg-primary text-white" : "bg-muted text-primary-text"
     }`;
 
   useEffect(() => {
@@ -108,7 +106,7 @@ const SubscriptionStats = () => {
         <ParentTab currentTab={currentTab} handleTabChange={handleTabChange} />
       </div>
       <div
-        className={`mt-4 mx-auto p-6 bg-[rgb(var(--card))] rounded-lg shadow-lg w-full ${
+        className={`mt-4 mx-auto p-6 bg-card rounded-lg shadow-lg w-full ${
           filteredPlans.length <= 2
             ? "max-w-md"
             : filteredPlans.length <= 4
@@ -116,7 +114,7 @@ const SubscriptionStats = () => {
             : "max-w-3xl"
         }`}
       >
-        <h2 className="text-xl font-bold text-[rgb(var(--primary-text))] mb-6 text-center">
+        <h2 className="text-xl font-bold text-primary-text mb-6 text-center">
           Subscription Plans Statistics
         </h2>
 

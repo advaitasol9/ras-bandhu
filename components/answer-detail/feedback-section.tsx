@@ -30,7 +30,7 @@ const FeedbackSection = ({
 }) =>
   isMentor && !hasGivenFeedback ? null : (
     <div className="mb-8">
-      <h2 className="text-xl font-semibold mb-4 text-[rgb(var(--primary-text))]">
+      <h2 className="text-xl font-semibold mb-4 text-primary-text">
         {hasGivenFeedback
           ? isMentor
             ? "Student's Feedback"
@@ -46,8 +46,8 @@ const FeedbackSection = ({
               index < rating
                 ? "text-yellow-300"
                 : rating
-                ? "text-[rgb(var(--muted))]"
-                : "text-[rgb(var(--muted-foreground))]"
+                ? "text-muted"
+                : "text-muted-foreground"
             }`}
             onClick={() => !hasGivenFeedback && setRating(index + 1)}
           />
@@ -56,8 +56,8 @@ const FeedbackSection = ({
 
       {hasGivenFeedback ? (
         <>
-          <div className="bg-[rgb(var(--muted))] p-4 rounded-md">
-            <p className="text-[rgb(var(--primary-text))]">{feedback}</p>
+          <div className="bg-muted p-4 rounded-md">
+            <p className="text-primary-text">{feedback}</p>
           </div>
 
           {/* Display feedback images */}
@@ -80,7 +80,7 @@ const FeedbackSection = ({
       ) : isMentor ? null : (
         <>
           <textarea
-            className="w-full border border-[rgb(var(--input))] rounded-md p-2"
+            className="w-full border border-input rounded-md p-2"
             placeholder="Tell us how you liked the evaluation"
             rows={4}
             value={feedback}
@@ -91,7 +91,7 @@ const FeedbackSection = ({
           <div className="mt-4">
             <label
               htmlFor="fileUpload"
-              className="block mb-2 text-[rgb(var(--primary-text))]"
+              className="block mb-2 text-primary-text"
             >
               Attach Photos (optional)
             </label>
@@ -101,12 +101,12 @@ const FeedbackSection = ({
               multiple
               accept="image/*"
               onChange={handleFileChange}
-              className="bg-[rgb(var(--input))]"
+              className="bg-input"
             />
           </div>
 
           <Button
-            className="mt-4 bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]"
+            className="mt-4 bg-primary text-button-text hover:bg-primary-foreground"
             onClick={handleReviewSubmit}
           >
             Submit Review

@@ -20,20 +20,20 @@ const paperMapping: { [key: string]: string } = {
 const HistoryCard = ({ item, index, linkTo }: Card) => {
   return (
     <Link key={index} href={linkTo || ""} passHref legacyBehavior>
-      <a className="block bg-[rgb(var(--card))] py-4 px-2 md:px-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200">
+      <a className="block bg-card py-4 px-2 md:px-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200">
         <div className="flex items-center">
-          <Avatar className="flex h-9 w-9 items-center justify-center space-y-0 border border-[rgb(var(--border))]">
-            <p className="text-[rgb(var(--primary-text))]">
+          <Avatar className="flex h-9 w-9 items-center justify-center space-y-0 border border-edge">
+            <p className="text-primary-text">
               {typeof item?.subject === "string"
                 ? item.subject
                 : paperMapping[item?.paper || ""] || "Unknown"}
             </p>
           </Avatar>
           <div className="ml-4 space-y-1">
-            <p className="text-sm font-medium leading-none text-[rgb(var(--primary-text))]">
+            <p className="text-sm font-medium leading-none text-primary-text">
               {item.id}
             </p>
-            <p className="text-sm text-[rgb(var(--muted-foreground))]">
+            <p className="text-sm text-muted-foreground">
               {new Date(item.createdAt).toLocaleDateString()}{" "}
               {new Date(item.createdAt).toLocaleTimeString()}
             </p>
@@ -41,12 +41,12 @@ const HistoryCard = ({ item, index, linkTo }: Card) => {
           <div
             className={`ml-auto text-sm md:text-base font-medium mt-4 ${
               item.status === "Evaluated"
-                ? "text-[rgb(var(--primary))]"
+                ? "text-primary"
                 : item.status === "Assigned"
-                ? "text-[rgb(var(--edit))]"
+                ? "text-edit"
                 : item.status === "Pending"
-                ? "text-[rgb(var(--primary-text))]"
-                : "text-[rgb(var(--destructive))]"
+                ? "text-primary-text"
+                : "text-destructive"
             }`}
           >
             {item.status}
@@ -54,7 +54,7 @@ const HistoryCard = ({ item, index, linkTo }: Card) => {
         </div>
         <div className="mt-4">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-[rgb(var(--primary-text))]">
+            <p className="text-sm font-medium text-primary-text">
               {item.type === "test"
                 ? `Subjects: ${item.subjects?.join(", ")}`
                 : `No of Questions: ${item.numberOfAnswers}`}

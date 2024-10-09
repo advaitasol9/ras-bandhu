@@ -98,7 +98,7 @@ const MyAnswers: React.FC = () => {
 
   return (
     <div className="">
-      <h1 className="text-2xl font-semibold mb-8 text-[rgb(var(--primary-text))]">
+      <h1 className="text-2xl font-semibold mb-8 text-primary-text">
         My Answers
       </h1>
 
@@ -109,7 +109,7 @@ const MyAnswers: React.FC = () => {
             id="paperFilter"
             value={selectedPaper}
             onChange={(e) => setSelectedPaper(e.target.value)}
-            className="w-full px-3 py-2 border border-[rgb(var(--input))] rounded-md shadow-sm focus:outline-none focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] sm:text-sm"
+            className="w-full px-3 py-2 border border-input rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
           >
             <option value="">All Paper</option>
             {papers.map((paper: string, ind: number) => (
@@ -126,7 +126,7 @@ const MyAnswers: React.FC = () => {
               id="subjectFilter"
               value={filterSubject}
               onChange={(e) => setFilterSubject(e.target.value)}
-              className="w-full px-3 py-2 border border-[rgb(var(--input))] rounded-md shadow-sm focus:outline-none focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] sm:text-sm"
+              className="w-full px-3 py-2 border border-input rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
             >
               <option value="">Subject</option>
               {subjects.map((subject: any, ind: number) => (
@@ -143,7 +143,7 @@ const MyAnswers: React.FC = () => {
             id="statusFilter"
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="w-full px-3 py-2 border border-[rgb(var(--input))] rounded-md shadow-sm focus:outline-none focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))] sm:text-sm"
+            className="w-full px-3 py-2 border border-input rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
           >
             <option value="">Status</option>
             <option value="Evaluated">Evaluated</option>
@@ -156,7 +156,7 @@ const MyAnswers: React.FC = () => {
         <Button
           size="sm"
           onClick={handleClearFilters}
-          className="bg-[rgb(var(--muted))] text-[rgb(var(--primary-text))]"
+          className="bg-muted text-primary-text"
         >
           Clear
         </Button>
@@ -175,7 +175,7 @@ const MyAnswers: React.FC = () => {
           ))}
         </div>
       ) : (
-        <h1 className="text-[rgb(var(--primary-text))]">No Data Found</h1>
+        <h1 className="text-primary-text">No Data Found</h1>
       )}
 
       {/* Load More Button */}
@@ -184,7 +184,7 @@ const MyAnswers: React.FC = () => {
           <Button
             size="sm"
             onClick={loadMoreSubmissions}
-            className="bg-[rgb(var(--muted))] text-[rgb(var(--primary-text))] ml-2"
+            className="bg-muted text-primary-text ml-2"
           >
             Load More
           </Button>

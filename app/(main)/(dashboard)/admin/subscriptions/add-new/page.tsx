@@ -145,7 +145,11 @@ const PlanForm: React.FC = () => {
       } else {
         await setDoc(planRef, { ...planData, discountedPrice, id: planRef.id });
       }
-      toast({ title: "Success", description: "Plan saved" });
+      toast({
+        title: "Success",
+        description: "Plan saved",
+        variant: "success",
+      });
       router.replace("/admin/subscriptions");
     } catch (error) {
       console.error("Error saving plan: ", error);
@@ -153,14 +157,14 @@ const PlanForm: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto mt-12 max-w-lg bg-[rgb(var(--card))] p-8 rounded-lg shadow-lg transition-transform hover:scale-105">
-      <h1 className="text-3xl font-semibold mb-8 text-[rgb(var(--primary-text))] text-center">
+    <div className="container mx-auto mt-12 max-w-lg bg-card p-8 rounded-lg shadow-lg transition-transform hover:scale-105">
+      <h1 className="text-3xl font-semibold mb-8 text-primary-text text-center">
         {id ? "Edit" : "Create"} Plan
       </h1>
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* Plan Name */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-[rgb(var(--primary-text))]">
+          <label className="block text-sm font-medium text-primary-text">
             Plan Name
           </label>
           <Input
@@ -168,13 +172,13 @@ const PlanForm: React.FC = () => {
             value={planData.name}
             onChange={handleInputChange}
             placeholder="Plan Name"
-            className="w-full text-[rgb(var(--input-text))] placeholder-[rgb(var(--muted-foreground))] border-[rgb(var(--input))] rounded-md shadow-md"
+            className="w-full text-input-text placeholder-muted-foreground border-input rounded-md shadow-md"
           />
         </div>
 
         {/* Duration */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-[rgb(var(--primary-text))]">
+          <label className="block text-sm font-medium text-primary-text">
             Duration (days)
           </label>
           <Input
@@ -183,13 +187,13 @@ const PlanForm: React.FC = () => {
             value={planData.duration}
             onChange={handleInputChange}
             placeholder="Duration"
-            className="w-full text-[rgb(var(--input-text))] placeholder-[rgb(var(--muted-foreground))] border-[rgb(var(--input))] rounded-md shadow-md"
+            className="w-full text-input-text placeholder-muted-foreground border-input rounded-md shadow-md"
           />
         </div>
 
         {/* Price */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-[rgb(var(--primary-text))]">
+          <label className="block text-sm font-medium text-primary-text">
             Price (INR)
           </label>
           <Input
@@ -198,24 +202,24 @@ const PlanForm: React.FC = () => {
             value={planData.price}
             onChange={handleInputChange}
             placeholder="Price"
-            className="w-full text-[rgb(var(--input-text))] placeholder-[rgb(var(--muted-foreground))] border-[rgb(var(--input))] rounded-md shadow-md"
+            className="w-full text-input-text placeholder-muted-foreground border-input rounded-md shadow-md"
           />
         </div>
 
         {/* Discount Toggle */}
         <div className="flex items-center space-x-4">
-          <label className="text-[rgb(var(--primary-text))]">Discount</label>
+          <label className="text-primary-text">Discount</label>
           <Switch
             checked={hasDiscount}
             onChange={() => setHasDiscount(!hasDiscount)}
-            className="bg-[rgb(var(--input))] rounded-full shadow-inner"
+            className="bg-input rounded-full shadow-inner"
           />
         </div>
 
         {/* Discounted Price */}
         {hasDiscount && (
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-[rgb(var(--primary-text))]">
+            <label className="block text-sm font-medium text-primary-text">
               Discounted Price (INR)
             </label>
             <Input
@@ -224,14 +228,14 @@ const PlanForm: React.FC = () => {
               value={planData.discountedPrice}
               onChange={handleInputChange}
               placeholder="Discounted Price"
-              className="w-full text-[rgb(var(--input-text))] placeholder-[rgb(var(--muted-foreground))] border-[rgb(var(--input))] rounded-md shadow-md"
+              className="w-full text-input-text placeholder-muted-foreground border-input rounded-md shadow-md"
             />
           </div>
         )}
 
         {/* Seats Left */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-[rgb(var(--primary-text))]">
+          <label className="block text-sm font-medium text-primary-text">
             Seats Left
           </label>
           <Input
@@ -240,20 +244,20 @@ const PlanForm: React.FC = () => {
             value={planData.seatsLeft}
             onChange={handleInputChange}
             placeholder="Seats Left"
-            className="w-full text-[rgb(var(--input-text))] placeholder-[rgb(var(--muted-foreground))] border-[rgb(var(--input))] rounded-md shadow-md"
+            className="w-full text-input-text placeholder-muted-foreground border-input rounded-md shadow-md"
           />
         </div>
 
         {/* Medium Section */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-[rgb(var(--primary-text))]">
+          <label className="block text-sm font-medium text-primary-text">
             Medium
           </label>
           <select
             name="medium"
             value={planData.medium}
             onChange={handleSelectChange}
-            className="w-full p-2 border-[rgb(var(--input))] rounded-md bg-[rgb(var(--background))] text-[rgb(var(--primary-text))] shadow-md"
+            className="w-full p-2 border-input rounded-md bg-background text-primary-text shadow-md"
           >
             <option value="">Select Medium</option>
             <option value="hindi">Hindi</option>
@@ -263,14 +267,14 @@ const PlanForm: React.FC = () => {
 
         {/* Parent Section */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-[rgb(var(--primary-text))]">
+          <label className="block text-sm font-medium text-primary-text">
             Parent Section
           </label>
           <select
             name="parentSection"
             value={planData.parentSection}
             onChange={handleSelectChange}
-            className="w-full p-2 border-[rgb(var(--input))] rounded-md bg-[rgb(var(--background))] text-[rgb(var(--primary-text))] shadow-md"
+            className="w-full p-2 border-input rounded-md bg-background text-primary-text shadow-md"
           >
             <option value="">Select Section</option>
             <option value="dailyEvaluation">Daily Evaluation</option>
@@ -282,7 +286,7 @@ const PlanForm: React.FC = () => {
         {/* Conditional Credits Fields */}
         {planData.parentSection === "dailyEvaluation" && (
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-[rgb(var(--primary-text))]">
+            <label className="block text-sm font-medium text-primary-text">
               Credits Per Day
             </label>
             <Input
@@ -291,13 +295,13 @@ const PlanForm: React.FC = () => {
               value={planData.creditsPerDay}
               onChange={handleInputChange}
               placeholder="Credits Per Day"
-              className="w-full text-[rgb(var(--input-text))] placeholder-[rgb(var(--muted-foreground))] border-[rgb(var(--input))] rounded-md shadow-md"
+              className="w-full text-input-text placeholder-muted-foreground border-input rounded-md shadow-md"
             />
           </div>
         )}
         {planData.parentSection === "testEvaluation" && (
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-[rgb(var(--primary-text))]">
+            <label className="block text-sm font-medium text-primary-text">
               Total Credits
             </label>
             <Input
@@ -306,14 +310,14 @@ const PlanForm: React.FC = () => {
               value={planData.totalCredits}
               onChange={handleInputChange}
               placeholder="Total Credits"
-              className="w-full text-[rgb(var(--primary-text))] placeholder-[rgb(var(--muted-foreground))] border-[rgb(var(--input))] rounded-md shadow-md"
+              className="w-full text-primary-text placeholder-muted-foreground border-input rounded-md shadow-md"
             />
           </div>
         )}
 
         {/* Features */}
         <div className="space-y-4">
-          <label className="block text-sm font-medium text-[rgb(var(--primary-text))]">
+          <label className="block text-sm font-medium text-primary-text">
             Features
           </label>
           <div className="space-y-2">
@@ -324,39 +328,37 @@ const PlanForm: React.FC = () => {
                     <Input
                       value={editedFeature}
                       onChange={(e) => setEditedFeature(e.target.value)}
-                      className="text-[rgb(var(--input-text))] placeholder-[rgb(var(--muted-foreground))] border-[rgb(var(--input))] rounded-md shadow-md"
+                      className="text-input-text placeholder-muted-foreground border-input rounded-md shadow-md"
                     />
                     <Button
                       type="button"
                       onClick={() => handleSaveFeature(index)}
-                      className="bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]"
+                      className="bg-primary text-button-text hover:bg-primary-foreground"
                     >
                       Save
                     </Button>
                     <Button
                       type="button"
                       onClick={handleCancelEdit}
-                      className="bg-[rgb(var(--destructive))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--destructive-foreground))]"
+                      className="bg-destructive text-button-text hover:bg-destructive-foreground"
                     >
                       Cancel
                     </Button>
                   </>
                 ) : (
                   <>
-                    <span className="text-[rgb(var(--primary-text))]">
-                      {feature}
-                    </span>
+                    <span className="text-primary-text">{feature}</span>
                     <Button
                       type="button"
                       onClick={() => handleEditFeature(index)}
-                      className="bg-[rgb(var(--edit))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--secondary-foreground))]"
+                      className="bg-[rgb(var(--edit))] text-button-text hover:bg-[rgb(var(--secondary-foreground))]"
                     >
                       Edit
                     </Button>
                     <Button
                       type="button"
                       onClick={() => removeFeature(index)}
-                      className="bg-[rgb(var(--destructive))] text-[rgb(var(--button-text))] hover:text-[rgb(var(--button-text-foreground))] hover:bg-[rgb(var(--destructive-foreground))]"
+                      className="bg-destructive text-button-text hover:text-[rgb(var(--button-text-foreground))] hover:bg-destructive-foreground"
                     >
                       &times;
                     </Button>
@@ -371,11 +373,11 @@ const PlanForm: React.FC = () => {
                 value={newFeature}
                 onChange={handleFeatureChange}
                 placeholder="Add a new feature"
-                className="w-full text-[rgb(var(--input-text))] placeholder-[rgb(var(--muted-foreground))] border-[rgb(var(--input))] rounded-md shadow-md"
+                className="w-full text-input-text placeholder-muted-foreground border-input rounded-md shadow-md"
               />
               <Button
                 type="button"
-                className="bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]"
+                className="bg-primary text-button-text hover:bg-primary-foreground"
                 onClick={addFeature}
               >
                 Add
@@ -386,36 +388,34 @@ const PlanForm: React.FC = () => {
 
         {/* Switches */}
         <div className="flex items-center space-x-4">
-          <label className="text-[rgb(var(--primary-text))]">Is Trial</label>
+          <label className="text-primary-text">Is Trial</label>
           <Switch
             checked={planData.isTrial}
             onChange={() => handleSwitchChange("isTrial")}
-            className="bg-[rgb(var(--input))] rounded-full shadow-inner"
+            className="bg-input rounded-full shadow-inner"
           />
         </div>
         <div className="flex items-center space-x-4">
-          <label className="text-[rgb(var(--primary-text))]">Is Visible</label>
+          <label className="text-primary-text">Is Visible</label>
           <Switch
             checked={planData.isVisible}
             onChange={() => handleSwitchChange("isVisible")}
-            className="bg-[rgb(var(--input))] rounded-full shadow-inner"
+            className="bg-input rounded-full shadow-inner"
           />
         </div>
         <div className="flex items-center space-x-4">
-          <label className="text-[rgb(var(--primary-text))]">
-            Open For Admission
-          </label>
+          <label className="text-primary-text">Open For Admission</label>
           <Switch
             checked={planData.openForAdmission}
             onChange={() => handleSwitchChange("openForAdmission")}
-            className="bg-[rgb(var(--input))] rounded-full shadow-inner"
+            className="bg-input rounded-full shadow-inner"
           />
         </div>
 
         {/* Submit button */}
         <Button
           type="submit"
-          className="w-full bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))] py-3 rounded-lg shadow-lg transition-all hover:scale-105"
+          className="w-full bg-primary text-button-text hover:bg-primary-foreground py-3 rounded-lg shadow-lg transition-all hover:scale-105"
         >
           {id ? "Update Plan" : "Create Plan"}
         </Button>

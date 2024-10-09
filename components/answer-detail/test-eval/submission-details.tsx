@@ -13,13 +13,13 @@ const SubmissionDetails = ({
   return (
     <div className="flex flex-col items-center mb-8 space-y-6">
       <div className="text-center">
-        <p className="mt-4 text-lg text-[rgb(var(--primary-text))] font-medium">
+        <p className="mt-4 text-lg text-primary-text font-medium">
           {submissionData.paper}
         </p>
-        <p className="text-[rgb(var(--primary-text))]">
+        <p className="text-primary-text">
           Subjects: {submissionData.subjects.join(", ")}
         </p>
-        <p className="text-[rgb(var(--primary-text))]">
+        <p className="text-primary-text">
           Contains PYQ: {submissionData.containsPyq}
         </p>
       </div>
@@ -27,7 +27,7 @@ const SubmissionDetails = ({
       <div className="flex flex-col items-center text-center">
         <Image src="/pdf_icon.svg" alt="PDF Icon" width={100} height={100} />
         <Button
-          className="mt-4 bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]"
+          className="mt-4 bg-primary text-button-text hover:bg-primary-foreground"
           onClick={() => handleDownload(submissionData.file.url)}
         >
           Download Submission
@@ -36,10 +36,10 @@ const SubmissionDetails = ({
 
       {!!submissionData?.studentComment && (
         <div className="w-full mt-4">
-          <h3 className="font-medium text-lg text-[rgb(var(--primary-text))]">
+          <h3 className="font-medium text-lg text-primary-text">
             Student's Comment:
           </h3>
-          <p className="text-[rgb(var(--primary-text))] mt-2">
+          <p className="text-primary-text mt-2">
             {submissionData.studentComment}
           </p>
         </div>

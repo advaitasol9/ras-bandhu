@@ -18,7 +18,7 @@ const DailyEvalDashboard: FC = () => {
 
   return (
     <div className="flex flex-col w-full">
-      <div className="flex h-16 items-center bg-[rgb(var(--muted))] px-6 rounded-xl w-full">
+      <div className="flex h-16 items-center bg-muted px-6 rounded-xl w-full">
         <MainNav
           currentTab={currentSection}
           setCurrentTab={setCurrentSection}
@@ -48,7 +48,7 @@ const DailyEvalDashboard: FC = () => {
             />
           ) : (
             <div className="flex flex-col items-center w-full">
-              <h1 className="font-medium text-[rgb(var(--primary-text))]">
+              <h1 className="font-medium text-primary-text">
                 No Active Subscription
               </h1>
               <Link href="/daily-evaluation">

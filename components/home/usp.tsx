@@ -3,19 +3,17 @@ import Image from "next/image";
 
 const USPItem = ({ src, alt, title, description }: any) => {
   return (
-    <div className="flex bg-[rgb(var(--background))] border border-[rgb(var(--input))] shadow-lg p-6 rounded-lg items-center space-x-6">
+    <div className="flex bg-background border border-input shadow-lg p-6 rounded-lg items-center space-x-6">
       <Image
         src={src}
         alt={alt}
         width={60}
         height={60}
-        className="object-contain bg-[rgb(var(--card))] p-2 rounded-full"
+        className="object-contain bg-card p-2 rounded-full"
       />
       <div>
-        <h3 className="font-medium text-lg mb-2 text-[rgb(var(--primary-text))]">
-          {title}
-        </h3>
-        <p className="text-[rgb(var(--muted-foreground))]">{description}</p>
+        <h3 className="font-medium text-lg mb-2 text-primary-text">{title}</h3>
+        <p className="text-muted-foreground">{description}</p>
       </div>
     </div>
   );
@@ -49,7 +47,7 @@ const USP = () => {
   return (
     <section className="space-y-6 mb-20">
       <div className="container">
-        <h2 className="text-3xl font-semibold mb-12 text-center text-[rgb(var(--primary-text))]">
+        <h2 className="text-3xl font-semibold mb-12 text-center text-primary-text">
           Why Choose Us?
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

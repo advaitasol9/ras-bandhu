@@ -10,15 +10,15 @@ const MentorEvaluation = ({
   handleDownload: (url: string) => void;
 }) =>
   submissionData.status === "Evaluated" ? (
-    <div className="p-4 bg-[rgb(var(--muted))] rounded-md mb-8">
-      <h3 className="text-lg font-semibold mb-2 text-[rgb(var(--primary-text))]">
+    <div className="p-4 bg-muted rounded-md mb-8">
+      <h3 className="text-lg font-semibold mb-2 text-primary-text">
         Evaluator's comments
       </h3>
-      <p className="text-[rgb(var(--primary-text))]">
+      <p className="text-primary-text">
         {submissionData.mentorComments || "No comments from the mentor."}
       </p>
       <Button
-        className="mt-4 bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]"
+        className="mt-4 bg-primary text-button-text hover:bg-primary-foreground"
         onClick={() => handleDownload(submissionData.mentorEvaluationUrl || "")}
       >
         Download Evaluated PDF

@@ -95,21 +95,21 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gradient-to-r from-[rgb(var(--background))]/20 to-[rgb(var(--background))] py-16">
+    <footer className="bg-gradient-to-r from-background/20 to-background py-16">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
         {/* About Section */}
         <div>
-          <h2 className="text-2xl font-semibold mb-4 text-[rgb(var(--primary-text))]">
+          <h2 className="text-2xl font-semibold mb-4 text-primary-text">
             RAS Bandhu
           </h2>
-          <p className="text-[rgb(var(--muted-foreground))] mb-6 leading-relaxed">
+          <p className="text-muted-foreground mb-6 leading-relaxed">
             RAS Bandhu is an online platform designed to support RAS aspirants
             in achieving their Civil Services goals. Created by a group of
             individuals just like you, it aims to address the unmet needs of
             candidates by offering a complete approach and the necessary skills
             to succeed in this exam.
           </p>
-          <h3 className="text-lg font-semibold mb-3 text-[rgb(var(--primary-text))]">
+          <h3 className="text-lg font-semibold mb-3 text-primary-text">
             Follow Us
           </h3>
           <div className="flex space-x-3 mb-6">
@@ -117,23 +117,23 @@ const Footer = () => {
               target="_blank"
               href="https://youtube.com/@rasbandhu?si=nKIIZmX30Yc9_VjX"
             >
-              <FiYoutube className="w-8 h-8 hover:opacity-80 transition" />
+              <FiYoutube className="w-8 h-8 hover:opacity-80 transition text-primary-text" />
             </Link>
             <Link
               target="_blank"
               href="https://www.instagram.com/ras_bandhu?igsh=Ym16cDd6Zm5taTV5"
             >
-              <FaInstagram className="w-8 h-8 hover:opacity-80 transition" />
+              <FaInstagram className="w-8 h-8 hover:opacity-80 transition text-primary-text" />
             </Link>
           </div>
-          <h3 className="text-lg font-semibold mb-3 text-[rgb(var(--primary-text))]">
+          <h3 className="text-lg font-semibold mb-3 text-primary-text">
             Quick Links
           </h3>
-          <ul className="space-y-2 text-[rgb(var(--muted-foreground))]">
+          <ul className="space-y-2 text-muted-foreground">
             <li>
               <Link
                 href="/terms-and-conditions"
-                className="hover:text-[rgb(var(--primary))] transition"
+                className="hover:text-primary transition"
               >
                 Terms & Conditions
               </Link>
@@ -141,7 +141,7 @@ const Footer = () => {
             <li>
               <Link
                 href="/privacy-policy"
-                className="hover:text-[rgb(var(--primary))] transition"
+                className="hover:text-primary transition"
               >
                 Privacy Policy
               </Link>
@@ -149,7 +149,7 @@ const Footer = () => {
             <li>
               <Link
                 href="/refund-policy"
-                className="hover:text-[rgb(var(--primary))] transition"
+                className="hover:text-primary transition"
               >
                 Refund Policy
               </Link>
@@ -160,10 +160,10 @@ const Footer = () => {
         {/* Message Section */}
         <div className="bg-card pt-2 rounded-md">
           <div className="px-2">
-            <h3 className="text-2xl font-semibold mb-4 text-[rgb(var(--primary-text))]">
+            <h3 className="text-2xl font-semibold mb-4 text-primary-text">
               Send Us a Message
             </h3>
-            <p className="text-[rgb(var(--muted-foreground))] mb-6">
+            <p className="text-muted-foreground mb-6">
               We would love to hear your feedback about this program to make it
               more effective for upcoming batches.
             </p>
@@ -174,7 +174,7 @@ const Footer = () => {
                 placeholder="Name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full p-4 border border-[rgb(var(--input))] rounded-lg focus:outline-none focus:border-[rgb(var(--primary))]"
+                className="w-full p-4 border border-input rounded-lg focus:outline-none focus:border-primary"
                 required
               />
               <input
@@ -183,7 +183,7 @@ const Footer = () => {
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="w-full p-4 border border-[rgb(var(--input))] rounded-lg focus:outline-none focus:border-[rgb(var(--primary))]"
+                className="w-full p-4 border border-input rounded-lg focus:outline-none focus:border-primary"
                 required
               />
               <input
@@ -192,7 +192,7 @@ const Footer = () => {
                 placeholder="Mobile"
                 value={formData.mobile}
                 onChange={handleInputChange}
-                className="w-full p-4 border border-[rgb(var(--input))] rounded-lg focus:outline-none focus:border-[rgb(var(--primary))]"
+                className="w-full p-4 border border-input rounded-lg focus:outline-none focus:border-primary"
                 required
               />
               <textarea
@@ -200,18 +200,16 @@ const Footer = () => {
                 placeholder="Message"
                 value={formData.message}
                 onChange={handleInputChange}
-                className="w-full p-4 border border-[rgb(var(--input))] rounded-lg h-32 focus:outline-none focus:border-[rgb(var(--primary))]"
+                className="w-full p-4 border border-input rounded-lg h-32 focus:outline-none focus:border-primary"
                 required
               ></textarea>
               {submissionMessage && (
-                <p className="text-[rgb(var(--primary-text))]">
-                  {submissionMessage}
-                </p>
+                <p className="text-primary-text">{submissionMessage}</p>
               )}
               <Button
                 type="submit"
                 size="lg"
-                className="w-full bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))] transition"
+                className="w-full bg-primary text-button-text hover:bg-primary-foreground transition"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Submitting..." : "Submit"}
@@ -222,26 +220,26 @@ const Footer = () => {
 
         {/* Contact Details Section */}
         <div>
-          <h3 className="text-2xl font-semibold mb-4 text-[rgb(var(--primary-text))]">
+          <h3 className="text-2xl font-semibold mb-4 text-primary-text">
             Contact Us
           </h3>
-          <p className="text-[rgb(var(--muted-foreground))] mb-6">
+          <p className="text-muted-foreground mb-6">
             For any further information, feel free to reach out to us at:
           </p>
-          <p className="text-[rgb(var(--muted-foreground))] font-semibold mb-2">
+          <p className="text-muted-foreground font-semibold mb-2">
             Email:{" "}
             <a
               href="mailto:info@rasbandhu.com"
-              className="text-[rgb(var(--primary))] hover:underline"
+              className="text-primary hover:underline"
             >
               info@rasbandhu.com
             </a>
           </p>
-          <p className="text-[rgb(var(--muted-foreground))] font-semibold">
+          <p className="text-muted-foreground font-semibold">
             Phone:{" "}
             <a
               href="tel:+919636935848"
-              className="text-[rgb(var(--primary))] hover:underline"
+              className="text-primary hover:underline"
             >
               +91 9636935848
             </a>

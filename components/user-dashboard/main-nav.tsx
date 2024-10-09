@@ -21,10 +21,10 @@ export function MainNav({
     >
       <Link
         href="#"
-        className={`text-sm font-medium transition-colors hover:text-[rgb(var(--primary))] ${
+        className={`text-sm font-medium transition-colors hover:text-primary ${
           currentTab == "evaluations"
-            ? "text-[rgb(var(--primary-text))]"
-            : "text-[rgb(var(--muted-foreground))]"
+            ? "text-primary-text"
+            : "text-muted-foreground"
         }`}
         onClick={() => setCurrentTab("evaluations")}
       >
@@ -32,10 +32,10 @@ export function MainNav({
       </Link>
       <Link
         href="#"
-        className={`text-sm font-medium transition-colors hover:text-[rgb(var(--primary))] ${
+        className={`text-sm font-medium transition-colors hover:text-primary ${
           currentTab == "myPlans"
-            ? "text-[rgb(var(--primary-text))]"
-            : "text-[rgb(var(--muted-foreground))]"
+            ? "text-primary-text"
+            : "text-muted-foreground"
         }`}
         onClick={() => setCurrentTab("myPlans")}
       >
@@ -44,10 +44,10 @@ export function MainNav({
       {showMentorshipCallBtn && (
         <Link
           href="#"
-          className={`text-sm font-medium transition-colors hover:text-[rgb(var(--primary))] ${
+          className={`text-sm font-medium transition-colors hover:text-primary ${
             currentTab == "mentorshipCall"
-              ? "text-[rgb(var(--primary-text))]"
-              : "text-[rgb(var(--muted-foreground))]"
+              ? "text-primary-text"
+              : "text-muted-foreground"
           }`}
           onClick={() => setCurrentTab("mentorshipCall")}
         >

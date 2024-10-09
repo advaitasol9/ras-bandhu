@@ -89,39 +89,39 @@ const TestEvalMentorDashboard = () => {
 
   return (
     <div className="w-full">
-      <div className="flex flex-col justify-center bg-[rgb(var(--muted))] px-6 rounded-xl h-16">
-        <div className="text-sm text-[rgb(var(--primary-text))]">
+      <div className="flex flex-col justify-center bg-muted px-6 rounded-xl h-16">
+        <div className="text-sm text-primary-text">
           Total Evaluated This Month: {totalEvaluatedThisMonth}
         </div>
         <div className="flex justify-between items-center">
           <Link
             href="/mentor/test-evaluations?status=Pending"
-            className="flex items-center font-medium text-[rgb(var(--primary-text))]"
+            className="flex items-center font-medium text-primary-text"
           >
             View Pending{" "}
-            <FaArrowRight className="w-3 h-3 hover:opacity-80 transition ml-1 text-[rgb(var(--muted-foreground))]" />
+            <FaArrowRight className="w-3 h-3 hover:opacity-80 transition ml-1 text-muted-foreground" />
           </Link>
           <Link
             href="/search-student"
-            className="flex items-center font-normal md:font-medium text-sm md:text-base text-[rgb(var(--primary))] hover:text-[rgb(var(--primary-foreground))] transition"
+            className="flex items-center font-normal md:font-medium text-sm md:text-base text-primary hover:text-primary-foreground transition"
           >
             Search Student
-            <FaSearch className="w-4 h-4 ml-2 text-[rgb(var(--primary))]" />
+            <FaSearch className="w-4 h-4 ml-2 text-primary" />
           </Link>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-4">
-        <Card className="bg-[rgb(var(--background))] text-[rgb(var(--primary-text))]">
+        <Card className="bg-background text-primary-text">
           <CardHeader>
             <CardTitle>Current Assigned</CardTitle>
             <CardDescription className="cursor-pointer">
               <Link
                 href="/mentor/test-evaluations?status=Assigned"
-                className="flex items-center text-[rgb(var(--primary-text))]"
+                className="flex items-center text-primary-text"
               >
                 View All{" "}
-                <FaArrowRight className="w-3 h-3 hover:opacity-80 transition ml-1 text-[rgb(var(--muted-foreground))]" />
+                <FaArrowRight className="w-3 h-3 hover:opacity-80 transition ml-1 text-muted-foreground" />
               </Link>
             </CardDescription>
           </CardHeader>
@@ -140,23 +140,23 @@ const TestEvalMentorDashboard = () => {
                 ))}
               </ul>
             ) : (
-              <p className="text-[rgb(var(--primary-text))] text-center md:text-start">
+              <p className="text-primary-text text-center md:text-start">
                 No current assigned evaluations
               </p>
             )}
           </CardContent>
         </Card>
 
-        <Card className="bg-[rgb(var(--background))] text-[rgb(var(--primary-text))]">
+        <Card className="bg-background text-primary-text">
           <CardHeader>
             <CardTitle>Last Evaluated</CardTitle>
             <CardDescription className="cursor-pointer">
               <Link
                 href="/mentor/test-evaluations?status=Evaluated"
-                className="flex items-center text-[rgb(var(--primary-text))]"
+                className="flex items-center text-primary-text"
               >
                 View All{" "}
-                <FaArrowRight className="w-3 h-3 hover:opacity-80 transition ml-1 text-[rgb(var(--muted-foreground))]" />
+                <FaArrowRight className="w-3 h-3 hover:opacity-80 transition ml-1 text-muted-foreground" />
               </Link>
             </CardDescription>
           </CardHeader>
@@ -175,7 +175,7 @@ const TestEvalMentorDashboard = () => {
                 ))}
               </ul>
             ) : (
-              <p className="text-[rgb(var(--primary-text))] text-center md:text-start">
+              <p className="text-primary-text text-center md:text-start">
                 No recent evaluated answers
               </p>
             )}

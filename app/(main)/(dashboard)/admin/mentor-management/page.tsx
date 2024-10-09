@@ -90,15 +90,15 @@ const MentorManagement = () => {
   };
 
   return (
-    <div className="container mx-auto p-6 bg-[rgb(var(--background))] rounded-lg shadow-lg max-w-2xl">
-      <h1 className="text-3xl font-semibold mb-6 text-[rgb(var(--primary-text))]">
+    <div className="container mx-auto p-6 bg-background rounded-lg shadow-lg max-w-2xl">
+      <h1 className="text-3xl font-semibold mb-6 text-primary-text">
         Mentor Management
       </h1>
 
-      {error && <p className="text-[rgb(var(--destructive))] mb-4">{error}</p>}
+      {error && <p className="text-destructive mb-4">{error}</p>}
       {message && <p className="text-[rgb(var(--positive))] mb-4">{message}</p>}
 
-      <h2 className="text-xl font-semibold mb-4 text-[rgb(var(--primary-text))]">
+      <h2 className="text-xl font-semibold mb-4 text-primary-text">
         Current Mentors
       </h2>
 
@@ -107,14 +107,14 @@ const MentorManagement = () => {
           {mentors.map((mentor: User) => (
             <li
               key={mentor.id}
-              className="flex items-center justify-between p-4 bg-[rgb(var(--muted))] rounded-md"
+              className="flex items-center justify-between p-4 bg-muted rounded-md"
             >
-              <span className="text-[rgb(var(--primary-text))]">
+              <span className="text-primary-text">
                 {mentor?.name || mentor.id}
               </span>
               <Button
                 size="sm"
-                className="bg-[rgb(var(--destructive))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--destructive-foreground))] transition"
+                className="bg-destructive text-button-text hover:bg-destructive-foreground transition"
                 onClick={() => handleRemoveMentor(mentor.id)}
                 disabled={removingMentorId === mentor.id} // Disable only the relevant button
               >
@@ -124,10 +124,10 @@ const MentorManagement = () => {
           ))}
         </ul>
       ) : (
-        <p className="text-[rgb(var(--primary-text))]">No mentors found.</p>
+        <p className="text-primary-text">No mentors found.</p>
       )}
 
-      <h2 className="text-xl font-semibold mb-4 text-[rgb(var(--primary-text))]">
+      <h2 className="text-xl font-semibold mb-4 text-primary-text">
         Add New Mentor
       </h2>
 
@@ -137,11 +137,11 @@ const MentorManagement = () => {
           value={newMentorId}
           onChange={(e) => setNewMentorId(e.target.value)}
           placeholder="Enter mentor user ID"
-          className="p-3 w-full border border-[rgb(var(--input))] rounded-md focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))]"
+          className="p-3 w-full border border-input rounded-md focus:ring-primary focus:border-primary"
         />
         <Button
           size="sm"
-          className="bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))] transition"
+          className="bg-primary text-button-text hover:bg-primary-foreground transition"
           onClick={handleAddMentor}
           disabled={addLoading} // Disable only the add button
         >

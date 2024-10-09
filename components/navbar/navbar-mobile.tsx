@@ -19,9 +19,9 @@ export const NavbarMobile = () => {
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger className="-mr-4">
-              <MenuIcon className="text-[rgb(var(--primary-text))]" />
+              <MenuIcon className="text-primary-text" />
             </NavigationMenuTrigger>
-            <NavigationMenuContent className="flex flex-col p-1 bg-[rgb(var(--background))]">
+            <NavigationMenuContent className="flex flex-col p-1 bg-background">
               <NavigationMenuLink
                 href="/daily-evaluation"
                 className={buttonVariants({ variant: "link" })}

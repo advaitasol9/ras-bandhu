@@ -122,12 +122,12 @@ const ProfilePage: React.FC = () => {
 
   return (
     <div className="mx-auto mt-12 md:container md:max-w-lg">
-      <h1 className="text-2xl font-semibold mb-8 text-center text-[rgb(var(--primary-text))]">
+      <h1 className="text-2xl font-semibold mb-8 text-center text-primary-text">
         Profile
       </h1>
 
       {/* Profile Section */}
-      <div className="flex flex-col items-center bg-[rgb(var(--card))] p-8 rounded-lg shadow-lg">
+      <div className="flex flex-col items-center bg-card p-8 rounded-lg shadow-lg">
         {/* Avatar */}
         <div className="relative">
           <Avatar className="h-24 w-24 mb-4">
@@ -141,9 +141,9 @@ const ProfilePage: React.FC = () => {
             <>
               <label
                 htmlFor="avatar-upload"
-                className="absolute top-0 right-0 p-1 bg-[rgb(var(--background))] rounded-full cursor-pointer"
+                className="absolute top-0 right-0 p-1 bg-background rounded-full cursor-pointer"
               >
-                <HiMiniPencilSquare className="w-6 h-6 text-[rgb(var(--muted-foreground))]" />
+                <HiMiniPencilSquare className="w-6 h-6 text-muted-foreground" />
               </label>
               <input
                 type="file"
@@ -159,36 +159,30 @@ const ProfilePage: React.FC = () => {
         {/* User Details */}
         <div className="text-center space-y-4">
           <div>
-            <p className="text-sm font-medium text-[rgb(var(--muted-foreground))]">
-              Name
-            </p>
+            <p className="text-sm font-medium text-muted-foreground">Name</p>
             {isEditing ? (
               <Input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="mt-1 bg-[rgb(var(--input))]"
+                className="mt-1 bg-input"
               />
             ) : (
-              <p className="text-lg font-semibold text-[rgb(var(--primary-text))]">
-                {name}
-              </p>
+              <p className="text-lg font-semibold text-primary-text">{name}</p>
             )}
           </div>
 
           {isEditing && userData?.authMethod == "phone" ? null : (
             <div>
-              <p className="text-sm font-medium text-[rgb(var(--muted-foreground))]">
-                Phone
-              </p>
+              <p className="text-sm font-medium text-muted-foreground">Phone</p>
 
               {isEditing ? (
                 <Input
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="mt-1 bg-[rgb(var(--input))]"
+                  className="mt-1 bg-input"
                 />
               ) : (
-                <p className="text-lg font-semibold text-[rgb(var(--primary-text))]">
+                <p className="text-lg font-semibold text-primary-text">
                   {userData?.phone?.replace("+91", "")}
                 </p>
               )}
@@ -197,17 +191,15 @@ const ProfilePage: React.FC = () => {
 
           {isEditing && userData?.authMethod == "google.com" ? null : (
             <div>
-              <p className="text-sm font-medium text-[rgb(var(--muted-foreground))]">
-                Email
-              </p>
+              <p className="text-sm font-medium text-muted-foreground">Email</p>
               {isEditing ? (
                 <Input
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="mt-1 bg-[rgb(var(--input))]"
+                  className="mt-1 bg-input"
                 />
               ) : (
-                <p className="text-lg font-semibold text-[rgb(var(--primary-text))]">
+                <p className="text-lg font-semibold text-primary-text">
                   {userData?.email}
                 </p>
               )}
@@ -221,14 +213,14 @@ const ProfilePage: React.FC = () => {
           </div>
         ) : isEditing ? (
           <Button
-            className="mt-6 bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]"
+            className="mt-6 bg-primary text-button-text hover:bg-primary-foreground"
             onClick={handleSaveClick}
           >
             Save
           </Button>
         ) : (
           <Button
-            className="mt-6 bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))]"
+            className="mt-6 bg-primary text-button-text hover:bg-primary-foreground"
             onClick={handleEditClick}
           >
             Edit Profile
@@ -236,7 +228,7 @@ const ProfilePage: React.FC = () => {
         )}
 
         {isEditing && (
-          <h1 className="font-medium text-sm text-[rgb(var(--edit))] mt-3">
+          <h1 className="font-medium text-sm text-muted-foreground mt-3">
             *Fill Profile Data
           </h1>
         )}

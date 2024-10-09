@@ -16,7 +16,7 @@ const CreateNewAns = ({
   subscriptionData: DailyEvaluationSubscription | TestEvaluationSubscription;
 }) => {
   return (
-    <Card className="col-span-3 flex flex-col items-center bg-[rgb(var(--background))] text-[rgb(var(--primary-text))]">
+    <Card className="col-span-3 flex flex-col items-center bg-background text-primary-text">
       <CardHeader>
         <CardTitle>
           {hasActiveSubscription ? "Create New" : "No Active Subscription"}
@@ -37,7 +37,7 @@ const CreateNewAns = ({
                 </Button>
               </Link>
             )}
-            <p className="mt-2 text-center text-[rgb(var(--primary-text))]">
+            <p className="mt-2 text-center text-primary-text">
               {subscriptionData?.creditsRemaining || 0} credits remaining
             </p>
           </div>

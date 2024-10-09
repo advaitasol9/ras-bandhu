@@ -31,7 +31,7 @@ const Dashboard: FC = () => {
     <MentorRoute>
       <div className="flex flex-col w-full space-y-6 px-4 md:px-8 lg:px-12 mt-8">
         <div className="flex items-end justify-between">
-          <h2 className="text-3xl font-bold tracking-tight text-[rgb(var(--primary-text))]">
+          <h2 className="text-3xl font-bold tracking-tight text-primary-text">
             Dashboard
           </h2>
         </div>

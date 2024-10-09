@@ -58,7 +58,7 @@ const SearchStudent: React.FC = () => {
 
   return (
     <div className="container mx-auto mt-8 p-6">
-      <h1 className="text-xl font-medium mb-6 text-[rgb(var(--primary-text))] text-center">
+      <h1 className="text-xl font-medium mb-6 text-primary-text text-center">
         Search for Student by Mobile Number or Email
       </h1>
 
@@ -70,7 +70,7 @@ const SearchStudent: React.FC = () => {
           onChange={handleInputChange}
           onKeyDown={handleKeyDown} // Listen for Enter key
           placeholder="Enter 10-digit mobile or email"
-          className="w-full md:w-96 text-[rgb(var(--input-text))] border-[rgb(var(--muted-foreground))] placeholder-[rgb(var(--muted-foreground))] focus:ring-[rgb(var(--primary))] focus:border-[rgb(var(--primary))]"
+          className="w-full md:w-96 text-input-text border-muted-foreground placeholder-muted-foreground focus:ring-primary focus:border-primary"
         />
         <Button
           onClick={handleSearch}
@@ -78,7 +78,7 @@ const SearchStudent: React.FC = () => {
             (searchByEmail && !emailPattern.test(input)) ||
             (!searchByEmail && (input.length !== 10 || loading))
           }
-          className="flex items-center px-4 py-2 text-[rgb(var(--button-text))] border-[rgb(var(--primary))] hover:bg-[rgb(var(--primary))] transition-colors duration-300"
+          className="flex items-center px-4 py-2 text-button-text border-primary hover:bg-primary transition-colors duration-300"
         >
           {loading ? (
             "Searching..."
@@ -96,27 +96,19 @@ const SearchStudent: React.FC = () => {
           searchResults.map((user) => (
             <div
               key={user.userId}
-              className="p-4 bg-[rgb(var(--card))] rounded-lg shadow-md cursor-pointer"
+              className="p-4 bg-card rounded-lg shadow-md cursor-pointer"
               onClick={() => router.push(`/user-info?userId=${user.userId}`)}
             >
-              <h2 className="text-lg font-semibold text-[rgb(var(--primary-text))]">
+              <h2 className="text-lg font-semibold text-primary-text">
                 Name: {user.name}
               </h2>
-              <p className="text-[rgb(var(--secondary-text))]">
-                Email: {user.email}
-              </p>
-              <p className="text-[rgb(var(--secondary-text))]">
-                Phone: {user.phone}
-              </p>
-              <p className="text-[rgb(var(--secondary-text))]">
-                User ID: {user.userId}
-              </p>
+              <p className="text-secondary-text">Email: {user.email}</p>
+              <p className="text-secondary-text">Phone: {user.phone}</p>
+              <p className="text-secondary-text">User ID: {user.userId}</p>
             </div>
           ))
         ) : (
-          <p className="text-center text-[rgb(var(--primary-text))]">
-            No results found
-          </p>
+          <p className="text-center text-primary-text">No results found</p>
         )}
       </div>
     </div>

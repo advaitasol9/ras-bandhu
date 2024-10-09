@@ -38,7 +38,7 @@ export const ProviderLoginButtons: FC<Props> = ({ onSignIn }) => {
           const provider = new GoogleAuthProvider();
           await doProviderSignIn(provider);
         }}
-        className="flex items-center bg--[rgb(var(--card))] border border-[rgb(var(--primary))] text-[rgb(var(--primary))] hover:border-[rgb(var(--primary-foreground))] hover:text-[rgb(var(--primary-foreground))] transition-colors duration-300"
+        className="flex items-center bg--card border border-primary text-primary hover:border-primary-foreground hover:text-primary-foreground transition-colors duration-300"
       >
         {isLoading ? (
           <Loader /> // Show the Loader component when loading

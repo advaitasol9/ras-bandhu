@@ -159,34 +159,30 @@ const UserProfile = () => {
       </div>
       {/* User Details */}
       <div className="my-8">
-        <h2 className="text-xl font-medium text-[rgb(var(--primary-text))]">
-          User Details
-        </h2>
-        <p className="text-md text-[rgb(var(--secondary-text))]">
-          Name: {userDetails.name}
-        </p>
-        <p className="text-md text-[rgb(var(--secondary-text))]">
+        <h2 className="text-xl font-medium text-primary-text">User Details</h2>
+        <p className="text-md text-secondary-text">Name: {userDetails.name}</p>
+        <p className="text-md text-secondary-text">
           Email: {userDetails.email}
         </p>
-        <p className="text-md text-[rgb(var(--secondary-text))]">
+        <p className="text-md text-secondary-text">
           Phone: {userDetails.phone}
         </p>
       </div>
 
       {/* Subscription Details */}
       <div className="mb-8">
-        <h2 className="text-xl font-medium text-[rgb(var(--primary-text))]">
+        <h2 className="text-xl font-medium text-primary-text">
           Subscription Details
         </h2>
         {subscriptionDetails ? (
           <div>
-            <p className="text-md text-[rgb(var(--secondary-text))]">
+            <p className="text-md text-secondary-text">
               Plan Name: {subscriptionDetails.subInfo.name}
             </p>
-            <p className="text-md text-[rgb(var(--secondary-text))]">
+            <p className="text-md text-secondary-text">
               Medium: {subscriptionDetails.subInfo.medium}
             </p>
-            <p className="text-md text-[rgb(var(--secondary-text))]">
+            <p className="text-md text-secondary-text">
               Subscription Expiry:{" "}
               {new Date(
                 subscriptionDetails.subscriptionExpiry
@@ -194,7 +190,7 @@ const UserProfile = () => {
             </p>
           </div>
         ) : (
-          <p className="text-md text-[rgb(var(--secondary-text))]">
+          <p className="text-md text-secondary-text">
             No subscription data found.
           </p>
         )}
@@ -202,7 +198,7 @@ const UserProfile = () => {
 
       {/* Evaluation Requests */}
       <div className="mb-8">
-        <h2 className="text-xl font-medium text-[rgb(var(--primary-text))] mb-4">
+        <h2 className="text-xl font-medium text-primary-text mb-4">
           Evaluation Requests
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -220,7 +216,7 @@ const UserProfile = () => {
               />
             ))
           ) : (
-            <p className="text-md text-[rgb(var(--secondary-text))]">
+            <p className="text-md text-secondary-text">
               No evaluation requests found.
             </p>
           )}
@@ -233,7 +229,7 @@ const UserProfile = () => {
           <Button
             onClick={() => fetchEvalRequests(true)}
             disabled={loadingMore}
-            className="bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))] transition-colors duration-300"
+            className="bg-primary text-button-text hover:bg-primary-foreground transition-colors duration-300"
           >
             {loadingMore ? "Loading..." : "Fetch More"}
           </Button>

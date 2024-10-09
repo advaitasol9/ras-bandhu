@@ -19,10 +19,10 @@ const SubmissionStatus = ({
   submissionData: Evaluation;
 }) => {
   const statusColors: Record<string, string> = {
-    Pending: "text-[rgb(var(--edit))]",
-    Rejected: "text-[rgb(var(--destructive))]",
-    Assigned: "text-[rgb(var(--primary-text))]",
-    Evaluated: "text-[rgb(var(--muted-foreground))]",
+    Pending: "text-edit",
+    Rejected: "text-destructive",
+    Assigned: "text-primary-text",
+    Evaluated: "text-muted-foreground",
   };
 
   const statusMessage: Record<string, string> = {
@@ -141,7 +141,9 @@ const MyAnswerDetail = () => {
 
   return (
     <div className="container mx-auto mt-12">
-      <h1 className="text-2xl font-semibold mb-8">Answer Details</h1>
+      <h1 className="text-2xl font-semibold mb-8 text-primary-text">
+        Answer Details
+      </h1>
 
       <SubmissionDetails
         submissionData={submissionData}

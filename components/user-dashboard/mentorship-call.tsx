@@ -70,8 +70,8 @@ const MentorshipRequestForm: React.FC = () => {
   const minDate = format(addDays(new Date(), 1), "yyyy-MM-dd");
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6 bg-[rgb(var(--card))] rounded-lg shadow-lg">
-      <h2 className="text-2xl font-semibold mb-4 text-[rgb(var(--primary-text))] text-center">
+    <div className="max-w-md mx-auto mt-8 p-6 bg-card rounded-lg shadow-lg">
+      <h2 className="text-2xl font-semibold mb-4 text-primary-text text-center">
         Request a Mentorship Call
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -86,7 +86,7 @@ const MentorshipRequestForm: React.FC = () => {
           name="date"
           value={formData.date}
           onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-          className="w-full p-4 border border-[rgb(var(--input))] rounded-lg"
+          className="w-full p-4 border border-input rounded-lg"
           min={minDate}
           required
         />
@@ -96,7 +96,7 @@ const MentorshipRequestForm: React.FC = () => {
           name="timeSlot"
           value={formData.timeSlot}
           onChange={handleInputChange}
-          className="w-full p-4 border border-[rgb(var(--input))] rounded-lg"
+          className="w-full p-4 border border-input rounded-lg"
           required
         >
           <option value="">Select Time Slot</option>
@@ -108,15 +108,13 @@ const MentorshipRequestForm: React.FC = () => {
         </select>
 
         {submissionMessage && (
-          <p className="text-[rgb(var(--primary-text))] text-center">
-            {submissionMessage}
-          </p>
+          <p className="text-primary-text text-center">{submissionMessage}</p>
         )}
 
         <Button
           type="submit"
           size="lg"
-          className="w-full bg-[rgb(var(--primary))] text-[rgb(var(--button-text))] hover:bg-[rgb(var(--primary-foreground))] transition"
+          className="w-full bg-primary text-button-text hover:bg-primary-foreground transition"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Submitting..." : "Submit"}

@@ -37,12 +37,12 @@ const TestEvalPlans = () => {
     const isExpired = subscriptionData ? moment().isAfter(expiryDate) : true;
 
     return isExpired ? null : userSubMedium != selectedMedium ? (
-      <p className="text-sm font-medium text-center text-[rgb(var(--destructive))] px-2">
+      <p className="text-sm font-medium text-center text-destructive px-2">
         You are unable to purchase these plans because you currently have an
         active {subscriptionData.subInfo.medium} medium plan.
       </p>
     ) : (
-      <p className="text-sm font-medium text-center text-[rgb(var(--primary-text))] px-2">
+      <p className="text-sm font-medium text-center text-primary-text px-2">
         Note: Purchasing a new plan will add credits to your existing balance.
         Expiry will extend if the new plan offers a longer duration.
       </p>

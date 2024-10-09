@@ -17,9 +17,8 @@ module.exports = {
     },
     extend: {
       colors: {
-        border: "rgb(var(--border))", // Border color from CSS
-        input: "rgb(var(--inputff))", // Input field background color
-        "input-placeholder": "rgb(var(--input-placeholder))",
+        edge: "rgb(var(--edge))", // Border color from CSS
+        input: "rgb(var(--input))", // Input field background color
         ring: "rgb(var(--ring))", // Ring/focus color
         background: "rgb(var(--background))", // Background color
         foreground: "rgb(var(--foreground))", // Text color on the background
@@ -59,10 +58,17 @@ module.exports = {
           foreground: "rgb(var(--card-foreground))", // Text color inside cards
         },
 
+        edit: {
+          DEFAULT: "rgb(var(--edit))", // orange
+          foreground: "rgb(var(--edit-foreground))", // Text color orange
+        },
+
         // Additional text colors if needed
         "primary-text": "rgb(var(--primary-text))", // Primary text color
         "secondary-text": "rgb(var(--secondary-text))", // Secondary text color
         "button-text": "rgb(var(--button-text))", // Text color for buttons
+        "input-placeholder": "rgb(var(--input-placeholder))",
+        "input-text": "rgb(var(--input-text))",
       },
       borderRadius: {
         lg: "var(--radius)", // Large border radius
