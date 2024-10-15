@@ -1,13 +1,29 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import { Button } from "./ui/button";
 
 const ParentTab = ({
   currentTab,
-  handleTabChange,
+  setCurrentTab,
 }: {
-  currentTab: string;
-  handleTabChange: (val: string) => void;
+  currentTab: string | null;
+  setCurrentTab: (val: string) => void;
 }) => {
+  const handleTabChange = (tab: string) => {
+    setCurrentTab(tab);
+    localStorage.setItem("parent-tab", tab);
+  };
+
+  useEffect(() => {
+    const savedTab = localStorage.getItem("parent-tab");
+    if (savedTab) {
+      setCurrentTab(savedTab);
+    } else {
+      setCurrentTab("dailyEval");
+    }
+  }, []);
+
   return (
     <div className="flex space-x-4">
       <Button

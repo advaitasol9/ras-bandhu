@@ -82,28 +82,10 @@ const SubscriptionStats = () => {
       isActive ? "bg-primary text-white" : "bg-muted text-primary-text"
     }`;
 
-  useEffect(() => {
-    const savedTab = localStorage.getItem("admin-dashboard-tab");
-    if (savedTab) {
-      setCurrentTab(savedTab);
-    } else {
-      setCurrentTab("dailyEval");
-    }
-  }, []);
-
-  const handleTabChange = (tab: string) => {
-    setCurrentTab(tab);
-    localStorage.setItem("admin-dashboard-tab", tab);
-  };
-
-  if (!currentTab) {
-    return null;
-  }
-
   return (
     <div>
       <div className="flex justify-center">
-        <ParentTab currentTab={currentTab} handleTabChange={handleTabChange} />
+        <ParentTab currentTab={currentTab} setCurrentTab={setCurrentTab} />
       </div>
       <div
         className={`mt-4 mx-auto p-6 bg-card rounded-lg shadow-lg w-full ${

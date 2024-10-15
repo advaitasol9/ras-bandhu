@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import DailyEvalDashboard from "@/components/user-dashboard/daily-eval/daily-eval-dashboard";
 import TestEvalDashboard from "@/components/user-dashboard/test-eval/test-eval-dashboard";
 import UserRoute from "./user-route";
@@ -8,24 +8,6 @@ import ParentTab from "@/components/parent-tab";
 
 const Dashboard: FC = () => {
   const [currentTab, setCurrentTab] = useState<string | null>(null);
-
-  useEffect(() => {
-    const savedTab = localStorage.getItem("user-dashboard-tab");
-    if (savedTab) {
-      setCurrentTab(savedTab);
-    } else {
-      setCurrentTab("dailyEval");
-    }
-  }, []);
-
-  const handleTabChange = (tab: string) => {
-    setCurrentTab(tab);
-    localStorage.setItem("user-dashboard-tab", tab);
-  };
-
-  if (!currentTab) {
-    return null;
-  }
 
   return (
     <UserRoute>
@@ -35,13 +17,10 @@ const Dashboard: FC = () => {
             Dashboard
           </h2>
         </div>
-        <ParentTab currentTab={currentTab} handleTabChange={handleTabChange} />
+        <ParentTab currentTab={currentTab} setCurrentTab={setCurrentTab} />
         <div>
-          {currentTab === "dailyEval" ? (
-            <DailyEvalDashboard />
-          ) : (
-            <TestEvalDashboard />
-          )}
+          {currentTab === "dailyEval" && <DailyEvalDashboard />}
+          {currentTab == "testEval" && <TestEvalDashboard />}
         </div>
       </div>
     </UserRoute>

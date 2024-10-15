@@ -136,14 +136,21 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
-    setSubscriptionDetails(null);
-    setEvalRequests([]);
     if (userId) {
       fetchUserDetails();
       fetchSubscriptionDetails();
       fetchEvalRequests();
     }
-  }, [userId, selectedTab]);
+  }, [userId]);
+
+  useEffect(() => {
+    setSubscriptionDetails(null);
+    setEvalRequests([]);
+    if (userId) {
+      fetchSubscriptionDetails();
+      fetchEvalRequests();
+    }
+  }, [selectedTab]);
 
   if (loading || !userDetails) {
     return <Loader />;
@@ -152,10 +159,7 @@ const UserProfile = () => {
   return (
     <div className="container mx-auto p-6">
       <div className="flex justify-center">
-        <ParentTab
-          currentTab={selectedTab}
-          handleTabChange={(val) => setSelectedTab(val)}
-        />
+        <ParentTab currentTab={selectedTab} setCurrentTab={setSelectedTab} />
       </div>
       {/* User Details */}
       <div className="my-8">

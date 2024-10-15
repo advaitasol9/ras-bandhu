@@ -39,7 +39,7 @@ export const TestEvaluationProvider: React.FC<{
   const hasActiveSubscription =
     !!subscriptionExpiry && currentTime < subscriptionExpiry;
   const creditsLeft = subscriptionData?.creditsRemaining || 0;
-  console.log("aaa", subscriptionData);
+
   useEffect(() => {
     if (!user?.uid) {
       setSubscriptionData(null);
