@@ -19,9 +19,6 @@ const SubmissionDetails = ({
         <p className="text-primary-text">
           Subjects: {submissionData.subjects.join(", ")}
         </p>
-        <p className="text-primary-text">
-          Contains PYQ: {submissionData.containsPyq}
-        </p>
       </div>
 
       <div className="flex flex-col items-center text-center">

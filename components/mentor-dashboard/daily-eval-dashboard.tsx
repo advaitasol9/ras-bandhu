@@ -32,8 +32,6 @@ const DailyEvalMentorDashboard = () => {
   const [assignedEvaluations, setAssignedEvaluations] = useState<Evaluation[]>(
     []
   );
-  const [totalEvaluatedThisMonth, setTotalEvaluatedThisMonth] =
-    useState<number>(0);
   const [lastEvaluatedAnswers, setLastEvaluatedAnswers] = useState<
     Evaluation[]
   >([]);
@@ -72,21 +70,6 @@ const DailyEvalMentorDashboard = () => {
           (doc) => ({ id: doc.id, ...doc.data() } as Evaluation)
         )
       );
-
-      // 3. Fetch Total Evaluated This Month
-      const evaluatedQuery = query(
-        collection(firestore, "DailyEvalRequests"),
-        where("mentorAssigned", "==", mentorId),
-        where("status", "==", "Evaluated"),
-        where("evaluatedAt", ">=", moment().startOf("month").toISOString())
-      );
-      const evaluatedSnapshot = await getDocs(evaluatedQuery);
-      var totalEvaluated = 0;
-      evaluatedSnapshot.forEach((snap) => {
-        const data = snap.data() as Evaluation;
-        totalEvaluated += data.numberOfAnswers;
-      });
-      setTotalEvaluatedThisMonth(totalEvaluated);
     };
 
     fetchMentorData();
@@ -95,9 +78,6 @@ const DailyEvalMentorDashboard = () => {
   return (
     <div className="w-full">
       <div className="flex flex-col justify-center bg-muted px-6 rounded-xl h-16">
-        <div className="text-sm text-primary-text">
-          Total Evaluated This Month: {totalEvaluatedThisMonth}
-        </div>
         <div className="flex justify-between items-center">
           <Link
             href="/mentor/daily-evaluations?status=Pending"
