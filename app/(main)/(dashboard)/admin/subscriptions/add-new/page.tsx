@@ -10,6 +10,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plan } from "@/lib/types";
 import { toast } from "@/components/ui/use-toast";
+import {
+  FaArrowUp,
+  FaArrowDown,
+  FaRegEdit,
+  FaRegTrashAlt,
+} from "react-icons/fa";
 
 const PlanForm: React.FC = () => {
   const router = useRouter();
@@ -126,6 +132,34 @@ const PlanForm: React.FC = () => {
   const handleCancelEdit = () => {
     setEditFeatureIndex(null);
     setEditedFeature("");
+  };
+
+  const moveFeatureUp = (index: number) => {
+    if (index === 0) return; // If it's already the first item, do nothing
+    setPlanData((prevData) => {
+      const updatedFeatures = [...prevData.features];
+      const temp = updatedFeatures[index - 1];
+      updatedFeatures[index - 1] = updatedFeatures[index];
+      updatedFeatures[index] = temp;
+      return {
+        ...prevData,
+        features: updatedFeatures,
+      };
+    });
+  };
+
+  const moveFeatureDown = (index: number) => {
+    if (index === planData.features.length - 1) return; // If it's already the last item, do nothing
+    setPlanData((prevData) => {
+      const updatedFeatures = [...prevData.features];
+      const temp = updatedFeatures[index + 1];
+      updatedFeatures[index + 1] = updatedFeatures[index];
+      updatedFeatures[index] = temp;
+      return {
+        ...prevData,
+        features: updatedFeatures,
+      };
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -312,7 +346,7 @@ const PlanForm: React.FC = () => {
               value={planData.totalCredits}
               onChange={handleInputChange}
               placeholder="Total Credits"
-              className="w-full text-primary-text placeholder-muted-foreground border-input rounded-md shadow-md"
+              className="w-full text-input-text placeholder-muted-foreground border-input rounded-md shadow-md"
             />
           </div>
         )}
@@ -325,6 +359,27 @@ const PlanForm: React.FC = () => {
           <div className="space-y-2">
             {planData.features.map((feature, index) => (
               <div key={index} className="flex items-center space-x-2">
+                {/* Move Up/Down buttons */}
+                {editFeatureIndex === null && (
+                  <div className="space-x-1 mr-2">
+                    <button
+                      type="button"
+                      onClick={() => moveFeatureUp(index)}
+                      className="text-muted-foreground hover:text-primary-foreground transition"
+                    >
+                      <FaArrowUp size={14} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => moveFeatureDown(index)}
+                      className="text-muted-foreground hover:text-primary-foreground transition"
+                    >
+                      <FaArrowDown size={14} />
+                    </button>
+                  </div>
+                )}
+
+                {/* Feature Edit and Display */}
                 {editFeatureIndex === index ? (
                   <>
                     <Input
@@ -335,14 +390,14 @@ const PlanForm: React.FC = () => {
                     <Button
                       type="button"
                       onClick={() => handleSaveFeature(index)}
-                      className="bg-primary text-button-text hover:bg-primary-foreground"
+                      className="bg-primary text-button-text hover:bg-primary-foreground transition"
                     >
                       Save
                     </Button>
                     <Button
                       type="button"
                       onClick={handleCancelEdit}
-                      className="bg-destructive text-button-text hover:bg-destructive-foreground"
+                      className="bg-destructive text-button-text hover:bg-destructive-foreground transition"
                     >
                       Cancel
                     </Button>
@@ -350,20 +405,20 @@ const PlanForm: React.FC = () => {
                 ) : (
                   <>
                     <span className="text-primary-text">{feature}</span>
-                    <Button
+                    <button
                       type="button"
                       onClick={() => handleEditFeature(index)}
-                      className="bg-[rgb(var(--edit))] text-button-text hover:bg-[rgb(var(--secondary-foreground))]"
+                      className="text-edit hover:text-primary-foreground transition"
                     >
-                      Edit
-                    </Button>
-                    <Button
+                      <FaRegEdit size={14} />
+                    </button>
+                    <button
                       type="button"
                       onClick={() => removeFeature(index)}
-                      className="bg-destructive text-button-text hover:text-[rgb(var(--button-text-foreground))] hover:bg-destructive-foreground"
+                      className="text-destructive hover:text-destructive-foreground transition"
                     >
-                      &times;
-                    </Button>
+                      <FaRegTrashAlt size={14} />
+                    </button>
                   </>
                 )}
               </div>
