@@ -212,7 +212,9 @@ const PlanForm: React.FC = () => {
           <Switch
             checked={hasDiscount}
             onChange={() => setHasDiscount(!hasDiscount)}
-            className="bg-input rounded-full shadow-inner"
+            className={`${
+              hasDiscount ? "bg-primary" : "bg-card"
+            } rounded-full shadow-inner`}
           />
         </div>
 
@@ -392,7 +394,9 @@ const PlanForm: React.FC = () => {
           <Switch
             checked={planData.isTrial}
             onChange={() => handleSwitchChange("isTrial")}
-            className="bg-input rounded-full shadow-inner"
+            className={`${
+              planData.isTrial ? "bg-primary" : "bg-card"
+            } rounded-full shadow-inner`}
           />
         </div>
         <div className="flex items-center space-x-4">
@@ -400,7 +404,9 @@ const PlanForm: React.FC = () => {
           <Switch
             checked={planData.isVisible}
             onChange={() => handleSwitchChange("isVisible")}
-            className="bg-input rounded-full shadow-inner"
+            className={`${
+              planData.isVisible ? "bg-primary" : "bg-card"
+            } rounded-full shadow-inner`}
           />
         </div>
         <div className="flex items-center space-x-4">
@@ -408,7 +414,9 @@ const PlanForm: React.FC = () => {
           <Switch
             checked={planData.openForAdmission}
             onChange={() => handleSwitchChange("openForAdmission")}
-            className="bg-input rounded-full shadow-inner"
+            className={`${
+              planData.openForAdmission ? "bg-primary" : "bg-card"
+            } rounded-full shadow-inner`}
           />
         </div>
 

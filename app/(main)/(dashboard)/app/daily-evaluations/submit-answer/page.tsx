@@ -65,6 +65,7 @@ const SubmitAnswerForm: React.FC = () => {
       ...files,
       { type: newFile.type, name: newFile.name, file: newFile },
     ]);
+    event.target.value = "";
   };
 
   const removeFile = (index: number) => {
