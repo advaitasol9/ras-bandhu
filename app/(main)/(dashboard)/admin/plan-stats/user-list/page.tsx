@@ -107,12 +107,7 @@ const PlanList = () => {
     fetchSubscriptions();
   }, [activeOnly]);
 
-  const handleToggle = () => {
-    setActiveOnly((prev) => !prev);
-    setLastVisible(null); // Reset pagination
-    setIsLastPage(false); // Allow loading more for the new filter
-    fetchSubscriptions(false); // Refetch data with the new filter
-  };
+  const handleToggle = () => setActiveOnly((prev) => !prev);
 
   const loadMore = () => {
     if (!isLastPage && !loading) {
